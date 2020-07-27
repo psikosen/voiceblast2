@@ -7,8 +7,7 @@ import Login from './Login';
 function InitLogin() {
   return (
     <Router>
-
-     <div  >
+     <div>
       <h1>Voice Blast</h1>
       <button>
          <a href = "/signup"> Sign Up</a>
@@ -17,12 +16,13 @@ function InitLogin() {
         <a href = "/login" style={{textDecoration: 'underline'}}> Login Here </a> 
       </p>
      </div>
-
-        <Route path="/" exact component={InitLogin} />
-        <Route path = "/login" component = {Login} />
-        <Route path = "/signup" component = {SignUp} />
+       <Route path = "/login" component = {Login} />
+       <Route path = "/signup" component = {SignUp} />
     </Router>
   );
 }
 
 export default InitLogin;
+
+//
+//        
