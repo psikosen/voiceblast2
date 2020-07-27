@@ -1,12 +1,14 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, useHistory  } from "react-router-dom";
 import SignUp from './SignUp';
 import Login from './Login';
-
+import Amplify, { Auth } from 'aws-amplify';
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 
 function InitLogin() {
   return (
     <Router>
+     <AmplifySignOut />
      <div>
       <h1>Voice Blast</h1>
       <button>
