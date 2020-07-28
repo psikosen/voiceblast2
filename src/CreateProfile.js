@@ -19,13 +19,17 @@ export default function CreateProfile(props) {
    },[]);
     
    async function getUsers(){
-        const oneUser = await API.graphql(graphqlOperation(queries.getUsers, { id: userid }));
+        const oneUser = await API.graphql(graphqlOperation(queries.getUsers, { id: '60111116-5838-4a2c-a5e8-27689d56f16e' }));
         console.log(oneUser);
+        if(oneUser.data.getUsers !== null){
+           setUserName(oneUser.username);
+           setPodCastUrl(oneUser.url);
+        }
    }
 
    async function createProfile(){
 
-        const todo = {id:userid, username: userName, url: podCastUrl };
+        const todo = {username: userName, url: podCastUrl };
         await API.graphql(graphqlOperation(mutations.createUsers, {input: todo}));
      
         return true
