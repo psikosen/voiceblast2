@@ -1,0 +1,17 @@
+projects:
+  voiceblast:
+    schemaPath: amplify/backend/api/voiceblast/build/schema.graphql
+    includes:
+      - src/graphql/**/*.js
+    excludes:
+      - ./amplify/**
+    extensions:
+      amplify:
+        codeGenTarget: javascript
+        generatedFileName: ''
+        docsFilePath: src/graphql
+        region: us-east-2
+        apiId: null
+extensions:
+  amplify:
+    version: 3

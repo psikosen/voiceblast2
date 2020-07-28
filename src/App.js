@@ -3,9 +3,10 @@ import React from 'react';
 import './App.css';
 import InitLogin from './InitLogin';
 import * as serviceWorker from './serviceWorker';
-import Amplify, { API, graphqlOperation } from 'aws-amplify';
+import Amplify,{AWS} from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
+// Initialize the Amazon Cognito credentials provider
 
 function App() {
   return (

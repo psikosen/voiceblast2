@@ -4,7 +4,7 @@ import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
 import "./Login.css";
 import CreateProfile from './CreateProfile';
 import Amplify, { Auth } from 'aws-amplify';
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+import {AmplifySignOut } from '@aws-amplify/ui-react';
 
 import { BrowserRouter as Router, Route, useHistory  } from "react-router-dom";
 
@@ -53,6 +53,7 @@ export default function SignUp() {
 
   return (
   	<Router>
+    <AmplifySignOut />
     <div className="Login">
       <form onSubmit={handleSubmit}>
         <FormGroup controlId="email" bsSize="large">

@@ -1,5 +1,5 @@
 input CreateUsersInput {
-	email: String!
+	username: String!
 	url: String
 }
 
@@ -56,11 +56,11 @@ type Subscription {
 		viewed: Int
 	): voiceblasts
 		@aws_subscribe(mutations: ["deleteVoiceblasts"])
-	onCreateUsers(id: ID, email: String, url: String): users
+	onCreateUsers(id: ID, username: String, url: String): users
 		@aws_subscribe(mutations: ["createUsers"])
-	onUpdateUsers(id: ID, email: String, url: String): users
+	onUpdateUsers(id: ID, username: String, url: String): users
 		@aws_subscribe(mutations: ["updateUsers"])
-	onDeleteUsers(id: ID, email: String, url: String): users
+	onDeleteUsers(id: ID, username: String, url: String): users
 		@aws_subscribe(mutations: ["deleteUsers"])
 }
 
@@ -121,7 +121,7 @@ input TableStringFilterInput {
 
 input TableUsersFilterInput {
 	id: TableIDFilterInput
-	email: TableStringFilterInput
+	username: TableStringFilterInput
 	url: TableStringFilterInput
 }
 
@@ -134,7 +134,7 @@ input TableVoiceblastsFilterInput {
 
 input UpdateUsersInput {
 	id: ID!
-	email: String
+	username: String
 	url: String
 }
 
@@ -153,7 +153,7 @@ schema {
 
 type users {
 	id: ID!
-	email: String!
+	username: String!
 	url: String
 }
 
