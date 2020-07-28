@@ -1,9 +1,9 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, useHistory  } from "react-router-dom";
+import { BrowserRouter as Router, Route,  } from "react-router-dom";
 import SignUp from './SignUp';
 import Login from './Login';
-import Amplify, { Auth } from 'aws-amplify';
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+import CreateProfile from './CreateProfile';
+import { AmplifySignOut } from '@aws-amplify/ui-react';
 
 function InitLogin() {
   return (
@@ -17,9 +17,11 @@ function InitLogin() {
       <p>Already A Creator ?
         <a href = "/login" style={{textDecoration: 'underline'}}> Login Here </a> 
       </p>
+      <p> <a href = "/crp" style={{textDecoration: 'underline'}}>Create Profile </a> </p>
      </div>
        <Route path = "/login" component = {Login} />
        <Route path = "/signup" component = {SignUp} />
+       <Route path = "/crp" component = {CreateProfile} />
     </Router>
   );
 }

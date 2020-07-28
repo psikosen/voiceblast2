@@ -3,10 +3,8 @@ import React from 'react';
 import './App.css';
 import InitLogin from './InitLogin';
 import * as serviceWorker from './serviceWorker';
-import Amplify, { Auth } from 'aws-amplify';
+import Amplify, { API, graphqlOperation } from 'aws-amplify';
 import awsconfig from './aws-exports';
-
-
 Amplify.configure(awsconfig);
 
 function App() {

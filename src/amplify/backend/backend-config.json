@@ -1,6 +1,14 @@
 {
+	"auth": {
+		"voiceblast669aee77": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
+			"customAuth": false
+		}
+	},
 	"api": {
-		"voiceblastapi": {
+		"voiceblast": {
 			"service": "AppSync",
 			"providerPlugin": "awscloudformation",
 			"output": {
@@ -9,26 +17,12 @@
 						"authenticationType": "API_KEY",
 						"apiKeyConfig": {
 							"apiKeyExpirationDays": 365,
-							"description": "kimberly2050"
+							"description": ""
 						}
 					},
 					"additionalAuthenticationProviders": []
 				}
 			}
-		}
-	},
-	"auth": {
-		"voiceblastd9349b0d": {
-			"service": "Cognito",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": [],
-			"customAuth": false
-		}
-	},
-	"storage": {
-		"voiceblast": {
-			"service": "S3",
-			"providerPlugin": "awscloudformation"
 		}
 	}
 }

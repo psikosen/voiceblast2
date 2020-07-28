@@ -1,0 +1,175 @@
+input CreateUsersInput {
+	email: String!
+	url: String
+}
+
+input CreateVoiceblastsInput {
+	voicetitles: String
+	voiceblastpath: String
+	viewed: Int
+}
+
+input DeleteUsersInput {
+	id: ID!
+}
+
+input DeleteVoiceblastsInput {
+	id: ID!
+}
+
+type Mutation {
+	createVoiceblasts(input: CreateVoiceblastsInput!): voiceblasts
+	updateVoiceblasts(input: UpdateVoiceblastsInput!): voiceblasts
+	deleteVoiceblasts(input: DeleteVoiceblastsInput!): voiceblasts
+	createUsers(input: CreateUsersInput!): users
+	updateUsers(input: UpdateUsersInput!): users
+	deleteUsers(input: DeleteUsersInput!): users
+}
+
+type Query {
+	getusers: [users]
+	getVoiceblasts(id: ID!): voiceblasts
+	listVoiceblasts(filter: TableVoiceblastsFilterInput, limit: Int, nextToken: String): voiceblastsConnection
+	getUsers(id: ID!): users
+	listUsers(filter: TableUsersFilterInput, limit: Int, nextToken: String): usersConnection
+}
+
+type Subscription {
+	onCreateVoiceblasts(
+		id: ID,
+		voicetitles: String,
+		voiceblastpath: String,
+		viewed: Int
+	): voiceblasts
+		@aws_subscribe(mutations: ["createVoiceblasts"])
+	onUpdateVoiceblasts(
+		id: ID,
+		voicetitles: String,
+		voiceblastpath: String,
+		viewed: Int
+	): voiceblasts
+		@aws_subscribe(mutations: ["updateVoiceblasts"])
+	onDeleteVoiceblasts(
+		id: ID,
+		voicetitles: String,
+		voiceblastpath: String,
+		viewed: Int
+	): voiceblasts
+		@aws_subscribe(mutations: ["deleteVoiceblasts"])
+	onCreateUsers(id: ID, email: String, url: String): users
+		@aws_subscribe(mutations: ["createUsers"])
+	onUpdateUsers(id: ID, email: String, url: String): users
+		@aws_subscribe(mutations: ["updateUsers"])
+	onDeleteUsers(id: ID, email: String, url: String): users
+		@aws_subscribe(mutations: ["deleteUsers"])
+}
+
+input TableBooleanFilterInput {
+	ne: Boolean
+	eq: Boolean
+}
+
+input TableFloatFilterInput {
+	ne: Float
+	eq: Float
+	le: Float
+	lt: Float
+	ge: Float
+	gt: Float
+	contains: Float
+	notContains: Float
+	between: [Float]
+}
+
+input TableIDFilterInput {
+	ne: ID
+	eq: ID
+	le: ID
+	lt: ID
+	ge: ID
+	gt: ID
+	contains: ID
+	notContains: ID
+	between: [ID]
+	beginsWith: ID
+}
+
+input TableIntFilterInput {
+	ne: Int
+	eq: Int
+	le: Int
+	lt: Int
+	ge: Int
+	gt: Int
+	contains: Int
+	notContains: Int
+	between: [Int]
+}
+
+input TableStringFilterInput {
+	ne: String
+	eq: String
+	le: String
+	lt: String
+	ge: String
+	gt: String
+	contains: String
+	notContains: String
+	between: [String]
+	beginsWith: String
+}
+
+input TableUsersFilterInput {
+	id: TableIDFilterInput
+	email: TableStringFilterInput
+	url: TableStringFilterInput
+}
+
+input TableVoiceblastsFilterInput {
+	id: TableIDFilterInput
+	voicetitles: TableStringFilterInput
+	voiceblastpath: TableStringFilterInput
+	viewed: TableIntFilterInput
+}
+
+input UpdateUsersInput {
+	id: ID!
+	email: String
+	url: String
+}
+
+input UpdateVoiceblastsInput {
+	id: ID!
+	voicetitles: String
+	voiceblastpath: String
+	viewed: Int
+}
+
+schema {
+	query: Query
+	mutation: Mutation
+	subscription: Subscription
+}
+
+type users {
+	id: ID!
+	email: String!
+	url: String
+}
+
+type usersConnection {
+	items: [users]
+	nextToken: String
+}
+
+type voiceblasts {
+	id: ID!
+	voicetitles: String
+	voiceblastpath: String
+	viewed: Int
+}
+
+type voiceblastsConnection {
+	items: [voiceblasts]
+	nextToken: String
+}

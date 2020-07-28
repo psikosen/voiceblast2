@@ -1,0 +1,20 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-voiceblast-dev-181216-authRole",
+            "UnauthRoleArn": "arn:aws:iam::232105345990:role/amplify-voiceblast-dev-181216-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::232105345990:role/amplify-voiceblast-dev-181216-authRole",
+            "Region": "us-east-2",
+            "DeploymentBucketName": "amplify-voiceblast-dev-181216-deployment",
+            "UnauthRoleName": "amplify-voiceblast-dev-181216-unauthRole",
+            "StackName": "amplify-voiceblast-dev-181216",
+            "StackId": "arn:aws:cloudformation:us-east-2:232105345990:stack/amplify-voiceblast-dev-181216/3bc56ae0-d056-11ea-9d08-02356f1d181e",
+            "AmplifyAppId": "d36rjqfb2nhwgf"
+        },
+        "categories": {
+            "auth": {
+                "voiceblast669aee77": {}
+            }
+        }
+    }
+}

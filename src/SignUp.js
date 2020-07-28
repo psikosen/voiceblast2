@@ -4,8 +4,12 @@ import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
 import "./Login.css";
 import CreateProfile from './CreateProfile';
 import Amplify, { Auth } from 'aws-amplify';
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+
 import { BrowserRouter as Router, Route, useHistory  } from "react-router-dom";
 
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
@@ -35,14 +39,13 @@ export default function SignUp() {
         const user = await Auth.signUp({
             username,
             password,
-            /*attributes: {
+            attributes: {
                 email,          // optional
-                phone_number,   // optional - E.164 number convention
                 // other custom attributes 
-            }*/
+            }
         });
         console.log({ user });
-        history.push("/createProfile")
+        history.push("/crp")
     } catch (error) {
         console.log('error signing up:', error);
     }
@@ -79,11 +82,11 @@ export default function SignUp() {
           />
         </FormGroup>
 
-        <Button block bsSize="large" disabled={!validateForm()} type="submit">
+        <Button block  disabled={!validateForm()} type="submit">
           Login
         </Button>
       </form>
-       <Route path = "/createProfile" component = {CreateProfile} />
+       <Route path = "/crp" component = {CreateProfile} />
     </div>
     </Router>
   );
