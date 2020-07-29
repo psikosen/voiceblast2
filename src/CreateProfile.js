@@ -9,6 +9,8 @@ import * as subscriptions from './src/graphql/subscriptions';
 
 export default function CreateProfile(props) {
    const [userName, setUserName] = useState("");
+   const [userNameData, setuserNameData] = useState("");
+   
    const [podCastUrl, setPodCastUrl] = useState("");
    const [userid, setUserid] = useState(1);
    const [voiceList,setVoiceList] = useState([]);
@@ -19,31 +21,36 @@ export default function CreateProfile(props) {
    },[]);
     
    async function getUsers(){
-        const oneUser = await API.graphql(graphqlOperation(queries.getUsers, { id: '60111116-5838-4a2c-a5e8-27689d56f16e' }));
+        const oneUser = await API.graphql(graphqlOperation(queries.getusers , { userid: '1', username:'dasd' }));
         console.log(oneUser);
         if(oneUser.data.getUsers !== null){
-           setUserName(oneUser.username);
-           setPodCastUrl(oneUser.url);
+          setuserNameData(oneUser.data.userid.username);
+          setUserName(oneUser.data.userid.username);
+          setPodCastUrl(oneUser.data.userid.podCastURL);
+          setUserid(oneUser.data.userid.id);
         }
    }
 
    async function createProfile(){
-
-        const todo = {username: userName, url: podCastUrl };
-        await API.graphql(graphqlOperation(mutations.createUsers, {input: todo}));
-     
-        return true
+        const profileCreated = {
+         username:userName.toString(),
+         podCastURL: podCastUrl.toString()
+       };
+        await API.graphql(graphqlOperation(mutations.createusers, {input: profileCreated})).then((a)=>{
+            console.log(a);
+            setUserid(a.data.createUsers.id);
+        });
    }
 
-    async function editProfile(){
+    async function updateProfile(){
      const profileUpdate = {
-        id: userid,
-        //email:email
-        url: podCastUrl
+        'username':userName.toString(),
+        'podCastURL': podCastUrl.toString()
       };
-
-      const updatedTodo = await API.graphql(graphqlOperation(mutations.updateUsers, {input: profileUpdate}));
-
+      /*const updatedTodo = await*/ 
+        await API.graphql(graphqlOperation(mutations.updateusers, {input: profileUpdate})).then((a)=>{
+            console.log(a);
+        });
    }
 
 
@@ -80,10 +87,14 @@ export default function CreateProfile(props) {
             type="text"
           />
         </FormGroup>
-
-        <Button block onClick={()=>createProfile()} type="submit">
-          Edit Profile
-        </Button>
+        {userNameData === ''?
+          <Button block onClick={()=>createProfile()} type="submit">
+          Create Profile
+          </Button>:
+          <Button block onClick={()=>updateProfile()} type="submit">
+          Update Profile
+          </Button>
+       }
       </form>
        <Route path = "/voiceblastmain" component = {VoiceBlastMain} />
     </div>

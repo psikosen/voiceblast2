@@ -1,60 +1,39 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createVoiceblasts = /* GraphQL */ `
-  mutation CreateVoiceblasts($input: CreateVoiceblastsInput!) {
-    createVoiceblasts(input: $input) {
-      id
-      voicetitles
-      voiceblastpath
-      viewed
-    }
-  }
-`;
-export const updateVoiceblasts = /* GraphQL */ `
-  mutation UpdateVoiceblasts($input: UpdateVoiceblastsInput!) {
-    updateVoiceblasts(input: $input) {
-      id
-      voicetitles
-      voiceblastpath
-      viewed
-    }
-  }
-`;
-export const deleteVoiceblasts = /* GraphQL */ `
-  mutation DeleteVoiceblasts($input: DeleteVoiceblastsInput!) {
-    deleteVoiceblasts(input: $input) {
-      id
-      voicetitles
-      voiceblastpath
-      viewed
-    }
-  }
-`;
-export const createUsers = /* GraphQL */ `
-  mutation CreateUsers($input: CreateUsersInput!) {
-    createUsers(input: $input) {
-      id
+export const createusers = /* GraphQL */ `
+  mutation Createusers($input: CreateusersInput!) {
+    createusers(input: $input) {
+      userid
       username
-      url
+      podcasturl
+      signindate
+      lastlogin
+      authid
     }
   }
 `;
-export const updateUsers = /* GraphQL */ `
-  mutation UpdateUsers($input: UpdateUsersInput!) {
-    updateUsers(input: $input) {
-      id
+export const updateusers = /* GraphQL */ `
+  mutation Updateusers($input: UpdateusersInput!) {
+    updateusers(input: $input) {
+      userid
       username
-      url
+      podcasturl
+      signindate
+      lastlogin
+      authid
     }
   }
 `;
-export const deleteUsers = /* GraphQL */ `
-  mutation DeleteUsers($input: DeleteUsersInput!) {
-    deleteUsers(input: $input) {
-      id
+export const deleteusers = /* GraphQL */ `
+  mutation Deleteusers($input: DeleteusersInput!) {
+    deleteusers(input: $input) {
+      userid
       username
-      url
+      podcasturl
+      signindate
+      lastlogin
+      authid
     }
   }
 `;

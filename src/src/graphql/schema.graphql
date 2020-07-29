@@ -1,0 +1,123 @@
+﻿schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+type Mutation {
+  createusers(input: CreateusersInput!): users
+  deleteusers(input: DeleteusersInput!): users
+  updateusers(input: UpdateusersInput!): users
+}
+
+type Query {
+  getusers(userid: String!, username: String!): users
+  listusers(filter: TableusersFilterInput, limit: Int, nextToken: String): usersConnection
+}
+
+type Subscription {
+  onCreateusers(lastlogin: String, podcasturl: String, signindate: String, userid: String, username: String): users @aws_subscribe(mutations : ["createusers"])
+  onDeleteusers(lastlogin: String, podcasturl: String, signindate: String, userid: String, username: String): users @aws_subscribe(mutations : ["deleteusers"])
+  onUpdateusers(lastlogin: String, podcasturl: String, signindate: String, userid: String, username: String): users @aws_subscribe(mutations : ["updateusers"])
+}
+
+type users {
+  authid: String
+  lastlogin: String
+  podcasturl: String
+  signindate: String
+  userid: String!
+  username: String
+}
+
+type usersConnection {
+  items: [users]
+  nextToken: String
+}
+
+input CreateusersInput {
+  authid: String
+  lastlogin: String
+  podcasturl: String
+  signindate: String
+  userid: String!
+  username: String!
+}
+
+input DeleteusersInput {
+  userid: String!
+  username: String!
+}
+
+input TableBooleanFilterInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input TableFloatFilterInput {
+  between: [Float]
+  contains: Float
+  eq: Float
+  ge: Float
+  gt: Float
+  le: Float
+  lt: Float
+  ne: Float
+  notContains: Float
+}
+
+input TableIDFilterInput {
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+}
+
+input TableIntFilterInput {
+  between: [Int]
+  contains: Int
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+  notContains: Int
+}
+
+input TableStringFilterInput {
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+}
+
+input TableusersFilterInput {
+  authid: TableStringFilterInput
+  lastlogin: TableStringFilterInput
+  podcasturl: TableStringFilterInput
+  signindate: TableStringFilterInput
+  userid: TableStringFilterInput
+  username: TableStringFilterInput
+}
+
+input UpdateusersInput {
+  authid: String
+  lastlogin: String
+  podcasturl: String
+  signindate: String
+  userid: String!
+  username: String!
+}

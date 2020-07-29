@@ -1,0 +1,142 @@
+﻿schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+type Mutation {
+  createUsers(input: CreateUsersInput!): users
+  createUsersTable(input: CreateUsersTableInput!): UsersTable
+  deleteUsers(input: DeleteUsersInput!): users
+  deleteUsersTable(input: DeleteUsersTableInput!): UsersTable
+  updateUsers(input: UpdateUsersInput!): users
+  updateUsersTable(input: UpdateUsersTableInput!): UsersTable
+}
+
+type Query {
+  getUsers(id: String!): users
+  getUsersTable(id: String!): UsersTable
+  listUsers(filter: TableUsersFilterInput, limit: Int, nextToken: String): usersConnection
+  listUsersTables(filter: TableUsersTableFilterInput, limit: Int, nextToken: String): UsersTableConnection
+}
+
+type Subscription {
+  onCreateUsers(id: String, url: String, username: String): users @aws_subscribe(mutations : ["createUsers"])
+  onCreateUsersTable(id: String): UsersTable @aws_subscribe(mutations : ["createUsersTable"])
+  onDeleteUsers(id: String, url: String, username: String): users @aws_subscribe(mutations : ["deleteUsers"])
+  onDeleteUsersTable(id: String): UsersTable @aws_subscribe(mutations : ["deleteUsersTable"])
+  onUpdateUsers(id: String, url: String, username: String): users @aws_subscribe(mutations : ["updateUsers"])
+  onUpdateUsersTable(id: String): UsersTable @aws_subscribe(mutations : ["updateUsersTable"])
+}
+
+type UsersTable {
+  id: String!
+}
+
+type UsersTableConnection {
+  items: [UsersTable]
+  nextToken: String
+}
+
+type users {
+  id: String!
+  url: String!
+  username: String!
+}
+
+type usersConnection {
+  items: [users]
+  nextToken: String
+}
+
+input CreateUsersInput {
+  url: String!
+  username: String!
+}
+
+input CreateUsersTableInput {
+  id: String!
+}
+
+input DeleteUsersInput {
+  id: String!
+}
+
+input DeleteUsersTableInput {
+  id: String!
+}
+
+input TableBooleanFilterInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input TableFloatFilterInput {
+  between: [Float]
+  contains: Float
+  eq: Float
+  ge: Float
+  gt: Float
+  le: Float
+  lt: Float
+  ne: Float
+  notContains: Float
+}
+
+input TableIDFilterInput {
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+}
+
+input TableIntFilterInput {
+  between: [Int]
+  contains: Int
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+  notContains: Int
+}
+
+input TableStringFilterInput {
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+}
+
+input TableUsersFilterInput {
+  id: TableStringFilterInput
+  url: TableStringFilterInput
+  username: TableStringFilterInput
+}
+
+input TableUsersTableFilterInput {
+  id: TableStringFilterInput
+}
+
+input UpdateUsersInput {
+  id: String!
+  url: String
+  username: String
+}
+
+input UpdateUsersTableInput {
+  id: String!
+}
