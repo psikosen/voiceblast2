@@ -22,7 +22,7 @@ export default function SignUp() {
   },[]);*/
  
   async function validateForm() {
-  	 if( email.length > 0 && password.length > 0 && password === passwordRty){
+  	 if(email.length > 0 && password.length > 0 && password === passwordRty){
   	 	 await signUpInit(email,password);
   	     return true;
   	}
@@ -56,7 +56,7 @@ export default function SignUp() {
     <AmplifySignOut />
     <div className="Login">
       <form onSubmit={handleSubmit}>
-        <FormGroup controlId="email" bsSize="large">
+        <FormGroup controlId="email" >
           <FormLabel >Email</FormLabel >
           <FormControl
             autoFocus
@@ -65,7 +65,7 @@ export default function SignUp() {
             onChange={e => setEmail(e.target.value)}
           />
         </FormGroup>
-        <FormGroup controlId="password" bsSize="large">
+        <FormGroup controlId="password" >
           <FormLabel>Password</FormLabel>
           <FormControl
             value={password}
@@ -74,7 +74,7 @@ export default function SignUp() {
           />
         </FormGroup>
 
-        <FormGroup controlId="passwordRty" bsSize="large">
+        <FormGroup controlId="passwordRty" >
           <FormLabel>Password Re-enter</FormLabel>
           <FormControl
             value={passwordRty}
