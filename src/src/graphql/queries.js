@@ -1,32 +1,67 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getusers = /* GraphQL */ `
-  query Getusers($userid: String!, $username: String!) {
-    getusers(userid: $userid, username: $username) {
-      userid
-      username
-      podcasturl
-      signindate
-      lastlogin
-      authid
+export const getVbuser = /* GraphQL */ `
+  query GetVbuser($vbuid: String!) {
+    getVbuser(vbuid: $vbuid) {
+      vbuid
+      vbuusername
+      vbufirstname
+      vbulastname
+      vbuemail
+      vbuurl
+      vbuimg
+      vbulastlogin
+      vbusignupdate
     }
   }
 `;
-export const listusers = /* GraphQL */ `
-  query Listusers(
-    $filter: TableusersFilterInput
+export const listVbusers = /* GraphQL */ `
+  query ListVbusers(
+    $filter: TableVbuserFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listusers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listVbusers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        userid
-        username
-        podcasturl
-        signindate
-        lastlogin
-        authid
+        vbuid
+        vbuusername
+        vbufirstname
+        vbulastname
+        vbuemail
+        vbuurl
+        vbuimg
+        vbulastlogin
+        vbusignupdate
+      }
+      nextToken
+    }
+  }
+`;
+export const getVoiceblasts = /* GraphQL */ `
+  query GetVoiceblasts($vbuserid: String!) {
+    getVoiceblasts(vbuserid: $vbuserid) {
+      vbid
+      vbaudpath
+      vbuserid
+      vbviews
+      vbdatecreated
+    }
+  }
+`;
+export const listVoiceblasts = /* GraphQL */ `
+  query ListVoiceblasts(
+    $filter: TableVoiceblastsFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listVoiceblasts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        vbid
+        vbaudpath
+        vbuserid
+        vbviews
+        vbdatecreated
       }
       nextToken
     }

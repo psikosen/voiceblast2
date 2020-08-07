@@ -1,75 +1,173 @@
 import React, {useState, useEffect} from 'react';
-import { BrowserRouter as Router, Route, useHistory  } from "react-router-dom";
-import VoiceBlastMain from './VoiceBlastMain';
+import {useHistory} from "react-router-dom";
 import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap"; 
-import { API, graphqlOperation  } from "aws-amplify";
+import { API, graphqlOperation, Storage  } from "aws-amplify";
 import * as queries from './src/graphql/queries';
 import * as mutations from './src/graphql/mutations';
-import * as subscriptions from './src/graphql/subscriptions';
+import { AmplifySignOut } from '@aws-amplify/ui-react';
 
 export default function CreateProfile(props) {
    const [userName, setUserName] = useState("");
-   const [userNameData, setuserNameData] = useState("");
-   
-   const [podCastUrl, setPodCastUrl] = useState("");
-   const [userid, setUserid] = useState(1);
-   const [voiceList,setVoiceList] = useState([]);
-   
+   const [firstName, setfirstName] = useState("");
+   const [lastName, setlastName] = useState("");
+   const [vburl, setVburl] = useState("");
+   const [userid, setUserid] = useState(props.location.state.usrid);
+   const [profileImg, setprofileImg] = useState('');
+   const [tempprofileImg, settempprofileImg] = useState('');
+  
+   const history = useHistory();
+
    useEffect(()=>{
        // Query using a parameter
-        getUsers();
-   },[]);
+         getUsers();
+
+        return ()=>{
+           console.log(userid);
+        }
+   },[userid]);
     
    async function getUsers(){
-        const oneUser = await API.graphql(graphqlOperation(queries.getusers , { userid: '1', username:'dasd' }));
-        console.log(oneUser);
-        if(oneUser.data.getUsers !== null){
-          setuserNameData(oneUser.data.userid.username);
-          setUserName(oneUser.data.userid.username);
-          setPodCastUrl(oneUser.data.userid.podCastURL);
-          setUserid(oneUser.data.userid.id);
-        }
-   }
+      if(userid !== null){
 
-   async function createProfile(){
-        const profileCreated = {
-         username:userName.toString(),
-         podCastURL: podCastUrl.toString()
-       };
-        await API.graphql(graphqlOperation(mutations.createusers, {input: profileCreated})).then((a)=>{
-            console.log(a);
-            setUserid(a.data.createUsers.id);
-        });
+        const oneUser = await API.graphql(graphqlOperation(queries.getVbuser , { vbuid: userid}));
+        console.log(oneUser);
+        if(oneUser.data.getVbuser !== null){
+          let usrObj = oneUser.data.getVbuser;
+          let usrnm = usrObj.vbuusername;
+          let usrurl = usrObj.vbuurl;
+          let usrfn = usrObj.vbufirstname;
+          let usrln = usrObj.vbulastname;
+          let usrimg = usrObj.vbuimg;
+          
+          setUserid(usrObj.vbuid);
+
+          if(usrnm){
+             setUserName(usrnm);  
+          }
+          
+          if(usrurl){ 
+             setVburl(usrurl);
+          }
+
+          if(usrfn){
+            setfirstName(usrfn);
+          }
+
+          if(usrln){
+            setlastName(usrln);
+          }
+          if(usrimg){
+           Storage.get(usrimg)
+              .then(result =>{
+                console.log(result);
+                setprofileImg(result);
+              }).catch(err => console.log(err));
+          }
+         
+        }
+      }
    }
 
     async function updateProfile(){
-     const profileUpdate = {
-        'username':userName.toString(),
-        'podCastURL': podCastUrl.toString()
-      };
-      /*const updatedTodo = await*/ 
-        await API.graphql(graphqlOperation(mutations.updateusers, {input: profileUpdate})).then((a)=>{
-            console.log(a);
-        });
+      if(validateForm());
+
+      Storage.put(`${userid}.png`,tempprofileImg)
+          .then ((result) =>{
+            console.log(result);
+            const profileUpdate = {
+                  vbuid:userid,  
+                  vbuusername: userName,
+                  vbufirstname: firstName,
+                  vbulastname: lastName,
+                  vbuurl: vburl,
+                  vbuimg: result.key
+                };
+                 API.graphql(graphqlOperation(mutations.updateVbuser, {input: profileUpdate})).then((a)=>{
+                     console.log(a);
+                });
+
+             Storage.get(result.key)
+              .then(result =>{
+                console.log(result);
+                setprofileImg(result);
+              }).catch(err => console.log(err));
+           }
+          ) .catch(err => console.log(err));
+
+     
    }
 
 
     async function validateForm(){
-        if (userName !== '' && podCastUrl !== ''){
-          // await history.push('/voiceblastmain');
+        if (userName !== '' && vburl !== ''){
+            return true;
         }
+
+        return false;
     }
    
     function handleSubmit(event) {
         event.preventDefault();
     }
+   
+   function goToProfile(){
+       if(validateForm())
+         history.push('/vbm',{username:userName,
+                              vburl:vburl,
+                              profileImg:profileImg,
+                              userid:userid});
+   }
   
+   async function handlePhotos(event) {
+    event.preventDefault();
+    let files = event.target.files;
+    console.log('files');
+    console.log(files);
+
+    
+    if(files && files.length > 0)
+    {
+       settempprofileImg(files[0]);
+
+
+    }
+
+    else{
+        console.log("no files selected");
+    }
+  }
+
   return (
 
-  <Router>
   <div>
+   <AmplifySignOut />
     <div className="Login">
-      <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
+        
+       {profileImg === ''? 
+        <div>
+        <p>No Image</p>
+        <FormGroup>
+         <FormControl 
+           name="image" 
+           type="file"  
+           onChange={(e)=>handlePhotos(e)} 
+         />
+        </FormGroup>
+        </div>
+        :
+        <div>
+          <img src={profileImg} width={150} height={50}/>
+           <FormGroup>
+           <FormControl 
+             name="image" 
+             type="file"  
+             onChange={(e)=>handlePhotos(e)} 
+           />
+          </FormGroup>
+         </div> 
+        }
+
         <FormGroup controlId="userName" >
           <FormLabel >userName</FormLabel >
           <FormControl
@@ -79,27 +177,42 @@ export default function CreateProfile(props) {
             onChange={e => setUserName(e.target.value)}
           />
         </FormGroup>
-        <FormGroup controlId="podCastUrl" bsSize="large">
-          <FormLabel>Enter Your Your URL</FormLabel>
+
+        <FormGroup controlId="firstName" >
+          <FormLabel >First Name</FormLabel >
           <FormControl
-            value={podCastUrl}
-            onChange={e => setPodCastUrl(e.target.value)}
+            autoFocus
+            type="text"
+            value={firstName}
+            onChange={e => setfirstName(e.target.value)}
+          />
+        </FormGroup>
+
+         <FormGroup controlId="lastName" >
+          <FormLabel >Last Name</FormLabel >
+          <FormControl
+            autoFocus
+            type="test"
+            value={lastName}
+            onChange={e => setlastName(e.target.value)}
+          />
+        </FormGroup>
+        <FormGroup controlId="podCastUrl" bsSize="large">
+          <FormLabel>Enter Your Website URL</FormLabel>
+          <FormControl
+            value={vburl}
+            onChange={e => setVburl(e.target.value)}
             type="text"
           />
         </FormGroup>
-        {userNameData === ''?
-          <Button block onClick={()=>createProfile()} type="submit">
-          Create Profile
-          </Button>:
+
           <Button block onClick={()=>updateProfile()} type="submit">
           Update Profile
           </Button>
-       }
+          <Button onClick={()=>goToProfile()}> Voice Blast Main</Button>
       </form>
-       <Route path = "/voiceblastmain" component = {VoiceBlastMain} />
     </div>
     </div>
-    </Router>
   );
 }
 

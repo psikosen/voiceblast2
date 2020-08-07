@@ -1,6 +1,6 @@
 {
     "identityPoolName": "voiceblast669aee77_identitypool_669aee77",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "voiceb669aee77",
     "userPoolName": "voiceblast669aee77_userpool_669aee77",
     "autoVerifiedAttributes": [

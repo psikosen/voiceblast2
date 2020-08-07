@@ -3,10 +3,25 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import CreateProfile from './CreateProfile';
+import SignUp from './SignUp';
+import Login from './Login';
+import VoiceBlastMain from './VoiceBlastMain';
+import { BrowserRouter as Router, Route,  } from "react-router-dom";
+import { createBrowserHistory } from "history";
+
+const history = createBrowserHistory();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+   <Router forceRefresh={true} history={history}>
+     <App />
+     <Route path = "/"/>
+     <Route path = "/login" component = {Login} />
+     <Route path = "/signup" component = {SignUp} />
+     <Route path = "/vbm" component = {VoiceBlastMain} />
+     <Route path = "/crp" component = {CreateProfile} />
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );

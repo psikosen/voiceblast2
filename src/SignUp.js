@@ -1,13 +1,11 @@
 
 import React, { useState } from "react";
 import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
-import "./Login.css";
-import CreateProfile from './CreateProfile';
-import Amplify, { Auth } from 'aws-amplify';
-import {AmplifySignOut } from '@aws-amplify/ui-react';
-
-import { BrowserRouter as Router, Route, useHistory  } from "react-router-dom";
-
+import Amplify, { Auth, API, graphqlOperation } from 'aws-amplify';
+//import * as queries from './src/graphql/queries';
+import * as mutations from './src/graphql/mutations';
+//import * as subscriptions from './src/graphql/subscriptions';
+import {  useHistory  } from "react-router-dom";
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 
@@ -15,23 +13,40 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRty, setPasswordRty] = useState("");
+  const [error, setError] = useState('');
   const history = useHistory();
 /*  useEffect(()=>{
       document.getElementById('mainMenu').style.display="none";
 
   },[]);*/
  
-  async function validateForm() {
+  function validateForm() {
   	 if(email.length > 0 && password.length > 0 && password === passwordRty){
-  	 	 await signUpInit(email,password);
-  	     return true;
+  	 	 return true;
   	}
 
     return false;
   }
+ 
+  async function createUser(usrid){
+   	var awsDate = new Date().toISOString();
 
-  function handleSubmit(event) {
+        const profileCreated = {
+         vbuid:usrid,
+         vbuemail: email,
+         vbulastlogin:awsDate,
+         vbusignupdate: awsDate
+       };
+        await API.graphql(graphqlOperation(mutations.createVbuser, {input: profileCreated})).then((a)=>{
+            console.log(a);
+        });
+   }
+  async function handleSubmit(event) {
     event.preventDefault();
+    if(validateForm())
+      await signUpInit(email,password);
+  
+   return false;
   }
 
   async function signUpInit(username,password) {
@@ -44,18 +59,21 @@ export default function SignUp() {
                 // other custom attributes 
             }
         });
-        console.log({ user });
-        history.push("/crp")
+        console.log(user);
+        if(user.user !== null){
+        	await createUser(user.userSub);
+            await history.push("/crp",{usrid: user.userSub});
+        }
     } catch (error) {
         console.log('error signing up:', error);
+        setError(error.message);
     }
  }
 
   return (
-  	<Router>
-    <AmplifySignOut />
     <div className="Login">
       <form onSubmit={handleSubmit}>
+        <div style={{color:'red'}}>{error}</div>
         <FormGroup controlId="email" >
           <FormLabel >Email</FormLabel >
           <FormControl
@@ -65,6 +83,7 @@ export default function SignUp() {
             onChange={e => setEmail(e.target.value)}
           />
         </FormGroup>
+
         <FormGroup controlId="password" >
           <FormLabel>Password</FormLabel>
           <FormControl
@@ -87,9 +106,8 @@ export default function SignUp() {
           Login
         </Button>
       </form>
-       <Route path = "/crp" component = {CreateProfile} />
     </div>
-    </Router>
+
   );
 }
 
