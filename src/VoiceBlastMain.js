@@ -96,7 +96,7 @@ export default function VoiceBlastMain(props) {
   const [profilePhoto,setprofilePhoto] = useState(props.location.state.profileImg);
 
   useEffect(() => {
-
+    getAllVoiceBlasts()
     return ()=>{
        if(!window.orientation || !window.screen.orientation) {
            setMobile(true);
@@ -108,7 +108,7 @@ export default function VoiceBlastMain(props) {
   },[]);
   
   async function loadVoiceBlasts(){
-      const oneUser = await API.graphql(graphqlOperation(queries.getVoiceblasts , { vbid: userid}));
+      const oneUser = await API.graphql(graphqlOperation(queries.getVoiceblasts , { vbuserid: userid}));
       console.log(oneUser);
       
   }
@@ -130,15 +130,17 @@ export default function VoiceBlastMain(props) {
              setNewAudioComponent(newComp);
   }
   async function getAllVoiceBlasts(){
-/*      const allVb = await API.graphql(graphqlOperation(queries.getVoiceblasts , { vbuid: userid}));
-        console.log(allVb);vbaudpath vbviews
-            let allVb = allVb.data.getVoiceblasts;
-            allVb.vbaudpath
-            setUserView(allVb.vbviews)
-            
+       const allVb = await API.graphql(graphqlOperation(queries.getVoiceblasts , { vbuserid: userid}));
+        console.log(allVb);
+         //vbaudpath vbviews
+            let allVab = allVb.data.getVoiceblasts;
+             console.log(allVab);
+            //allVb.vbaudpath
+            //setUserView(allVb.vbviews)
+          /*  
            Storage.put(`allVb.vbaudpath`,audioData).then((result) =>{
             console.log(result);
-            saveVoiceBlast(result.key);
+            //saveVoiceBlast(result.key);
            }).catch((err )=> {
             console.log(err)
           });*/
