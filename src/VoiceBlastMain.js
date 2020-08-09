@@ -1,6 +1,7 @@
 import React, {useEffect, useState } from "react";
 import RecorderFooter from "./RecorderFooter";
 import FixedHeader from "./FixedHeader";
+import AudioPlayerComp from "./AudioPlayerComp";
 import "./styles.scss";
 import AudioPlayer from 'react-h5-audio-player';
 import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
@@ -22,7 +23,7 @@ function AudioListComponent({playUrl, audioData, userid}) {
 
    async function handleSubmit(){
 
-     Storage.put(`${voiceBlastTitle}.mp3`,audioData).then((result) =>{
+     Storage.put(`${voiceBlastTitle}.webm`,audioData).then((result) =>{
       console.log(result);
       saveVoiceBlast(result.key);
      }).catch((err )=> {
@@ -30,14 +31,10 @@ function AudioListComponent({playUrl, audioData, userid}) {
     });
   }
    async function saveVoiceBlast(res){
-        
-
         const vbUpdate = {
-                  //vbid: String(ran)
                   vbaudpath: res,
                   vbuserid: userid,
-                  vbviews: 0,
-                  //vbdatecreated:awsDate
+                  vbviews: 0
                 };
 
                  API.graphql(graphqlOperation(mutations.createVoiceblasts, {input: vbUpdate})).then((a)=>{
@@ -85,6 +82,7 @@ function AudioListComponent({playUrl, audioData, userid}) {
 
 export default function VoiceBlastMain(props) {
   const [audioList, setAudioList] = useState([]);
+  const [audioListData, setAudioListData] = useState([]);
   const [newAudioFile, setNewAudioFile] = useState(null);
   const [playUrl, setPlayUrl] = useState(null);
   const [newAudioComponent, setNewAudioComponent] = useState();
@@ -130,21 +128,26 @@ export default function VoiceBlastMain(props) {
              setNewAudioComponent(newComp);
   }
   async function getAllVoiceBlasts(){
-       const allVb = await API.graphql(graphqlOperation(queries.getVoiceblasts , { vbuserid: userid}));
+       const allVb = await API.graphql(graphqlOperation(queries.listVoiceblasts , { vbuserid: userid}));
         console.log(allVb);
          //vbaudpath vbviews
-            let allVab = allVb.data.getVoiceblasts;
+            let allVab = allVb.data.listVoiceblasts.items;
              console.log(allVab);
-            //allVb.vbaudpath
-            //setUserView(allVb.vbviews)
-          /*  
-           Storage.put(`allVb.vbaudpath`,audioData).then((result) =>{
-            console.log(result);
-            //saveVoiceBlast(result.key);
-           }).catch((err )=> {
-            console.log(err)
-          });*/
-     
+
+            //let finishedMap = allVab.map((a)=>{
+              //  return Storage.get(a.vbaudpath).then(
+              //    result => result.split('?')[0]).catch(err => console.log(err));
+
+            // });
+/*
+            Promise.all(finishedMap).then(function(results) {
+                 if(results.length > 0 ){*/
+                    let m = allVab.map((a)=> <audio controls src = {"http://voiceblastvb3181216-dev.s3.amazonaws.com/public/" + a.vbaudpath} type="audio/mp3">  </audio>);
+                    setAudioList(m);
+            /*      }  
+            })*/
+
+           
   }
    
 
@@ -158,7 +161,9 @@ export default function VoiceBlastMain(props) {
             userName={userName}
             vburl={vburl}
          />
-         {newAudioComponent}
+         <div style = {{marginTop:'20%'}}>
+           {newAudioComponent}
+         </div> 
          {audioList}
          <RecorderFooter newVoiceBlast={updtAudioList} />
         </div>

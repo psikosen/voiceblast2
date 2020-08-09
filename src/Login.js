@@ -10,11 +10,13 @@ export default function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
-  const [error, setError] = useState('');
-/*  useEffect(()=>{
+  const [error, setError] = useState("");
+  
+  /*  useEffect(()=>{
       document.getElementById('mainMenu').style.display="none";
-
+ 
   },[]);*/
+
   async function signIn() {
     try {
       const user = await Auth.signIn(email, password);
@@ -65,6 +67,7 @@ export default function Login(props) {
             type="password"
           />
         </FormGroup>
+        <p><a href="/forgottenPass">Forgotten Password</a></p>
         <Button onClick={()=>validateForm()} type="submit">
           Login
         </Button>

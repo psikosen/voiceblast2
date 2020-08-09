@@ -64,7 +64,7 @@ export default function RecorderFooter({ audioLt, newVoiceBlast }) {
     let ran = Math.round(Math.random() * (100000 - 1) + 1);
     console.log(ran);
     console.log(blob);
-    newVoiceBlast(recordedBlob.blobURL,blob);
+    newVoiceBlast(recordedBlob.blobURL,recordedBlob);
   }
 
   //RecordAudio
@@ -77,7 +77,6 @@ export default function RecorderFooter({ audioLt, newVoiceBlast }) {
               width={100}
               height={70}
               margin={5}
-              mimeType="audio/mp3"
               record={isRecording}
               className="sound-wave"
               onStop={onStop}

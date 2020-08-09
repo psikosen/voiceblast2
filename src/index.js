@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import CreateProfile from './CreateProfile';
+import ForgottenPassword from './ForgottenPassword';
 import SignUp from './SignUp';
 import Login from './Login';
 import VoiceBlastMain from './VoiceBlastMain';
@@ -15,10 +16,10 @@ const history = createBrowserHistory();
 ReactDOM.render(
   <React.StrictMode>
    <Router forceRefresh={true} history={history}>
-     <App />
-     <Route path = "/"/>
+     <Route path = "/" exact render = {App }/>
      <Route path = "/login" component = {Login} />
      <Route path = "/signup" component = {SignUp} />
+     <Route path = "/forgottenPass" component = {ForgottenPassword} />
      <Route path = "/vbm" component = {VoiceBlastMain} />
      <Route path = "/crp" component = {CreateProfile} />
     </Router>
