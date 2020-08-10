@@ -94,22 +94,22 @@ export default function VoiceBlastMain(props) {
   const [profilePhoto,setprofilePhoto] = useState(props.location.state.profileImg);
 
   useEffect(() => {
-    getAllVoiceBlasts()
+   // getAllVoiceBlasts();
+
     return ()=>{
+
+     
        if(!window.orientation || !window.screen.orientation) {
            setMobile(true);
         if(isMobile){
            setMediaQuery("(max-width: 599px)");
         }
        }
+      
     }
   },[]);
   
-  async function loadVoiceBlasts(){
-      const oneUser = await API.graphql(graphqlOperation(queries.getVoiceblasts , { vbuserid: userid}));
-      console.log(oneUser);
-      
-  }
+ 
 
   function updtAudioList(plyUr,mp3b) {
     setNewAudioFile(mp3b);

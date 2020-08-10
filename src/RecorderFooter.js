@@ -1,14 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { FaMicrophoneAlt } from "react-icons/fa";
 //import { FaRegPauseCircle } from "react-icons/fa";
-import { ReactMic } from "react-mic";
-import AudioPlayer from 'react-h5-audio-player';
+//import { ReactMic } from "react-mic";
+//import AudioPlayer from 'react-h5-audio-player';
+import CameraRecorder from './CameraRecorder';
+import RecordRTC from 'recordrtc';
+import 'react-voice-recorder/dist/index.css';
 //import ReactAudioPlayer from "react-audio-player";
 import Timer from "./AccurateTimer";
 
-export default function RecorderFooter({ audioLt, newVoiceBlast }) {
+
+
+const hasGetUserMedia = !!(window.navigator.getUserMedia || window.navigator.webkitGetUserMedia ||
+                        window.navigator.mozGetUserMedia || window.navigator.msGetUserMedia);
+var recorder; // globally accessible
+var microphone;
+var audio =  document.getElementById('audioSrc');;
+var isEdge = navigator.userAgent.indexOf('Edge') !== -1 && (!!window.navigator.msSaveOrOpenBlob || !!window.navigator.msSaveBlob);
+var isSafari = /^((?!chrome|android).)*safari/i.test(window.navigator.userAgent);
+
+
+export default function RecorderFooter({ newVoiceBlast, setURL }) {
   const [isRecording, setRecording] = useState(false);
-  //const [timer, setTimer] = useState(() => <Timer initialSeconds={60} />);
+  const [src, setSrc] = useState(null);
+  const [recordAudio, setrecordAudio] = useState(null);
 
   let styles = {
     header: {
@@ -38,34 +53,15 @@ export default function RecorderFooter({ audioLt, newVoiceBlast }) {
         header.classList.add("sticky");
       }
     });
+
     return () => {
       window.removeEventListener("scroll", scrollCallBack);
+      if(!hasGetUserMedia) {
+          alert("Your browser cannot stream from your webcam. Please switch to Chrome or Firefox.");
+      }else{
+      }
     };
   });
-
-  function startRecorder() {
-    if (!isRecording) {
-      setRecording(true);
-    } else {
-      setRecording(false);
-    }
-  }
-  //<FaMicrophoneAlt size={"4em"} onClick={startRecorder} />
-
-  function onData(recordedBlob) {
-    //console.log("chunk of real-time data is: ", recordedBlob);
-  }
-
-  function onStop(recordedBlob) {
-    //console.log("recordedBlob is: ", recordedBlob);
-    let blob = new Blob([recordedBlob], { type: "audio/mp3" });
-    //console.log(blob);
-
-    let ran = Math.round(Math.random() * (100000 - 1) + 1);
-    console.log(ran);
-    console.log(blob);
-    newVoiceBlast(recordedBlob.blobURL,recordedBlob);
-  }
 
   //RecordAudio
   return (
@@ -73,28 +69,10 @@ export default function RecorderFooter({ audioLt, newVoiceBlast }) {
       <header id="myHeader" style={styles.sticky}>
         <ul>
           <li style={styles.list}>
-            <ReactMic
-              width={100}
-              height={70}
-              margin={5}
-              record={isRecording}
-              className="sound-wave"
-              onStop={onStop}
-              onData={onData}
-              strokeColor="black"
-            />
-          </li>
-          <li style={{ listStyle: "none" }} onClick={startRecorder}>
-            {isRecording ? (
-              <Timer initialSeconds={60} />
-            ) : (
-              <FaMicrophoneAlt size={"4em"} />
-            )}
+          <CameraRecorder newVoiceBlast = {newVoiceBlast} setURL = {setURL}/>
           </li>
         </ul>
       </header>
     </div>
   );
 }
-
-// //<FaRegPauseCircle size={"4em"} onClick={startRecorder} />
