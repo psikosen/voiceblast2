@@ -14,7 +14,7 @@ class CameraRecorder extends React.Component {
   }
  
   getUserMedia(callback) {
-    navigator.getUserMedia({ audio: true, video: false },
+    navigator.getUserMedia({ audio: true, video: false, disabled:false },
              callback, error => alert(JSON.stringify(error)));
   }
 
@@ -25,39 +25,34 @@ class CameraRecorder extends React.Component {
   }
 
   async startRecord() {
-    if(this.state.isRecording){
-      await this.setState({isRecording: false});
-    }else{
-      await this.setState({isRecording: true});
-    }
+    await this.setState({isRecording: true});
 
-       this.getUserMedia(stream => {
-        this.state.recordMicrophone = RecordRTC(stream, { type: 'audio' });
-        this.state.recordMicrophone.startRecording();
-       });
+    this.getUserMedia(stream => {
+      this.state.recordMicrophone = RecordRTC(stream, { type: 'audio' });
+      this.state.recordMicrophone.startRecording();
+    });
   }
 
-   stopRecording(){
+  async stopRecording(){
+    await this.setState({isRecording: false});
+
     this.state.recordMicrophone.stopRecording(() => {
       //this.state.recordMicrophone.save();
-      //let recordedBlob = new Blob([this.state.recordMicrophone.blob], {type:'mp3'});
-      console.log(this.state.recordMicrophone.blob);
-      this.props.newVoiceBlast(this.state.recordMicrophone.blob);
-      this.props.setURL( this.state.recordMicrophone.toURL());
-      //this.state.recordMicrophone.toUrl();
+      let recordedBlob = new Blob([this.state.recordMicrophone.blob], {type:'mp3'});
+      this.props.newVoiceBlast(this.state.recordMicrophone.toURL(),recordedBlob);      
     });
    }
 
   render() {
     return (
-      <div>
+      <div >
         {this.state.isRecording ?
          (
-          <div onClick={this.stopRecording}> 
-           <Timer initialSeconds={60} />
+          <div onClick={this.stopRecording} style={{ width:70,height:70, marginTop:150, marginLeft:-100 }}> 
+           <Timer initialSeconds={60}  />
           </div>
            ):
-         (<FaMicrophoneAlt onClick={this.startRecord}/>)
+         (<FaMicrophoneAlt  onClick={this.startRecord} style={{ width:70,height:70, marginTop:150, marginLeft:-100 }}/>)
         }
       </div>
     )

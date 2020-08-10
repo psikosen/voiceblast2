@@ -20,7 +20,7 @@ var isEdge = navigator.userAgent.indexOf('Edge') !== -1 && (!!window.navigator.m
 var isSafari = /^((?!chrome|android).)*safari/i.test(window.navigator.userAgent);
 
 
-export default function RecorderFooter({ newVoiceBlast, setURL }) {
+export default function RecorderFooter({ newVoiceBlast }) {
   const [isRecording, setRecording] = useState(false);
   const [src, setSrc] = useState(null);
   const [recordAudio, setrecordAudio] = useState(null);
@@ -69,7 +69,7 @@ export default function RecorderFooter({ newVoiceBlast, setURL }) {
       <header id="myHeader" style={styles.sticky}>
         <ul>
           <li style={styles.list}>
-          <CameraRecorder newVoiceBlast = {newVoiceBlast} setURL = {setURL}/>
+          <CameraRecorder newVoiceBlast = {newVoiceBlast}/>
           </li>
         </ul>
       </header>

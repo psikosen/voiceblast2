@@ -11,7 +11,7 @@ import * as mutations from './src/graphql/mutations';
 import * as subscriptions from './src/graphql/subscriptions';
 import Media from "react-media";
 
-function AudioListComponent({playUrl, audioData, userid}) {
+function AudioListComponent({playUrl, audioData, userid, setNewAudioComponent}) {
   const [voiceBlastTitle, setVoiceBlastTitle] = useState("");
    
     useEffect(()=>{
@@ -23,7 +23,7 @@ function AudioListComponent({playUrl, audioData, userid}) {
 
    async function handleSubmit(){
 
-     Storage.put(`${voiceBlastTitle}.webm`,audioData).then((result) =>{
+     Storage.put(`${voiceBlastTitle}.mp3`,audioData).then((result) =>{
       console.log(result);
       saveVoiceBlast(result.key);
      }).catch((err )=> {
@@ -39,6 +39,7 @@ function AudioListComponent({playUrl, audioData, userid}) {
 
                  API.graphql(graphqlOperation(mutations.createVoiceblasts, {input: vbUpdate})).then((a)=>{
                      console.log(a);
+                     setNewAudioComponent(null);
                 });
   }
 
@@ -70,7 +71,7 @@ function AudioListComponent({playUrl, audioData, userid}) {
               showDownloadProgress = {false}
               showFilledProgress = {false}
               src={playUrl}
-              onPlay={e =>   document.getElementsByClassName('rhap_current-time')[0].style.display= "block"}
+              onPlay={e => document.getElementsByClassName('rhap_current-time')[0].style.display= "block"}
           />
 
      <Button onClick={()=>validateForm()} type="button"> Done </Button>
@@ -94,7 +95,7 @@ export default function VoiceBlastMain(props) {
   const [profilePhoto,setprofilePhoto] = useState(props.location.state.profileImg);
 
   useEffect(() => {
-   // getAllVoiceBlasts();
+    //getAllVoiceBlasts();
 
     return ()=>{
 
@@ -117,16 +118,17 @@ export default function VoiceBlastMain(props) {
 
     //setHideNewAudio(true);
     let newComp = (
-               <AudioListComponent 
-                 style={{display:'none'}} 
+               <AudioListComponent  
                  audioData = {mp3b} 
                  playUrl = {plyUr}
                  audioList = {audioList}
                  userid = {userid}
+                 setNewAudioComponent = {setNewAudioComponent}
                 />
              );
-             setNewAudioComponent(newComp);
+        setNewAudioComponent(newComp);
   }
+
   async function getAllVoiceBlasts(){
        const allVb = await API.graphql(graphqlOperation(queries.listVoiceblasts , { vbuserid: userid}));
         console.log(allVb);
@@ -154,19 +156,20 @@ export default function VoiceBlastMain(props) {
 
   return (
        <>
-      
-        <div style={{padding:5, borderWidth:1, borderColor:'gray'}}>
+      <Media queries={mediaQuery}> 
+        <div style={{padding:5, borderColor:'gray'}}>
          <FixedHeader
             profilePhoto ={profilePhoto}
             userName={userName}
             vburl={vburl}
          />
-         <div style = {{marginTop:'20%'}}>
+         <div style = {{marginTop:'10%'}}>
            {newAudioComponent}
          </div> 
          {audioList}
          <RecorderFooter newVoiceBlast={updtAudioList} />
         </div>
+       </Media>
     </>
   );
 }

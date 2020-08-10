@@ -17,6 +17,7 @@ const history = createBrowserHistory();
 ReactDOM.render(
   <React.StrictMode>
    <Router forceRefresh={true} history={history}>
+     <div>fasdf</div>
      <Route path = "/" exact render = {App }/>
      <Route path = "/login" component = {Login} />
      <Route path = "/signup" component = {SignUp} />
