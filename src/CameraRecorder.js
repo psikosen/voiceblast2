@@ -9,6 +9,7 @@ class CameraRecorder extends React.Component {
     this.state = { recordMicrophone: null, isRecording: false };
     this.requestUserMedia = this.requestUserMedia.bind(this);
     this.startRecord = this.startRecord.bind(this); 
+    this.stopRecording = this.stopRecording.bind(this);
     this.getUserMedia = this.getUserMedia.bind(this);
   }
  
@@ -23,43 +24,39 @@ class CameraRecorder extends React.Component {
     });
   }
 
-  startRecord() {
-
-
+  async startRecord() {
     if(this.state.isRecording){
-      this.setState({isRecording: false});
+      await this.setState({isRecording: false});
     }else{
-      this.setState({isRecording: true});
+      await this.setState({isRecording: true});
     }
 
-    if(this.state.isRecording){
        this.getUserMedia(stream => {
         this.state.recordMicrophone = RecordRTC(stream, { type: 'audio' });
         this.state.recordMicrophone.startRecording();
-      });
-    }else{
+       });
+  }
 
-     this.state.recordMicrophone.stopRecording(() => {
-      this.state.recordMicrophone.save();
+   stopRecording(){
+    this.state.recordMicrophone.stopRecording(() => {
+      //this.state.recordMicrophone.save();
       //let recordedBlob = new Blob([this.state.recordMicrophone.blob], {type:'mp3'});
       console.log(this.state.recordMicrophone.blob);
       this.props.newVoiceBlast(this.state.recordMicrophone.blob);
-      this.props.setURL( this.state.recordMicrophone.toUrl());
+      this.props.setURL( this.state.recordMicrophone.toURL());
       //this.state.recordMicrophone.toUrl();
     });
-    }
-
-  
-  }
-
-
-
+   }
 
   render() {
     return (
       <div>
         {this.state.isRecording ?
-         (<Timer initialSeconds={60} />):
+         (
+          <div onClick={this.stopRecording}> 
+           <Timer initialSeconds={60} />
+          </div>
+           ):
          (<FaMicrophoneAlt onClick={this.startRecord}/>)
         }
       </div>
