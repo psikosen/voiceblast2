@@ -94,3 +94,14 @@ export const deleteVoiceblasts = /* GraphQL */ `
     }
   }
 `;
+export const updateView = /* GraphQL */ `
+  mutation UpdateView($input: updateVBViews!) {
+    updateView(input: $input) {
+      vbid
+      vbaudpath
+      vbuserid
+      vbviews
+      vbdatecreated
+    }
+  }
+`;

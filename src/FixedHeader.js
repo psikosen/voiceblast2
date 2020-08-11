@@ -17,6 +17,9 @@ export default function FixedHeader({profilePhoto,userName,vburl}) {
       background: "red",
       position: "fixed",
       top: 0,
+      marginTop:'1.8%',
+      marginRight:10,
+
       width: "100%"
     },
     list: {

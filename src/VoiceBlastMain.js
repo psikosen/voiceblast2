@@ -81,6 +81,7 @@ function AudioListComponent({playUrl, audioData, userid, setNewAudioComponent}) 
 }
 
 
+
 export default function VoiceBlastMain(props) {
   const [audioList, setAudioList] = useState([]);
   const [audioListData, setAudioListData] = useState([]);
@@ -95,7 +96,7 @@ export default function VoiceBlastMain(props) {
   const [profilePhoto,setprofilePhoto] = useState(props.location.state.profileImg);
 
   useEffect(() => {
-    //getAllVoiceBlasts();
+    getAllVoiceBlasts();
 
     return ()=>{
 
@@ -135,38 +136,64 @@ export default function VoiceBlastMain(props) {
          //vbaudpath vbviews
             let allVab = allVb.data.listVoiceblasts.items;
              console.log(allVab);
+             setAudioListData(allVab);
 
-            //let finishedMap = allVab.map((a)=>{
-              //  return Storage.get(a.vbaudpath).then(
-              //    result => result.split('?')[0]).catch(err => console.log(err));
+            let finishedMap = allVab.map((a)=>{
+                return Storage.get(a.vbaudpath).then(
+                  result => result.split('?')[0]).catch(err => console.log(err));
 
-            // });
-/*
+             });
+ 
             Promise.all(finishedMap).then(function(results) {
-                 if(results.length > 0 ){*/
-                    let m = allVab.map((a)=> <audio controls src = {"http://voiceblastvb3181216-dev.s3.amazonaws.com/public/" + a.vbaudpath} type="audio/mp3">  </audio>);
-                    setAudioList(m);
-            /*      }  
-            })*/
+                console.log(results);
+                 if(results.length > 0 ){ //{"http://voiceblastvb3181216-dev.s3.amazonaws.com/public/" + a.vbaudpath}
+                    var newAudioList = [];
 
-           
+                    for(var i = 0 ; i < results.length;i++){
+                      let aud = <ol><AudioPlayerComp key = {`${i}a`}
+                                                     playTitle = {allVab[i].vbaudpath.split('.mp3')} 
+                                                     playUrl = {`${results[i]}` } 
+                                                     vbidd = {allVab[i].vbid} 
+                                                     vbviews = {allVab[i].vbviews}
+                                                     getAllVoiceBlasts = {getAllVoiceBlasts}
+                                                     > 
+                                    </AudioPlayerComp>
+                                </ol>;
+                          newAudioList.push(aud); 
+                    } 
+                    //let m = results.map((a)=> <audio controls src = {`${results}` } type={"audio/mp3"}> type={"audio/mp3"} </audio>);
+                    //console.log(newAudioList);
+                    setAudioList(newAudioList);
+                    toggle('rhap_button-clear rhap_repeat-button','none');
+                    toggle('rhap_button-clear rhap_volume-button','none');
+                    toggle('rhap_time rhap_total-time','none');
+                  }  
+            })
+          
   }
-   
+      function toggle(className, displayState){
+         var elements = document.getElementsByClassName(className)
+             for (var i = 0; i < elements.length; i++){
+                  elements[i].style.display = displayState;
+                  }
+              }
 
 
   return (
        <>
-      <Media queries={mediaQuery}> 
+      <Media query={{}}> 
         <div style={{padding:5, borderColor:'gray'}}>
          <FixedHeader
             profilePhoto ={profilePhoto}
             userName={userName}
             vburl={vburl}
          />
-         <div style = {{marginTop:'10%'}}>
+         <div style = {{marginTop:'10%', height: '100%', overflowY: 'scroll' }}>
            {newAudioComponent}
          </div> 
+         <div style={{width:'80%'}}>
          {audioList}
+         </div>
          <RecorderFooter newVoiceBlast={updtAudioList} />
         </div>
        </Media>

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import logo from './vlogo.png';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import CreateProfile from './CreateProfile';
@@ -17,7 +18,9 @@ const history = createBrowserHistory();
 ReactDOM.render(
   <React.StrictMode>
    <Router forceRefresh={true} history={history}>
-     <div>fasdf</div>
+     <div style={{backgroundColor:'#bd65e0'}}>
+     <img src={logo}/>
+     </div>
      <Route path = "/" exact render = {App }/>
      <Route path = "/login" component = {Login} />
      <Route path = "/signup" component = {SignUp} />
