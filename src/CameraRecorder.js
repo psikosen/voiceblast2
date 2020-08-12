@@ -39,7 +39,7 @@ class CameraRecorder extends React.Component {
     this.state.recordMicrophone.stopRecording(() => {
       //this.state.recordMicrophone.save();
       let recordedBlob = new Blob([this.state.recordMicrophone.blob], {type:'mp3'});
-      this.props.newVoiceBlast(this.state.recordMicrophone.toURL(),recordedBlob);      
+      this.props.newVoiceBlast(this.state.recordMicrophone.toURL(),recordedBlob); 
     });
    }
 

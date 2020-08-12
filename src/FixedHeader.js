@@ -1,6 +1,6 @@
 import React, {useEffect } from "react";
-import { FcNightLandscape } from "react-icons/fc";
-//IoIosCloudyNight
+import { IoIosCloudyNight } from "react-icons/io";
+import {FiShare2} from "react-icons/fi";
 import DarkModeToggle from "./DarkModeToggle";
 import { BrowserRouter as Route,  } from "react-router-dom";
 
@@ -57,7 +57,7 @@ export default function FixedHeader({profilePhoto,userName,vburl}) {
           <li>{userName}</li>
           <li><a href = {`https://${vburl}`} target="_blank"> {vburl} </a></li>
           <li style={{ float: "right", marginRight: 10 }}>
-            <FcNightLandscape />
+            <FiShare2 onClick={()=>{}}/>
           </li>
           <li style={{ float: "right", marginRight: 10 }}>
             <DarkModeToggle />

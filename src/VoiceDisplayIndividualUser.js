@@ -1,70 +1,23 @@
-import React, {useEffect, useState } from "react";
-import RecorderFooter from "./RecorderFooter";
+import React, { useState } from "react";
+import { Button  } from "react-bootstrap";
+import {useHistory} from "react-router-dom";
 import FixedHeader from "./FixedHeader";
 import AudioPlayerComp from "./AudioPlayerComp";
-import AudioListComponent from "./AudioListComponent";
-
-import "./styles.scss";
 import AudioPlayer from 'react-h5-audio-player';
-import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
 import { API, graphqlOperation, Storage  } from "aws-amplify";
 import * as queries from './src/graphql/queries';
 import * as mutations from './src/graphql/mutations';
 import * as subscriptions from './src/graphql/subscriptions';
 import Media from "react-media";
- 
 
-
-export default function VoiceBlastMain(props) {
-  const [audioList, setAudioList] = useState([]);
-  const [audioListData, setAudioListData] = useState([]);
-  const [newAudioFile, setNewAudioFile] = useState(null);
-  const [playUrl, setPlayUrl] = useState(null);
-  const [newAudioComponent, setNewAudioComponent] = useState();
-  const [userName, setUserName] = useState(props.location.state.username !== ''?props.location.state.username:'');
-  const [userid, setUserid] = useState(props.location.state.userid);
-  const [vburl, setVburl] = useState(props.location.state.vburl !== ''?props.location.state.vburl:'');
-  const [isMobile, setMobile] = useState(false);
-  const [mediaQuery, setMediaQuery] = useState("(min-width: 600px) and (max-width: 900px)");
-  const [profilePhoto,setprofilePhoto] = useState(props.location.state.profileImg);
-
-  useEffect(() => {
-    getAllVoiceBlasts();
-
-    return ()=>{
-
-     
-       if(!window.orientation || !window.screen.orientation) {
-           setMobile(true);
-        if(isMobile){
-           setMediaQuery("(max-width: 599px)");
-        }
-       }
-      
-    }
-  },[]);
+export default function VoiceDisplayIndividualUser(props) {
+  const [audioList, setAudioList] = useState("");
+  const [userid, setUserId] = useState("");
+  const [AudioListData, setAudioListData] = useState("");
+  const history = useHistory();
+  const [error, setError] = useState("");
   
- 
-
-  function updtAudioList(plyUr,mp3b) {
-    setNewAudioFile(mp3b);
-    setPlayUrl(plyUr);
-
-    //setHideNewAudio(true);
-    let newComp = (
-               <AudioListComponent  
-                 audioData = {mp3b} 
-                 playUrl = {plyUr}
-                 audioList = {audioList}
-                 userid = {userid}
-                 setNewAudioComponent = {setNewAudioComponent}
-                 getAllVoiceBlasts = {getAllVoiceBlasts}
-                />
-             );
-        setNewAudioComponent(newComp);
-  }
-
-  async function getAllVoiceBlasts(){
+    async function getAllVoiceBlasts(){
     setAudioList([]);
        const allVb = await API.graphql(graphqlOperation(queries.listVoiceblasts , { vbuserid: userid}));
         console.log(allVb);
@@ -72,6 +25,7 @@ export default function VoiceBlastMain(props) {
             let allVab = allVb.data.listVoiceblasts.items;
              console.log(allVab);
              setAudioListData(allVab);
+
             let sortedAudioList = allVab.sort(function(a,b){
                       console.log(b);
                       return b.vbdatecreated.localeCompare(a.vbdatecreated);
@@ -89,7 +43,7 @@ export default function VoiceBlastMain(props) {
                     var newAudioList = [];
 
                     for(var i = 0 ; i < results.length;i++){
-                      let aud = <ol key = {`${i}o`}><AudioPlayerComp key = {`${i}a`}
+                      let aud = <ol><AudioPlayerComp key = {`${i}a`}
                                                      playTitle = {allVab[i].vbaudpath !== null?allVab[i].vbaudpath.split('.mp3'):''} 
                                                      playUrl = {`${results[i]}` } 
                                                      vbidd = {allVab[i].vbid} 
@@ -110,6 +64,7 @@ export default function VoiceBlastMain(props) {
             })
           
   }
+
       function toggle(className, displayState){
          var elements = document.getElementsByClassName(className)
              for (var i = 0; i < elements.length; i++){
@@ -119,25 +74,9 @@ export default function VoiceBlastMain(props) {
 
 
   return (
-       <>
-      <Media query={{}}> 
-        <div style={{padding:5, borderColor:'gray'}}>
-         <FixedHeader
-            profilePhoto ={profilePhoto}
-            userName={userName}
-            vburl={vburl}
-         />
-         <div style = {{marginTop:'10%', height: '100%', overflowY: 'scroll' }}>
-           {newAudioComponent}
-         </div> 
-         <div style={{width:'80%'}}>
-         {audioList}
-         </div>
-         <RecorderFooter newVoiceBlast={updtAudioList} />
-        </div>
-       </Media>
-    </>
+    <div>
+       <div>{error}</div>
+       {audioList}
+    </div>
   );
 }
-// {//<Media query= {mediaQuery}>}
-     //  {</Media>}

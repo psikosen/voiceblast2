@@ -95,8 +95,8 @@ export const deleteVoiceblasts = /* GraphQL */ `
   }
 `;
 export const updateView = /* GraphQL */ `
-  mutation UpdateView($input: updateVBViews!) {
-    updateView(input: $input) {
+  mutation UpdateView($vbid: String!, $vbviews: Int) {
+    updateView(vbid: $vbid, vbviews: $vbviews) {
       vbid
       vbaudpath
       vbuserid

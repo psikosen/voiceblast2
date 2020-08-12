@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import useDarkMode from "use-dark-mode";
-//import { FcNightLandscape } from "react-icons/fc";
+import { IoIosCloudyNight } from "react-icons/io";
 //IoIosCloudyNight
 const DarkModeToggle = () => {
   const darkMode = useDarkMode(false);
@@ -12,7 +12,7 @@ const DarkModeToggle = () => {
     if (!isDark) {
       setIsDark(true);
       darkMode.disable();
-      setBtnText("☾");
+      setBtnText(<IoIosCloudyNight/>);
     } else {
       setIsDark(false);
       darkMode.enable();
