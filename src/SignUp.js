@@ -6,8 +6,7 @@ import Amplify, { Auth, API, graphqlOperation } from 'aws-amplify';
 import * as mutations from './src/graphql/mutations';
 //import * as subscriptions from './src/graphql/subscriptions';
 import {  useHistory  } from "react-router-dom";
-import awsconfig from './aws-exports';
-Amplify.configure(awsconfig);
+
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
@@ -44,25 +43,24 @@ export default function SignUp() {
   async function handleSubmit(event) {
     event.preventDefault();
     if(validateForm())
-      await signUpInit(email,password);
+      await signUp(email,password);
   
    return false;
   }
 
-  async function signUpInit(username,password) {
+  async function signUp(username,password) {
     try {
         const user = await Auth.signUp({
             username,
             password,
             attributes: {
-                email,          // optional
-                // other custom attributes 
+                email         
             }
         });
         console.log(user);
         if(user.user !== null){
         	await createUser(user.userSub);
-            await history.push("/crp",{usrid: user.userSub});
+          await history.push("/crp",{usrid: user.userSub});
         }
     } catch (error) {
         console.log('error signing up:', error);

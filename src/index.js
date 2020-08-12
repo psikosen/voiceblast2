@@ -10,26 +10,31 @@ import SignUp from './SignUp';
 import Login from './Login';
 import VoiceBlastMain from './VoiceBlastMain';
 import individualVoiceBlast from './individualVoiceBlast';
-import VoiceDisplayIndividualUser from './VoiceDisplayIndividualUser';
+import VoiceDisplayIndividualUser from './VoiceDisplayIndividualUser'
 import { BrowserRouter as Router, Route,  } from "react-router-dom";
 import { createBrowserHistory } from "history";
+import Amplify, { Auth } from 'aws-amplify';
+
+// Set up aws config
+import awsconfig from './aws-exports';
+       Amplify.configure(awsconfig);
 
 const history = createBrowserHistory();
 
 ReactDOM.render(
   <React.StrictMode>
    <Router forceRefresh={true} history={history}>
-     <div style={{backgroundColor:'#bd65e0'}}>
+     <div className ={'navbar'} style={{backgroundColor:'#bd65e0'}}>
      <img src={logo}/>
      </div>
      <Route path = "/" exact render = {App }/>
      <Route path = "/login" component = {Login} />
-     <Route path = "/signup" component = {SignUp} />
      <Route path = "/forgottenPass" component = {ForgottenPassword} />
+     <Route path = "/signup" component = {SignUp} />
+     <Route path = "/crp" component = {CreateProfile} />
      <Route path = "/vbm" component = {VoiceBlastMain} />
      <Route path = "/vbm:id" component = {VoiceDisplayIndividualUser} />
      <Route path = "/vbm/share:id" component = {individualVoiceBlast} />
-     <Route path = "/crp" component = {CreateProfile} />
     </Router>
   </React.StrictMode>,
   document.getElementById('root')

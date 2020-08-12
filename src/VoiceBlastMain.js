@@ -3,7 +3,6 @@ import RecorderFooter from "./RecorderFooter";
 import FixedHeader from "./FixedHeader";
 import AudioPlayerComp from "./AudioPlayerComp";
 import AudioListComponent from "./AudioListComponent";
-
 import "./styles.scss";
 import AudioPlayer from 'react-h5-audio-player';
 import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";

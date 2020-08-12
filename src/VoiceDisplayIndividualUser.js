@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button  } from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import FixedHeader from "./FixedHeader";
@@ -12,11 +12,58 @@ import Media from "react-media";
 
 export default function VoiceDisplayIndividualUser(props) {
   const [audioList, setAudioList] = useState("");
-  const [userid, setUserId] = useState("");
+  const [userid, setUserId] = useState(window.location.pathname.split(':'));
   const [AudioListData, setAudioListData] = useState("");
-  const history = useHistory();
   const [error, setError] = useState("");
-  
+  const [userName, setUserName] = useState('');
+  const [vburl, setVburl] = useState('');
+  const [profilePhoto,setprofileImg] = useState('');
+  const history = useHistory();
+
+  useEffect(()=>{
+        getUser();
+        return ()=>{console.log(userid)}
+   },[userid]);
+    
+  async function getUser(){
+      if(userid !== null){
+        const oneUser = await API.graphql(graphqlOperation(queries.getVbuser , { vbuid: userid}));
+       
+        console.log(oneUser);
+       
+        if(oneUser.data.getVbuser !== null){
+
+          let usrObj = oneUser.data.getVbuser;
+          let usrnm = usrObj.vbuusername;
+          let usrurl = usrObj.vbuurl;
+          let usrimg = usrObj.vbuimg;
+          
+          setUserId(usrObj.vbuid);
+
+          if(usrnm){
+             setUserName(usrnm);  
+          }
+          
+          if(usrurl){ 
+             setVburl(usrurl);
+          }
+ 
+
+          if(usrimg){
+           Storage.get(usrimg).then(result =>{
+                console.log(result);
+                setprofileImg(result);
+              }).catch(err => console.log(err));
+          }
+          
+          getAllVoiceBlasts();
+
+        }else{
+          setError('Please Update Your Profile');
+        }
+      }
+   }
+
     async function getAllVoiceBlasts(){
     setAudioList([]);
        const allVb = await API.graphql(graphqlOperation(queries.listVoiceblasts , { vbuserid: userid}));
@@ -76,6 +123,11 @@ export default function VoiceDisplayIndividualUser(props) {
   return (
     <div>
        <div>{error}</div>
+        <FixedHeader
+            profilePhoto ={profilePhoto}
+            userName={userName}
+            vburl={vburl}
+        />
        {audioList}
     </div>
   );

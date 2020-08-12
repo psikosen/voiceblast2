@@ -3,45 +3,41 @@ import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
 import "./Login.css";
 import Amplify, { Auth } from 'aws-amplify';
 import {useHistory} from "react-router-dom";
-import awsconfig from './aws-exports';
-Amplify.configure(awsconfig);
+
 
 export default function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const history = useHistory();
   const [error, setError] = useState("");
+  const history = useHistory();
   
-  /*  useEffect(()=>{
-      document.getElementById('mainMenu').style.display="none";
- 
-  },[]);*/
 
   async function signIn() {
     try {
       const user = await Auth.signIn(email, password);
-      console.log(user.username);
-      await handleNav(user.username);
+      //console.log(user.username);
+      await handleNavigation(user.username);
     } catch (error) {
-        console.log('error signing in', error);
+        //console.log('error signing in', error);
         setError(error.message);
     }
   }
-
+  // add an email regex here to validate
   function validateForm() {
-    if(email.length > 0 && password.length >= 8){
+    if((email.length > 9 && email.length < 40) && (password.length >= 8 && password.length <= 25)) {
         return true;
     }
 
     setError('Invalid email or password length');
     return false;
   }
-  function handleNav(username){
-      history.push('/crp',{usrid: username});
+
+  function handleNavigation(username){
+    history.push('/crp',{usrid: username});
   }
 
-  function handleSubmit(event) {
-    event.preventDefault();
+  function handleSubmit(e) {
+    e.preventDefault();
     signIn(email,password);
   }
 
@@ -67,7 +63,7 @@ export default function Login(props) {
             type="password"
           />
         </FormGroup>
-        <p><a href="/forgottenPass">Forgotten Password</a></p>
+        <p><a href="/forgottenPass">Forgotten Password ?</a></p>
         <Button onClick={()=>validateForm()} type="submit">
           Login
         </Button>

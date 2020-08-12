@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {useHistory} from "react-router-dom";
 import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap"; 
-import { API, graphqlOperation, Storage  } from "aws-amplify";
+import { API, graphqlOperation, Storage, Auth  } from "aws-amplify";
 import * as queries from './src/graphql/queries';
 import * as mutations from './src/graphql/mutations';
 import { AmplifySignOut } from '@aws-amplify/ui-react';
@@ -14,23 +14,23 @@ export default function CreateProfile(props) {
    const [userid, setUserid] = useState(props.location.state.usrid);
    const [profileImg, setprofileImg] = useState('');
    const [tempprofileImg, settempprofileImg] = useState('');
+   const [error, setError] = useState("");
   
    const history = useHistory();
 
    useEffect(()=>{
-       // Query using a parameter
-         getUsers();
+         getUser();
 
-        return ()=>{
-           console.log(userid);
-        }
+        return ()=>{console.log(userid)}
    },[userid]);
     
-   async function getUsers(){
+   async function getUser(){
       if(userid !== null){
 
         const oneUser = await API.graphql(graphqlOperation(queries.getVbuser , { vbuid: userid}));
+       
         console.log(oneUser);
+       
         if(oneUser.data.getVbuser !== null){
           let usrObj = oneUser.data.getVbuser;
           let usrnm = usrObj.vbuusername;
@@ -56,6 +56,7 @@ export default function CreateProfile(props) {
           if(usrln){
             setlastName(usrln);
           }
+
           if(usrimg){
            Storage.get(usrimg)
               .then(result =>{
@@ -64,6 +65,8 @@ export default function CreateProfile(props) {
               }).catch(err => console.log(err));
           }
          
+        }else{
+          setError('Please Update Your Profile');
         }
       }
    }
@@ -96,18 +99,16 @@ export default function CreateProfile(props) {
 
      
    }
-
-
+    // add more validation
     async function validateForm(){
         if (userName !== '' && vburl !== ''){
             return true;
         }
-
         return false;
     }
    
-    function handleSubmit(event) {
-        event.preventDefault();
+    function handleSubmit(e) {
+        e.preventDefault();
     }
    
    function goToProfile(){
@@ -115,21 +116,18 @@ export default function CreateProfile(props) {
          history.push('/vbm',{username:userName,
                               vburl:vburl,
                               profileImg:profileImg,
-                              userid:userid});
+                              userid:userid
+                              });
    }
   
    async function handlePhotos(event) {
     event.preventDefault();
     let files = event.target.files;
-    console.log('files');
-    console.log(files);
+    //console.log(files);
 
-    
     if(files && files.length > 0)
     {
        settempprofileImg(files[0]);
-
-
     }
 
     else{
@@ -137,27 +135,36 @@ export default function CreateProfile(props) {
     }
   }
 
+   async function signOut() {
+        try {
+            await Auth.signOut();
+        } catch (error) {
+            console.log('error signing out: ', error);
+        }
+    }
   return (
 
   <div>
-   <AmplifySignOut />
+   <AmplifySignOut  onClick={signOut} />
+
     <div className="Login">
+     <h3 style = {{textAlign:'center'}}>Your Profile</h3>
+     <p>{error}</p>
     <form onSubmit={handleSubmit}>
-        
-       {profileImg === ''? 
+     {profileImg === ''? 
         <div>
-        <p>No Image</p>
+        <p style={{ color:'red'}} >Please Upload An Image</p>
         <FormGroup>
          <FormControl 
            name="image" 
            type="file"  
-           onChange={(e)=>handlePhotos(e)} 
+           onChange={(e)=> handlePhotos(e)} 
          />
         </FormGroup>
         </div>
         :
         <div>
-          <img src={profileImg} width={150} height={50}/>
+          <img src={profileImg} width={'100%'} height={150}/>
            <FormGroup>
            <FormControl 
              name="image" 
@@ -166,10 +173,10 @@ export default function CreateProfile(props) {
            />
           </FormGroup>
          </div> 
-        }
+      }
 
         <FormGroup controlId="userName" >
-          <FormLabel >userName</FormLabel >
+          <FormLabel >User Name:</FormLabel >
           <FormControl
             autoFocus
             type="text"
@@ -179,7 +186,7 @@ export default function CreateProfile(props) {
         </FormGroup>
 
         <FormGroup controlId="firstName" >
-          <FormLabel >First Name</FormLabel >
+          <FormLabel >First Name:</FormLabel >
           <FormControl
             autoFocus
             type="text"
@@ -189,7 +196,7 @@ export default function CreateProfile(props) {
         </FormGroup>
 
          <FormGroup controlId="lastName" >
-          <FormLabel >Last Name</FormLabel >
+          <FormLabel >Last Name:</FormLabel >
           <FormControl
             autoFocus
             type="test"
@@ -197,19 +204,20 @@ export default function CreateProfile(props) {
             onChange={e => setlastName(e.target.value)}
           />
         </FormGroup>
-        <FormGroup controlId="podCastUrl" bsSize="large">
-          <FormLabel>Enter Your Website URL</FormLabel>
+        <FormGroup controlId="podCastUrl" >
+          <FormLabel>Enter Your Website URL:</FormLabel>
           <FormControl
             value={vburl}
             onChange={e => setVburl(e.target.value)}
             type="text"
           />
         </FormGroup>
-
-          <Button block onClick={()=>updateProfile()} type="submit">
+         <div style={{ margin:'3%'}}>
+          <Button style={{ margin:'2%'}} onClick={()=>updateProfile()} type="submit">
           Update Profile
           </Button>
-          <Button onClick={()=>goToProfile()}> Voice Blast Main</Button>
+          <Button  style={{ margin:'2%'}} onClick={()=>goToProfile()}> Voice Blast Main</Button>
+         </div>
       </form>
     </div>
     </div>
