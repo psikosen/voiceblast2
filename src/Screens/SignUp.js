@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
 import Amplify, { Auth, API, graphqlOperation } from 'aws-amplify';
 //import * as queries from './src/graphql/queries';
-import * as mutations from './src/graphql/mutations';
+import * as mutations from './../src/graphql/mutations';
 //import * as subscriptions from './src/graphql/subscriptions';
 import {  useHistory  } from "react-router-dom";
 

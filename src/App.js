@@ -1,7 +1,7 @@
 import React from 'react';
 //import logo from './logo.svg';
 import './App.css';
-import "./styles.scss";
+import "./Screens/Css/styles.scss";
 //import * as serviceWorker from './serviceWorker';
 import awsconfig from './aws-exports';
 import Amplify from 'aws-amplify';

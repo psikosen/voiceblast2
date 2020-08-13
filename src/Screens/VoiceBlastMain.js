@@ -1,15 +1,15 @@
 import React, {useEffect, useState } from "react";
 import RecorderFooter from "./RecorderFooter";
 import FixedHeader from "./FixedHeader";
-import AudioPlayerComp from "./AudioPlayerComp";
-import AudioListComponent from "./AudioListComponent";
-import "./styles.scss";
+import AudioPlayerComp from "./Components/AudioPlayerComp";
+import AudioListComponent from "./Components/AudioListComponent";
+import "./Css/styles.scss";
 import AudioPlayer from 'react-h5-audio-player';
 import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
 import { API, graphqlOperation, Storage  } from "aws-amplify";
-import * as queries from './src/graphql/queries';
-import * as mutations from './src/graphql/mutations';
-import * as subscriptions from './src/graphql/subscriptions';
+import * as queries from './../src/graphql/queries';
+import * as mutations from './../src/graphql/mutations';
+import * as subscriptions from './../src/graphql/subscriptions';
 import Media from "react-media";
  
 

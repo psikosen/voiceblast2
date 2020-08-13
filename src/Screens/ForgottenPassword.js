@@ -1,7 +1,6 @@
 import React, { useState }  from 'react';
 import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
-import './App.css';
-import "./styles.scss";
+import "./Css/styles.scss";
 import {  useHistory  } from "react-router-dom";
 
 export default function ForgottenPassword() {

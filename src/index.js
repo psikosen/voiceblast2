@@ -1,16 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import logo from './vlogo.png';
-import App from './App';
+import logo from './Screens/Images/vlogo.png';
 import * as serviceWorker from './serviceWorker';
-import CreateProfile from './CreateProfile';
-import ForgottenPassword from './ForgottenPassword';
-import SignUp from './SignUp';
-import Login from './Login';
-import VoiceBlastMain from './VoiceBlastMain';
-import individualVoiceBlast from './individualVoiceBlast';
-import VoiceDisplayIndividualUser from './VoiceDisplayIndividualUser'
+import App from './App';
+import CreateProfile from './Screens/CreateProfile';
+import ForgottenPassword from './Screens/ForgottenPassword';
+import SignUp from './Screens/SignUp';
+import Login from './Screens/Login';
+import VoiceBlastMain from './Screens/VoiceBlastMain';
+import individualVoiceBlast from './Screens/Components/individualVoiceBlast';
+import VoiceDisplayIndividualUser from './Screens/VoiceDisplayIndividualUser';
+
 import { BrowserRouter as Router, Route,  } from "react-router-dom";
 import { createBrowserHistory } from "history";
 import Amplify, { Auth } from 'aws-amplify';

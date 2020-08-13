@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { FaMicrophoneAlt } from "react-icons/fa";
-//import { FaRegPauseCircle } from "react-icons/fa";
-//import { ReactMic } from "react-mic";
-//import AudioPlayer from 'react-h5-audio-player';
-import CameraRecorder from './CameraRecorder';
+import CameraRecorder from './Components/CameraRecorder';
 import RecordRTC from 'recordrtc';
 import 'react-voice-recorder/dist/index.css';
-//import ReactAudioPlayer from "react-audio-player";
-import Timer from "./AccurateTimer";
+import Timer from "./Components/AccurateTimer";
 
 export default function RecorderFooter({ newVoiceBlast }) {
 

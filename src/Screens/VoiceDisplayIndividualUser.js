@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Button  } from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import FixedHeader from "./FixedHeader";
-import AudioPlayerComp from "./AudioPlayerComp";
+import AudioPlayerComp from "./Components/AudioPlayerComp";
 import AudioPlayer from 'react-h5-audio-player';
 import { API, graphqlOperation, Storage  } from "aws-amplify";
-import * as queries from './src/graphql/queries';
-import * as mutations from './src/graphql/mutations';
-import * as subscriptions from './src/graphql/subscriptions';
+import * as queries from './../src/graphql/queries';
+import * as mutations from './../src/graphql/mutations';
+import * as subscriptions from './../src/graphql/subscriptions';
 import Media from "react-media";
 
 export default function VoiceDisplayIndividualUser(props) {

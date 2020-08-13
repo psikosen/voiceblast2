@@ -7,6 +7,7 @@ import {
   TwitterShareButton,
   WhatsappShareButton,
 } from "react-share";
+
 export default function individualVoiceBlast(){
 	return(
         <div>

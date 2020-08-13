@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {useHistory} from "react-router-dom";
 import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap"; 
 import { API, graphqlOperation, Storage, Auth  } from "aws-amplify";
-import * as queries from './src/graphql/queries';
-import * as mutations from './src/graphql/mutations';
+import * as queries from './../src/graphql/queries';
+import * as mutations from './../src/graphql/mutations';
 import { AmplifySignOut } from '@aws-amplify/ui-react';
 
 export default function CreateProfile(props) {

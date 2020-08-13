@@ -2,7 +2,7 @@ import React, {useEffect, useState } from "react";
 import { IoIosCloudyNight } from "react-icons/io";
 import {FiShare2} from "react-icons/fi";
 import DarkModeToggle from "./DarkModeToggle";
-import ShareSocialListButton from "./ShareSocialListButton";
+import ShareSocialListButton from "./Components/ShareSocialListButton";
 import { BrowserRouter as Route,  } from "react-router-dom";
 import * as ReactBootstrap from 'react-bootstrap';
 

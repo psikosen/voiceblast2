@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
-import "./Login.css";
+import "./Css/Login.css";
 import Amplify, { Auth } from 'aws-amplify';
 import {useHistory} from "react-router-dom";
 
