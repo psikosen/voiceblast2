@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 //import logo from './logo.svg';
 import './App.css';
+import cui from './curatedUserImages/testuser.jpg';
 import "./Screens/Css/styles.scss";
 //import * as serviceWorker from './serviceWorker';
 import awsconfig from './aws-exports';
@@ -8,8 +9,51 @@ import Amplify from 'aws-amplify';
 Amplify.configure(awsconfig);
 // Initialize the Amazon Cognito credentials provider
 
+var curatedUsersList = [{
+                     usrnm:"",
+                     imgLnk:cui
+                     },
+                    {
+                     usrnm:"",
+                     imgLnk:cui
+                     },
+                     {
+                     usrnm:"",
+                     imgLnk:cui
+                     },
+                     {
+                     usrnm:"",
+                     imgLnk:cui
+                     },
+                     {
+                     usrnm:"",
+                     imgLnk:cui
+                     },{
+                     usrnm:"",
+                     imgLnk:cui
+                     },
+                     {
+                     usrnm:"",
+                     imgLnk:cui
+                     }];
+
+
 function App() {
-	 
+
+  function AddCuratedUsers(){
+       return curatedUsersList.map((a)=>
+           <a href={`/vbm:${a.usrnm}`}>
+           <img width = {80}
+                height = {80} 
+                src={a.imgLnk}
+                style={{borderRadius:80
+                       }}
+                />
+
+          </a>);
+  } 
+
+
   return (
   	 <div>
       <h1>Voice Blast</h1>
@@ -19,11 +63,12 @@ function App() {
       <p>Already A Creator ?
           <a href = "/login" style={{textDecoration: 'underline'}}> Login Here </a> 
       </p>
-      <p> Explore 
+      <p>  
          <a href = "/explore" style={{textDecoration: 'underline'}}>
-          
+          Explore
          </a> 
       </p>
+      {AddCuratedUsers()}
      </div>
   );
 }

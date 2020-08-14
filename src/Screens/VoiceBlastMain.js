@@ -20,31 +20,100 @@ export default function VoiceBlastMain(props) {
   const [newAudioFile, setNewAudioFile] = useState(null);
   const [playUrl, setPlayUrl] = useState(null);
   const [newAudioComponent, setNewAudioComponent] = useState();
-  const [userName, setUserName] = useState(props.location.state.username !== ''?props.location.state.username:'');
-  const [userid, setUserid] = useState(props.location.state.userid);
-  const [vburl, setVburl] = useState(props.location.state.vburl !== ''?props.location.state.vburl:'');
   const [isMobile, setMobile] = useState(false);
   const [mediaQuery, setMediaQuery] = useState("(min-width: 600px) and (max-width: 900px)");
-  const [profilePhoto,setprofilePhoto] = useState(props.location.state.profileImg);
-  const [bio, setBio] = useState(props.location.state.bio);
+  
+  const [profilePhoto,setprofilePhoto] = useState("");
+  const [userName, setUserName] = useState("");
+  const [userid, setUserid] = useState(props.location.state === undefined ? "" : props.location.state.usrid);
+  const [vburl, setVburl] = useState("");
+  const [firstName, setfirstName] = useState("");
+  const [lastName, setlastName] = useState(""); 
+  const [vbbio, setVbbio] = useState("");
+  const [error, setError] = useState("");   
 
   useEffect(() => {
+    // reload not working properly the page returns no data
+    getUser();
     getAllVoiceBlasts();
 
     return ()=>{
-
-     
        if(!window.orientation || !window.screen.orientation) {
-           setMobile(true);
-        if(isMobile){
+           setMobile(false);
+       
+       }else{
+        setMobile(true);
+         if(isMobile){
            setMediaQuery("(max-width: 599px)");
         }
        }
-      
     }
   },[]);
   
- 
+     async function getUser(){ 
+      
+      
+      if(userid  === ""){
+          var currentUsrId = sessionStorage.getItem('userId');
+          loadUserData(currentUsrId);
+      }else{
+          loadUserData(userid);
+      }
+
+      async function loadUserData(usrid){
+        if(usrid !== null){
+        const oneUser = await API.graphql(graphqlOperation(queries.getVbuser , { vbuid: usrid}));
+       
+        console.log(oneUser);
+
+        if(oneUser.data.getVbuser !== null){
+          let usrObj = oneUser.data.getVbuser;
+          let usrnm = usrObj.vbuusername;
+          let usrurl = usrObj.vbuurl;
+          let usrfn = usrObj.vbufirstname;
+          let usrln = usrObj.vbulastname;
+          let usrimg = usrObj.vbuimg;
+          let usrbio = usrObj.vbbio;
+          
+          setUserid(usrObj.vbuid);
+          
+          // fix later 
+          window.history.pushState('vbm/', ' ', `/vbm/${usrObj.vbuusername}`);
+
+          sessionStorage.setItem('userId', usrObj.vbuid);
+
+          if(usrnm){
+             setUserName(usrnm);  
+          }
+          
+          if(usrurl){ 
+             setVburl(usrurl);
+          }
+
+          if(usrfn){
+             setfirstName(usrfn);
+          }
+
+          if(usrln){
+            setlastName(usrln[0]);
+          }
+
+          if(usrbio){
+            setVbbio(vbbio);
+          }
+
+          if(usrimg){
+           Storage.get(usrimg)
+              .then(result =>{
+                console.log(result);
+                setprofilePhoto(result);
+                
+              }).catch(err => console.log(err));
+          }
+        } 
+      }
+    }
+   }
 
   function updtAudioList(plyUr,mp3b) {
     setNewAudioFile(mp3b);
@@ -89,7 +158,7 @@ export default function VoiceBlastMain(props) {
                     var newAudioList = [];
 
                     for(var i = 0 ; i < results.length;i++){
-                      let aud = <ol key = {`${i}o`}><AudioPlayerComp key = {`${i}a`}
+                      let aud = <li key = {`${i}o`}><AudioPlayerComp key = {`${i}a`}
                                                      playTitle = {allVab[i].vbaudpath !== null?allVab[i].vbaudpath.split('.mp3'):''} 
                                                      playUrl = {`${results[i]}` } 
                                                      vbidd = {allVab[i].vbid} 
@@ -97,7 +166,7 @@ export default function VoiceBlastMain(props) {
                                                      getAllVoiceBlasts = {getAllVoiceBlasts}
                                                      > 
                                     </AudioPlayerComp>
-                                </ol>;
+                                </li>;
                           newAudioList.push(aud); 
                     } 
                   
@@ -119,20 +188,23 @@ export default function VoiceBlastMain(props) {
 
 
   return (
-       <>
+     <>
       <Media query={{}}> 
         <div style={{padding:5, borderColor:'gray'}}>
+
          <FixedHeader
-            profilePhoto ={profilePhoto}
-            userName={userName}
-            vburl={vburl}
-         />
+                           profilePhoto ={profilePhoto}
+                           userName={`${firstName} ${lastName}.`}
+                           vburl={vburl}
+                           vbbio={vbbio}
+                       />
+
          <div style = {{marginTop:'10%', height: '100%', overflowY: 'scroll' }}>
            {newAudioComponent}
          </div> 
-         <div style={{width:'80%'}}>
-         {audioList.length === 0?<img src={logo}/>:audioList}
-         </div>
+         <ul style={{width:'100%', top:'80px', position:'relative'}}>
+           {audioList.length === 0?<img src={logo}/>:audioList}
+         </ul>
          <RecorderFooter newVoiceBlast={updtAudioList} />
         </div>
        </Media>

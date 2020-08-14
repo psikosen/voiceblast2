@@ -20,10 +20,11 @@ export default function SignUp() {
   },[]);*/
  
   function validateForm() {
+    if(validateEmail){
   	 if(email.length > 0 && password.length > 0 && password === passwordRty){
   	 	 return true;
-  	}
-
+     }
+    }
     return false;
   }
  
@@ -40,12 +41,18 @@ export default function SignUp() {
             console.log(a);
         });
    }
+
   async function handleSubmit(event) {
     event.preventDefault();
     if(validateForm())
       await signUp(email,password);
   
    return false;
+  }
+
+  function validateEmail(eml){
+     const re = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/;
+     return re.test(eml);
   }
 
   async function signUp(username,password) {

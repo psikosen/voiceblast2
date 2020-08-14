@@ -25,27 +25,30 @@ import awsconfig from './aws-exports';
 
 const history = createBrowserHistory(); 
 
+// for the logo, if user is already logged in, logo should navigate to profile screen
+
 ReactDOM.render(
   <React.StrictMode>
    <Router forceRefresh={true} history={history}>
      <div className ={'navbar'} style={{backgroundColor:'#bd65e0'}}>
-       <img src={logo}/>
-       {window.location.pathname === '/' ||
-        window.location.pathname === '/login' ||
-        window.location.pathname === '/signup' ||
-        window.location.pathname === '/explore'
-        ? null:<FiSettings style={{float:'right'}}/>}       
+       <a href={"/"}> <img src={logo}/> </a>
+       {window.location.pathname === '/'        ||
+        window.location.pathname === '/login'   ||
+        window.location.pathname === '/signup'  ||
+        window.location.pathname === '/explore' ||
+        window.location.pathname === '/settings' 
+        ? null:<a href={"/settings"}> <FiSettings style={{float:'right'}}/> </a>}       
      </div>
-     <Route path = "/" exact render = {App }/>
+     <Route path = "/" exact render = {App}/>
      <Route path = "/login" component = {Login} />
      <Route path = "/forgottenPass" component = {ForgottenPassword} />
      <Route path = "/explore" component = {Explore} />
      <Route path = "/signup" component = {SignUp} />
      <Route path = "/settings" component = {ProfileSettings} />
      <Route path = "/crp" component = {CreateProfile} />
-     <Route path = "/vbm" component = {VoiceBlastMain} />
-     <Route path = "/vbm:vbid" component = {VoiceDisplayIndividualUser} />
-     <Route path = "/vbm/share:vbid" component = {individualVoiceBlast} />
+     <Route path = "/vbm/" component = {VoiceBlastMain} />
+     <Route path = "/vbm/:id" component = {VoiceDisplayIndividualUser} />
+     <Route path = "/vbm/share/:vbid" component = {individualVoiceBlast} />
     </Router>
   </React.StrictMode>,
   document.getElementById('root')

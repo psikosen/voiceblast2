@@ -14,11 +14,12 @@ import {
   WhatsappIcon
 } from "react-share";
 import Popover from 'react-bootstrap/Popover';
+import * as ReactBootstrap from 'react-bootstrap';
 
-export default function ShareSocialListButton(props) {
+export default function ShareSocialListButton({path}) {
 	const dataFromNextJS = {
 	  request: {
-	    path: "http://be.ch" // change to our website /vbm:id
+	    path: `http://${path}` // change to our website /vbm:id
 	  }
 	};
 

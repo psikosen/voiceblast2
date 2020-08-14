@@ -6,50 +6,58 @@ import ShareSocialListButton from "./Components/ShareSocialListButton";
 import { BrowserRouter as Route,  } from "react-router-dom";
 import * as ReactBootstrap from 'react-bootstrap';
 
+/*
 
-let styles = {
-    header: {
-      display: "flex",
-      fontWeight: 600,
-      height: "60px"
-    },
-    sticky: {
-      background: "red",
-      position: "fixed",
-      top: 0,
-      marginTop:'3.5%',
-      marginLeft:'20%',
-      width:'70%' 
-    },
-    list: {
-      listStyle: "none"
-    },
-    image: {
-      float: "left",
-      margin: 1
-    },
-  };
+ something i swrong with fixed header on reload
+#myHeader{
+  position:fixed
+}
+*/
 
 
-export default function FixedHeader({profilePhoto,userName,vburl}) {
+
+export default function FixedHeader({profilePhoto,userName,vburl,vbbio}) {
   const [shareList, setShareList] = useState(null);
+  const [stick, setStick] = useState({color:'black'});
+ 
+  let styles = {
+      header: {
+        display: "flex",
+        fontWeight: 600,
+        height: "60px",
+        marginTop:'100px'
+      }, 
+      list: {
+        listStyle: "none"
+      },
+      image: {
+        float: "left",
+        margin: 1
+      },
+    };
 
   useEffect(() => {
+
     const header = document.getElementById("myHeader");
     const sticky = header.offsetTop;
+
+    document.getElementById("myHeader").classList.add("myHeader");
+
     const scrollCallBack = window.addEventListener("scroll", () => {
       if (window.pageYOffset > sticky) {
         header.classList.add("sticky");
       }
     });
     return () => {
+
+      document.getElementById("myHeader").classList.add("myHeader");
       window.removeEventListener("scroll", scrollCallBack);
     };
   }, []);
 
   return (
     <div >
-      <header id="myHeader" style={styles.sticky}>
+      <header id="myHeader"  >
         <ul style={styles.list}>
           <img
             style={styles.image}
@@ -60,10 +68,12 @@ export default function FixedHeader({profilePhoto,userName,vburl}) {
           />
           <li>{userName}</li>
           <li><a href = {`https://${vburl}`} target="_blank"> {vburl} </a></li>
+          <li>{vbbio}</li>
           <li style={{ float: "right", marginRight: 10 }}>
           <ReactBootstrap.OverlayTrigger 
                   trigger="click" 
                   placement="bottom"
+                  path ={"google.com"}
                   overlay={<ShareSocialListButton/>} containerPadding={2}>
             <FiShare2 />
           </ReactBootstrap.OverlayTrigger>

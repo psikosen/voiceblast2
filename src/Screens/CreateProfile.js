@@ -42,6 +42,8 @@ export default function CreateProfile(props) {
           let usrbio = usrObj.vbbio;
           
           setUserid(usrObj.vbuid);
+          
+          sessionStorage.setItem('userId', usrObj.vbuid);
 
           if(usrnm){
              setUserName(usrnm);  
@@ -120,12 +122,7 @@ export default function CreateProfile(props) {
    
    function goToProfile(){
        if(validateForm())
-         history.push('/vbm',{username:userName,
-                              vburl:vburl,
-                              profileImg:profileImg,
-                              userid:userid,
-                              bio:vbbio
-                              });
+         history.push('/vbm',{userid:userid});
    }
   
    async function handlePhotos(event) {

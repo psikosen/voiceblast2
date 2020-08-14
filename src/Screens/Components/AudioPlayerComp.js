@@ -9,6 +9,8 @@ import * as subscriptions from './../../src/graphql/subscriptions';
 import Modal from "react-bootstrap/Modal";
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import ShareSocialListButton from "./ShareSocialListButton";
+import * as ReactBootstrap from 'react-bootstrap';
 
 export default function AudioPlayerComp({playUrl,playTitle,vbidd, vbviews, getAllVoiceBlasts}) {
 	   const [vbid, setVbid] = useState(vbidd);
@@ -82,7 +84,13 @@ export default function AudioPlayerComp({playUrl,playTitle,vbidd, vbviews, getAl
           />
         <div>
          <BsTrash onClick={handleShow} />
-         <FiShare2 onClick={()=>{}}/>
+            <ReactBootstrap.OverlayTrigger 
+                  trigger="click" 
+                  placement="bottom"
+                  path ={"google.com"}
+                  overlay={<ShareSocialListButton/>} containerPadding={2}>
+            <FiShare2 />
+          </ReactBootstrap.OverlayTrigger>
         </div>
         </div>
 
