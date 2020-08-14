@@ -119,6 +119,7 @@ export const onCreateVoiceblasts = /* GraphQL */ `
   subscription OnCreateVoiceblasts(
     $vbid: String
     $vbaudpath: String
+    $vbtitle: String
     $vbuserid: String
     $vbviews: Int
     $vbdatecreated: AWSDateTime
@@ -126,11 +127,13 @@ export const onCreateVoiceblasts = /* GraphQL */ `
     onCreateVoiceblasts(
       vbid: $vbid
       vbaudpath: $vbaudpath
+      vbtitle: $vbtitle
       vbuserid: $vbuserid
       vbviews: $vbviews
       vbdatecreated: $vbdatecreated
     ) {
       vbid
+      vbtitle
       vbaudpath
       vbuserid
       vbviews
@@ -141,6 +144,7 @@ export const onCreateVoiceblasts = /* GraphQL */ `
 export const onDeleteVoiceblasts = /* GraphQL */ `
   subscription OnDeleteVoiceblasts(
     $vbid: String
+    $vbtitle: String
     $vbaudpath: String
     $vbuserid: String
     $vbviews: Int
@@ -148,12 +152,14 @@ export const onDeleteVoiceblasts = /* GraphQL */ `
   ) {
     onDeleteVoiceblasts(
       vbid: $vbid
+      vbtitle: $vbtitle
       vbaudpath: $vbaudpath
       vbuserid: $vbuserid
       vbviews: $vbviews
       vbdatecreated: $vbdatecreated
     ) {
       vbid
+      vbtitle
       vbaudpath
       vbuserid
       vbviews

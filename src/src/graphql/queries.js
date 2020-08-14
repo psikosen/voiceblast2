@@ -44,6 +44,7 @@ export const getVoiceblasts = /* GraphQL */ `
   query GetVoiceblasts($vbuserid: String!) {
     getVoiceblasts(vbuserid: $vbuserid) {
       vbid
+      vbtitle
       vbaudpath
       vbuserid
       vbviews
@@ -60,6 +61,7 @@ export const listVoiceblasts = /* GraphQL */ `
     listVoiceblasts(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         vbid
+        vbtitle
         vbaudpath
         vbuserid
         vbviews

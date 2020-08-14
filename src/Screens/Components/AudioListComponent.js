@@ -25,8 +25,10 @@ export default function AudioListComponent({playUrl, audioData, userid, setNewAu
       console.log(err)
     });
   }
+
    async function saveVoiceBlast(res){
         const vbUpdate = {
+                  vbtitle: res.split('.mp3')[0],
                   vbaudpath: res,
                   vbuserid: userid,
                   vbviews: 0

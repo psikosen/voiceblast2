@@ -15,7 +15,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ShareSocialListButton from "./ShareSocialListButton";
 import * as ReactBootstrap from 'react-bootstrap';
 
-export default function AudioPlayerComp({playUrl,playTitle,vbidd,vbusrid, vbviews, getAllVoiceBlasts}) {
+export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusrid, vbviews, getAllVoiceBlasts}) {
 	   const [vbid, setVbid] = useState(vbidd);
 	   const [vbvw, setVbvw] = useState(vbviews);
        const [show, setShow] = useState(false);
@@ -34,37 +34,20 @@ export default function AudioPlayerComp({playUrl,playTitle,vbidd,vbusrid, vbview
 	   
 	  }
 
-	  function updateVoiceBlastTitle(){
-	  	var originalPlayTitleTmp = originalPlayTitle;
+	  function updateVoiceBlastTitle(){ 
 	  		const editVBTitle = {
                  vbid: vbid,
-                 vbaudpath: `${currentPlayTitle}.mp3`
+                 vbtitle: currentPlayTitle
             };
 
             console.log('Entering vb');
 
             API.graphql(graphqlOperation(mutations.updateVoiceblastsTitle, {input: editVBTitle})).then((a)=>{
-              /*   console.log(a);
-                console.log('getting file vb');
-               Storage.get(`${originalPlayTitleTmp}.mp3`).then((result) =>{
-			      console.log(result); 
-			      console.log('puttin file vb');
-			     Storage.put(`${currentPlayTitle}.mp3`,result).then((del) =>{
-				  console.log('removinf file vb');
-
-				  Storage.remove(`${originalPlayTitleTmp}.mp3`).then((rem) =>{
-				       console.log(rem);  
-				       console.log('file removed vb');
-
-				   }).catch((err )=> {
-				      console.log(err);
-				    });	
-				  }).catch((err )=> {
-				      console.log(err)
-				  });	
-			     }).catch((err )=> {
-			      console.log(err)
-			   });*/
+                console.log(a);
+                setDisplayAdditionOptions(null);
+	  	        IsDisplaying(false);
+	  	        isEditingTitle(false);
+	  	        setCurrentPlayTitle(currentPlayTitle);
             });	
 	  }
 
@@ -84,7 +67,7 @@ export default function AudioPlayerComp({playUrl,playTitle,vbidd,vbusrid, vbview
 	  }
 
 	   function deleteVb(){
-		   Storage.remove(`${playTitle}.mp3`).then((result) =>{
+		   Storage.remove(`${playPath}`).then((result) =>{
 		      console.log(result);
 
 		     }).catch((err )=> {

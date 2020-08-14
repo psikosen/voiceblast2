@@ -1,8 +1,6 @@
-//Convert To HOOK AND CHANGE FOR PAGNATION
-//<div id='app'></div>
-//<div id='foo'>bar</div>
+import React, {useEffect, useState } from "react";
 
-class ListView extends React.Component {
+export default class ListView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -74,9 +72,5 @@ class ListView extends React.Component {
 
 ListView.defaultProps = {
   rowHeight: 30,
-  numRows: 1200
+  numRows: 10
 }
-
-React.render(
-  <ListView />,
-  document.getElementById('app'));

@@ -69,6 +69,7 @@ export const createVoiceblasts = /* GraphQL */ `
   mutation CreateVoiceblasts($input: CreateVoiceblastsInput!) {
     createVoiceblasts(input: $input) {
       vbid
+      vbtitle
       vbaudpath
       vbuserid
       vbviews
@@ -80,6 +81,7 @@ export const updateVoiceblasts = /* GraphQL */ `
   mutation UpdateVoiceblasts($input: UpdateVoiceblastsInput!) {
     updateVoiceblasts(input: $input) {
       vbid
+      vbtitle
       vbaudpath
       vbuserid
       vbviews
@@ -91,6 +93,7 @@ export const updateVoiceblastsTitle = /* GraphQL */ `
   mutation UpdateVoiceblastsTitle($input: UpdateVoiceblastsTitleInput!) {
     updateVoiceblastsTitle(input: $input) {
       vbid
+      vbtitle
       vbaudpath
       vbuserid
       vbviews
@@ -102,6 +105,7 @@ export const deleteVoiceblasts = /* GraphQL */ `
   mutation DeleteVoiceblasts($input: DeleteVoiceblastsInput!) {
     deleteVoiceblasts(input: $input) {
       vbid
+      vbtitle
       vbaudpath
       vbuserid
       vbviews
@@ -113,6 +117,7 @@ export const updateView = /* GraphQL */ `
   mutation UpdateView($vbid: String!, $vbviews: Int) {
     updateView(vbid: $vbid, vbviews: $vbviews) {
       vbid
+      vbtitle
       vbaudpath
       vbuserid
       vbviews
