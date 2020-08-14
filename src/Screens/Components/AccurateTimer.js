@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-export default function Timer(props) {
-  const { initialMinute = 0, initialSeconds = 0 } = props;
+export default function Timer({timeObj, stopRecording}) {
+  const { initialMinute = 0, initialSeconds = 0 } = timeObj;
   const [minutes, setMinutes] = useState(initialMinute);
   const [seconds, setSeconds] = useState(initialSeconds);
   useEffect(() => {
@@ -18,6 +18,10 @@ export default function Timer(props) {
         }
       }
     }, 1000);
+      if(seconds === 0){
+         stopRecording();
+      }
+
     return () => {
       clearInterval(myInterval);
     };
@@ -28,7 +32,10 @@ export default function Timer(props) {
       style={{
         margin: 1,
         width: "30%",
-        shadowColor: "black",
+        shadowColor: "black", 
+        borderRadius: 60,
+        borderWidth: 6,
+        borderColor: "green",
         shadowOffset: {
           width: 0,
           height: 1
@@ -45,18 +52,23 @@ export default function Timer(props) {
             fontWeight: "bold",
             textShadowOffset: { width: 1.5, height: 2 },
             textShadowColor: "purple",
-            borderRadius: 60,
-            borderWidth: 6,
-            borderColor: "green",
             letterSpacing: 4,
             fontFamily: "Roboto",
             fontSize: "30px",
             margin: "10%"
           }}
         >
-          {minutes}:{seconds < 10 ? `${seconds}` : seconds}
+          {seconds < 10 ? `${seconds}` : seconds}
         </div>
       )}
     </div>
   );
 }
+
+
+//{minutes}:
+// timer on screen,  
+//add recording wave,
+// when timer is done or user press done
+// Make timer vanish and switch to Title creation pop up.
+// No play button, only after done aka live.

@@ -13,6 +13,7 @@ export default function CreateProfile(props) {
    const [vburl, setVburl] = useState("");
    const [userid, setUserid] = useState(props.location.state.usrid);
    const [profileImg, setprofileImg] = useState('');
+   const [vbbio, setVbbio] = useState('');
    const [tempprofileImg, settempprofileImg] = useState('');
    const [error, setError] = useState("");
   
@@ -38,6 +39,7 @@ export default function CreateProfile(props) {
           let usrfn = usrObj.vbufirstname;
           let usrln = usrObj.vbulastname;
           let usrimg = usrObj.vbuimg;
+          let usrbio = usrObj.vbbio;
           
           setUserid(usrObj.vbuid);
 
@@ -55,6 +57,10 @@ export default function CreateProfile(props) {
 
           if(usrln){
             setlastName(usrln);
+          }
+
+          if(usrbio){
+            setVbbio(vbbio);
           }
 
           if(usrimg){
@@ -83,6 +89,7 @@ export default function CreateProfile(props) {
                   vbufirstname: firstName,
                   vbulastname: lastName,
                   vbuurl: vburl,
+                  vbbio:vbbio,
                   vbuimg: result.key
                 };
                  API.graphql(graphqlOperation(mutations.updateVbuser, {input: profileUpdate})).then((a)=>{
@@ -116,7 +123,8 @@ export default function CreateProfile(props) {
          history.push('/vbm',{username:userName,
                               vburl:vburl,
                               profileImg:profileImg,
-                              userid:userid
+                              userid:userid,
+                              bio:vbbio
                               });
    }
   
@@ -142,6 +150,15 @@ export default function CreateProfile(props) {
             console.log('error signing out: ', error);
         }
     }
+    
+    function bioSetUp(e){
+      if(e.length < 40){
+        setVbbio(e.target.value)
+      }else{
+        setError('Bio Cannot Be Longer Than 40 characters');
+      }
+    }
+
   return (
 
   <div>
@@ -174,17 +191,6 @@ export default function CreateProfile(props) {
           </FormGroup>
          </div> 
       }
-
-        <FormGroup controlId="userName" >
-          <FormLabel >User Name:</FormLabel >
-          <FormControl
-            autoFocus
-            type="text"
-            value={userName}
-            onChange={e => setUserName(e.target.value)}
-          />
-        </FormGroup>
-
         <FormGroup controlId="firstName" >
           <FormLabel >First Name:</FormLabel >
           <FormControl
@@ -204,7 +210,18 @@ export default function CreateProfile(props) {
             onChange={e => setlastName(e.target.value)}
           />
         </FormGroup>
-        <FormGroup controlId="podCastUrl" >
+
+        <FormGroup controlId="userName" >
+          <FormLabel >User Name:</FormLabel >
+          <FormControl
+            autoFocus
+            type="text"
+            value={userName}
+            onChange={e => setUserName(e.target.value)}
+          />
+        </FormGroup>
+     
+        <FormGroup controlId="vburl" >
           <FormLabel>Enter Your Website URL:</FormLabel>
           <FormControl
             value={vburl}
@@ -212,6 +229,16 @@ export default function CreateProfile(props) {
             type="text"
           />
         </FormGroup>
+
+        <FormGroup controlId="bio" >
+          <FormLabel>Bio:</FormLabel>
+          <FormControl
+            value={vbbio}
+            onChange={e => bioSetUp(e)}
+            type="text"
+          />
+        </FormGroup>
+
          <div style={{ margin:'3%'}}>
           <Button style={{ margin:'2%'}} onClick={()=>updateProfile()} type="submit">
           Update Profile
@@ -224,3 +251,5 @@ export default function CreateProfile(props) {
   );
 }
 
+// Bio 40 char limit
+// plugin for user profile image

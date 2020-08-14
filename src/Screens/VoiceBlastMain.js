@@ -11,7 +11,7 @@ import * as queries from './../src/graphql/queries';
 import * as mutations from './../src/graphql/mutations';
 import * as subscriptions from './../src/graphql/subscriptions';
 import Media from "react-media";
- 
+import logo from './Images/vlogo.png';
 
 
 export default function VoiceBlastMain(props) {
@@ -26,6 +26,7 @@ export default function VoiceBlastMain(props) {
   const [isMobile, setMobile] = useState(false);
   const [mediaQuery, setMediaQuery] = useState("(min-width: 600px) and (max-width: 900px)");
   const [profilePhoto,setprofilePhoto] = useState(props.location.state.profileImg);
+  const [bio, setBio] = useState(props.location.state.bio);
 
   useEffect(() => {
     getAllVoiceBlasts();
@@ -130,7 +131,7 @@ export default function VoiceBlastMain(props) {
            {newAudioComponent}
          </div> 
          <div style={{width:'80%'}}>
-         {audioList}
+         {audioList.length === 0?<img src={logo}/>:audioList}
          </div>
          <RecorderFooter newVoiceBlast={updtAudioList} />
         </div>
@@ -140,3 +141,7 @@ export default function VoiceBlastMain(props) {
 }
 // {//<Media query= {mediaQuery}>}
      //  {</Media>}
+     // if no voice blasts
+     // display graphic with instructions
+     // infinite scroll 
+     // only show 10

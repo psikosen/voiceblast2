@@ -19,8 +19,16 @@ function App() {
       <p>Already A Creator ?
           <a href = "/login" style={{textDecoration: 'underline'}}> Login Here </a> 
       </p>
+      <p> Explore 
+         <a href = "/explore" style={{textDecoration: 'underline'}}>
+          
+         </a> 
+      </p>
      </div>
   );
 }
 
+// Link them to the top creators in the platform
+// Show the top creator - Based off curated Listed
+// curatedList Table List 6 people curated Voice blast channels
 export default App;

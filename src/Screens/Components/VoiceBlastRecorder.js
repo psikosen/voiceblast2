@@ -6,7 +6,12 @@ import Timer from "./AccurateTimer";
 class CameraRecorder extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { recordMicrophone: null, isRecording: false };
+    this.state = { 
+                  recordMicrophone: null,
+                  isRecording: false,
+                  seconds:60 
+                 };
+
     this.requestUserMedia = this.requestUserMedia.bind(this);
     this.startRecord = this.startRecord.bind(this); 
     this.stopRecording = this.stopRecording.bind(this);
@@ -47,12 +52,24 @@ class CameraRecorder extends React.Component {
     return (
       <div >
         {this.state.isRecording ?
-         (
-          <div onClick={this.stopRecording} style={{ width:70,height:70, marginTop:150, marginLeft:-100 }}> 
-           <Timer initialSeconds={60}  />
+         (<div onClick={this.stopRecording} 
+               style={{ width:70,
+                        height:70,
+                        marginTop:150, 
+                        marginLeft:-100 }}> 
+           <Timer timeObj={{initialSeconds:60,
+                            initialMinutes:0 
+                          }} 
+                   stopRecording = {this.stopRecording} />
           </div>
-           ):
-         (<FaMicrophoneAlt  onClick={this.startRecord} style={{ width:70,height:70, marginTop:150, marginLeft:-100 }}/>)
+         ):
+         (<FaMicrophoneAlt onClick={this.startRecord} 
+                           style={{ width:70,
+                                    height:70, 
+                                    marginTop:150, 
+                                    marginLeft:-100 
+                                  }}/>
+          )
         }
       </div>
     )

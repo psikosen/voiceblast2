@@ -132,3 +132,7 @@ export default function VoiceDisplayIndividualUser(props) {
     </div>
   );
 }
+
+// more blasts from this creator
+// show atleast 3 of their latest blasts
+// Url Link to page highlighted Name their link
