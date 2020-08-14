@@ -5,16 +5,7 @@ import DarkModeToggle from "./DarkModeToggle";
 import ShareSocialListButton from "./Components/ShareSocialListButton";
 import { BrowserRouter as Route,  } from "react-router-dom";
 import * as ReactBootstrap from 'react-bootstrap';
-
-/*
-
- something i swrong with fixed header on reload
-#myHeader{
-  position:fixed
-}
-*/
-
-
+ 
 
 export default function FixedHeader({profilePhoto,userName,vburl,vbbio}) {
   const [shareList, setShareList] = useState(null);

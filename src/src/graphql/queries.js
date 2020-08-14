@@ -10,6 +10,7 @@ export const getVbuser = /* GraphQL */ `
       vbulastname
       vbuemail
       vbuurl
+      vbubio
       vbuimg
       vbulastlogin
       vbusignupdate
@@ -30,6 +31,7 @@ export const listVbusers = /* GraphQL */ `
         vbulastname
         vbuemail
         vbuurl
+        vbubio
         vbuimg
         vbulastlogin
         vbusignupdate
@@ -62,6 +64,52 @@ export const listVoiceblasts = /* GraphQL */ `
         vbuserid
         vbviews
         vbdatecreated
+      }
+      nextToken
+    }
+  }
+`;
+export const getFollower = /* GraphQL */ `
+  query GetFollower($vbuserid: String!) {
+    getFollower(vbuserid: $vbuserid) {
+      vbuserid
+      vbuserfollowerid
+    }
+  }
+`;
+export const listFollowers = /* GraphQL */ `
+  query ListFollowers(
+    $filter: TableFollowerFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listFollowers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        vbuserid
+        vbuserfollowerid
+      }
+      nextToken
+    }
+  }
+`;
+export const getFollowing = /* GraphQL */ `
+  query GetFollowing($vbuserid: String!) {
+    getFollowing(vbuserid: $vbuserid) {
+      vbuserid
+      vbuserfollowerid
+    }
+  }
+`;
+export const listFollowings = /* GraphQL */ `
+  query ListFollowings(
+    $filter: TableFollowingFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listFollowings(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        vbuserid
+        vbuserfollowerid
       }
       nextToken
     }

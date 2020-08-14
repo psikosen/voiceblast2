@@ -47,7 +47,7 @@ ReactDOM.render(
      <Route path = "/settings" component = {ProfileSettings} />
      <Route path = "/crp" component = {CreateProfile} />
      <Route path = "/vbm/" component = {VoiceBlastMain} />
-     <Route path = "/vbm/:id" component = {VoiceDisplayIndividualUser} />
+     <Route path = "/vbm/view/:id" component = {VoiceDisplayIndividualUser} />
      <Route path = "/vbm/share/:vbid" component = {individualVoiceBlast} />
     </Router>
   </React.StrictMode>,

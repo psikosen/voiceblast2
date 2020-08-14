@@ -10,6 +10,7 @@ export const createVbuser = /* GraphQL */ `
       vbulastname
       vbuemail
       vbuurl
+      vbubio
       vbuimg
       vbulastlogin
       vbusignupdate
@@ -25,6 +26,7 @@ export const updateVbuser = /* GraphQL */ `
       vbulastname
       vbuemail
       vbuurl
+      vbubio
       vbuimg
       vbulastlogin
       vbusignupdate
@@ -40,6 +42,7 @@ export const updateVbuserimg = /* GraphQL */ `
       vbulastname
       vbuemail
       vbuurl
+      vbubio
       vbuimg
       vbulastlogin
       vbusignupdate
@@ -55,6 +58,7 @@ export const deleteVbuser = /* GraphQL */ `
       vbulastname
       vbuemail
       vbuurl
+      vbubio
       vbuimg
       vbulastlogin
       vbusignupdate
@@ -83,6 +87,17 @@ export const updateVoiceblasts = /* GraphQL */ `
     }
   }
 `;
+export const updateVoiceblastsTitle = /* GraphQL */ `
+  mutation UpdateVoiceblastsTitle($input: UpdateVoiceblastsTitleInput!) {
+    updateVoiceblastsTitle(input: $input) {
+      vbid
+      vbaudpath
+      vbuserid
+      vbviews
+      vbdatecreated
+    }
+  }
+`;
 export const deleteVoiceblasts = /* GraphQL */ `
   mutation DeleteVoiceblasts($input: DeleteVoiceblastsInput!) {
     deleteVoiceblasts(input: $input) {
@@ -102,6 +117,54 @@ export const updateView = /* GraphQL */ `
       vbuserid
       vbviews
       vbdatecreated
+    }
+  }
+`;
+export const createFollower = /* GraphQL */ `
+  mutation CreateFollower($input: CreateFollowerInput!) {
+    createFollower(input: $input) {
+      vbuserid
+      vbuserfollowerid
+    }
+  }
+`;
+export const updateFollower = /* GraphQL */ `
+  mutation UpdateFollower($input: UpdateFollowerInput!) {
+    updateFollower(input: $input) {
+      vbuserid
+      vbuserfollowerid
+    }
+  }
+`;
+export const deleteFollower = /* GraphQL */ `
+  mutation DeleteFollower($input: DeleteFollowerInput!) {
+    deleteFollower(input: $input) {
+      vbuserid
+      vbuserfollowerid
+    }
+  }
+`;
+export const createFollowing = /* GraphQL */ `
+  mutation CreateFollowing($input: CreateFollowingInput!) {
+    createFollowing(input: $input) {
+      vbuserid
+      vbuserfollowerid
+    }
+  }
+`;
+export const updateFollowing = /* GraphQL */ `
+  mutation UpdateFollowing($input: UpdateFollowingInput!) {
+    updateFollowing(input: $input) {
+      vbuserid
+      vbuserfollowerid
+    }
+  }
+`;
+export const deleteFollowing = /* GraphQL */ `
+  mutation DeleteFollowing($input: DeleteFollowingInput!) {
+    deleteFollowing(input: $input) {
+      vbuserid
+      vbuserfollowerid
     }
   }
 `;

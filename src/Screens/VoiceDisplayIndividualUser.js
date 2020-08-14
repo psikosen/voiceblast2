@@ -59,7 +59,6 @@ export default function VoiceDisplayIndividualUser(props) {
           getAllVoiceBlasts();
 
         }else{
-          setError('Please Update Your Profile');
         }
       }
    }

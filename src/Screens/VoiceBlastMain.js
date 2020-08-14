@@ -159,11 +159,12 @@ export default function VoiceBlastMain(props) {
 
                     for(var i = 0 ; i < results.length;i++){
                       let aud = <li key = {`${i}o`}><AudioPlayerComp key = {`${i}a`}
-                                                     playTitle = {allVab[i].vbaudpath !== null?allVab[i].vbaudpath.split('.mp3'):''} 
+                                                     playTitle = {allVab[i].vbaudpath !== null? allVab[i].vbaudpath.split('.mp3')[0] : ''} 
                                                      playUrl = {`${results[i]}` } 
                                                      vbidd = {allVab[i].vbid} 
                                                      vbviews = {allVab[i].vbviews}
                                                      getAllVoiceBlasts = {getAllVoiceBlasts}
+                                                     vbusrid ={allVab[i].vbusrid}
                                                      > 
                                     </AudioPlayerComp>
                                 </li>;
