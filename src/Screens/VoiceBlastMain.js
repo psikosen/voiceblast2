@@ -26,7 +26,7 @@ export default function VoiceBlastMain(props) {
   const [nextToken, setNextToken] = useState(null);
   const [profilePhoto,setprofilePhoto] = useState("");
   const [userName, setUserName] = useState("");
-  const [userid, setUserid] = useState(props.location.state === undefined ? "" : props.location.state.usrid);
+  const [userid, setUserid] = useState(props.location.state === undefined ? "" : props.location.state.userid);
   const [vburl, setVburl] = useState("");
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName] = useState(""); 
@@ -79,7 +79,7 @@ export default function VoiceBlastMain(props) {
           setUserid(usrObj.vbuid);
           
           // fix later 
-          window.history.pushState('vbm/', ' ', `/vbm/${usrObj.vbuusername}`);
+          //window.history.pushState('vbm/', ' ', `/vbm/${usrObj.vbuusername}`);
 
           sessionStorage.setItem('userId', usrObj.vbuid);
 

@@ -6,17 +6,16 @@ import * as queries from './../src/graphql/queries';
 import * as mutations from './../src/graphql/mutations';
 import { AmplifySignOut } from '@aws-amplify/ui-react';
 
-export default function CreateProfile(props) {
+export default function EditProfile(props) {
    const [userName, setUserName] = useState("");
    const [firstName, setfirstName] = useState("");
    const [lastName, setlastName] = useState("");
    const [vburl, setVburl] = useState("");
-   const [userid, setUserid] = useState(props.location.state.usrid);
+   const [userid, setUserid] = useState("");
    const [profileImg, setprofileImg] = useState('');
    const [vbubio, setvbubio] = useState('');
    const [tempprofileImg, settempprofileImg] = useState('');
-   const [previewImage, setPreviewImage] = useState('');
-   const [creatingProfile,setCreatingProfile] = useState(true);
+   const [previewImage, setPreviewImage] = useState(''); 
    const [error, setError] = useState("");
   
    const history = useHistory();
@@ -28,6 +27,8 @@ export default function CreateProfile(props) {
    },[userid]);
     
    async function getUser(){
+      let userid = sessionStorage.getItem('userId');
+
       if(userid !== null){
 
         const oneUser = await API.graphql(graphqlOperation(queries.getVbuser , { vbuid: userid}));
@@ -74,7 +75,6 @@ export default function CreateProfile(props) {
                 console.log(result);
                 setPreviewImage(result);
                 setprofileImg(result);
-                setCreatingProfile(false);
               }).catch(err => console.log(err));
           }
          
@@ -84,7 +84,7 @@ export default function CreateProfile(props) {
       }
    }
 
-    async function updateProfile(){
+    async function editProfile(){
       if(validateForm());
 
       Storage.put(`${userid}.png`,tempprofileImg)
@@ -106,8 +106,7 @@ export default function CreateProfile(props) {
              Storage.get(result.key)
               .then(result =>{
                 console.log(result);
-                setprofileImg(result);
-                setCreatingProfile(false);
+                setprofileImg(result); 
                 
               }).catch(err => console.log(err));
            }
@@ -172,7 +171,8 @@ export default function CreateProfile(props) {
 
    async function signOut() {
         try {
-            await Auth.signOut();
+             await Auth.signOut();
+             history.push("/");
         } catch (error) {
             console.log('error signing out: ', error);
         }
@@ -181,7 +181,7 @@ export default function CreateProfile(props) {
   return (
 
   <div>
-   <AmplifySignOut  onClick={signOut} />
+   <AmplifySignOut style = {{width: '10%'}} onClick={signOut} />
 
     <div className="Login">
      <h3 style = {{textAlign:'center'}}>Your Profile</h3>
@@ -258,18 +258,13 @@ export default function CreateProfile(props) {
           />
         </FormGroup>
 
-         <div style={{ margin:'3%'}}>
-          {creatingProfile ?<Button style={{ margin:'2%'}} onClick={()=>updateProfile()} type="submit">
-             Update Profile
-          </Button>:
-          <Button style={{ margin:'2%'}} onClick={()=>goToProfile()}> Go Create</Button>
-           }
+         <div style={{ marginLeft:'30%'}}>
+          <Button style={{ margin:'2%'}} onClick={()=> editProfile()} type="submit">
+             Edit Profile
+          </Button>
          </div>
       </form>
     </div>
     </div>
   );
 }
-
-// Bio 40 char limit
-// plugin for user profile image

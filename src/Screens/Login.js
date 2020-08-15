@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { Button, FormGroup, FormCheck, FormControl, FormLabel  } from "react-bootstrap";
 import "./Css/Login.css";
-import Amplify, { Auth } from 'aws-amplify';
+import Amplify, { API, Auth, graphqlOperation } from 'aws-amplify';
+import * as queries from './../src/graphql/queries';
+import * as mutations from './../src/graphql/mutations';
+import * as subscriptions from './../src/graphql/subscriptions';
 import {useHistory} from "react-router-dom";
 
 
@@ -11,12 +14,21 @@ export default function Login(props) {
   const [error, setError] = useState("");
   const history = useHistory();
   
+   async function getUser(usrid){
+     const oneUser = await API.graphql(graphqlOperation(queries.getVbuser , { vbuid: usrid}));
+     
+     if(oneUser.data.getVbuser !== null){
+       let usrnm = oneUser.data.getVbuser.vbuusername;
+       await handleNavigation(usrid , usrnm);
+     }  
+   }
 
   async function signIn() {
     try {
       const user = await Auth.signIn(email, password);
       //console.log(user.username);
-      await handleNavigation(user.username);
+      getUser(user.username);
+      
     } catch (error) {
         //console.log('error signing in', error);
         setError(error.message);
@@ -44,9 +56,9 @@ export default function Login(props) {
     return false;
   }
 
-  function handleNavigation(username){
-
-    history.push(`/vbm/` ,{usrid: username});
+  function handleNavigation(usrid, username){
+   
+    history.push(`/vbm/${username}` ,{userid: usrid});
 
   }
 

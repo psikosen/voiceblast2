@@ -62,12 +62,14 @@ export default function SignUp() {
             password,
             attributes: {
                 email         
-            }
+            },
+            autoVerifyEmail:true
         });
+
         console.log(user);
         if(user.user !== null){
         	await createUser(user.userSub);
-          await history.push("/crp",{usrid: user.userSub});
+          await history.push("confimationCode",{usrid: user.userSub, username:username})
         }
     } catch (error) {
         console.log('error signing up:', error);
