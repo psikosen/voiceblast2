@@ -151,7 +151,7 @@ export default function CreateProfile(props) {
    
    function goToProfile(){
        if(validateForm())
-         history.push('/vbm/${userName}',{userid:userid});
+         history.push(`/vbm/${userName}`,{userid:userid});
    }
   
    async function handlePhotos(event) {

@@ -10,11 +10,9 @@ export default function ConfirmationCode(props){
    const [error, setError] = useState("");
    const history = useHistory();
 
-   function handleSubmit(){
-   		 confirmSignUp();
-   }
+ 
 
-   async function confirmSignUp() {
+   async function confirmCode() {
     try {
       await Auth.confirmSignUp(userName, confirmationCode);
       await history.push("/crp",{usrid: userID});
@@ -24,17 +22,17 @@ export default function ConfirmationCode(props){
    }
 
    function validateForm(){
-   	 if(confirmationCode.length < 5){
+   	 if(confirmationCode.length < 6){
    	 	setError("This Cannot Be Less than 5 Characters");
    	 	return false;
    	 }
-   	  handleSubmit();
+   	  confirmCode();
    	  return true
    }
 
    return (
    	 <div>
-     <form onSubmit={handleSubmit}>
+     <form  >
         <div style={{color:'red'}}>{error}</div>
         <FormGroup controlId="confirmationCode" >
           <FormLabel >Confirmation Code</FormLabel >
@@ -45,7 +43,7 @@ export default function ConfirmationCode(props){
             onChange={e => setConfirmationCode(e.target.value)}
           />
         </FormGroup>
-        <Button block disabled={!validateForm()} type="submit">
+        <Button block onClick={validateForm} type="submit">
           Submit
         </Button>
       </form>
