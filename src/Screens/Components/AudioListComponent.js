@@ -12,7 +12,7 @@ export default function AudioListComponent({playUrl, audioData, userid, setNewAu
     useEffect(()=>{
         document.getElementsByClassName('rhap_volume-controls')[0].style.display = 'none';
         document.getElementsByClassName('rhap_additional-controls')[0].style.display = 'none';
-        document.getElementsByClassName('rhap_time rhap_total-time')[0].style.display = 'none';
+        //document.getElementsByClassName('rhap_time rhap_total-time')[0].style.display = 'none';
         document.getElementsByClassName('rhap_current-time')[0].style.display = 'none';
     },[]);
 
@@ -31,7 +31,8 @@ export default function AudioListComponent({playUrl, audioData, userid, setNewAu
                   vbtitle: res.split('.mp3')[0],
                   vbaudpath: res,
                   vbuserid: userid,
-                  vbviews: 0
+                  vbviews: 0,
+                  //vbtime:
                 };
 
                  API.graphql(graphqlOperation(mutations.createVoiceblasts, {input: vbUpdate})).then((a)=>{

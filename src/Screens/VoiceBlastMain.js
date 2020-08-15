@@ -16,7 +16,11 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 
 export default function VoiceBlastMain(props) {
-  const [audioList, setAudioList] = useState([]);
+  const [fullAudioList, setFullAudioList] = useState([]);
+  const [previewAudioList, setPreviewAudioList] = useState([]);
+  const [prevRange, setPrevRange] = useState(0);
+  const [endRange, setEndRange] = useState(9);
+  
   const [audioListData, setAudioListData] = useState([]);
   const [newAudioFile, setNewAudioFile] = useState(null);
   const [playUrl, setPlayUrl] = useState(null);
@@ -125,7 +129,7 @@ export default function VoiceBlastMain(props) {
                <AudioListComponent  
                  audioData = {mp3b} 
                  playUrl = {plyUr}
-                 audioList = {audioList}
+                 audioList = {fullAudioList}
                  userid = {userid}
                  setNewAudioComponent = {setNewAudioComponent}
                  getAllVoiceBlasts = {getAllVoiceBlasts}
@@ -136,13 +140,13 @@ export default function VoiceBlastMain(props) {
 
   async function getAllVoiceBlasts(){
        
-       setAudioList([]);
+       setFullAudioList([]); 
        //const allVb = await API.graphql(graphqlOperation(queries.getVoiceblasts,{ vbuserid: userid}));
      
        const allVb = await API.graphql(graphqlOperation(queries.listVoiceblasts ,
                  { 
-                   filter:{vbuserid: {eq:userid}},
-                   nextToken: nextToken
+                   filter: { vbuserid: {eq:userid} },
+                   nextToken: nextToken 
                  }));
 
            if(allVb.data.listVoiceblasts === null)
@@ -159,6 +163,7 @@ export default function VoiceBlastMain(props) {
 
             let tempAudioList = audioListData;
             let finishedAudioList =[];
+
             if(audioListData.length > 0){
                 finishedAudioList = tempAudioList.concat(allVab);
              }else{
@@ -180,7 +185,7 @@ export default function VoiceBlastMain(props) {
  
             Promise.all(finishedMap).then(function(results) {
                 console.log(results);
-                 if(results.length > 0 ){ //{"http://voiceblastvb3181216-dev.s3.amazonaws.com/public/" + a.vbaudpath}
+                 if(results.length > 0 ){ //{"http://voiceblastvbz93181216-dev.s3.amazonaws.com/public/" + a.vbaudpath}
                     var newAudioList = [];
 
                     for(var i = 0 ; i < results.length;i++){
@@ -201,8 +206,10 @@ export default function VoiceBlastMain(props) {
                           newAudioList.push(aud); 
                     } 
                     
-                    setAudioList(newAudioList);
-
+                    var limitedAudioList = newAudioList.slice(0,10);
+                    setFullAudioList(newAudioList);
+                    setPreviewAudioList(limitedAudioList);
+                    
                     toggle('rhap_button-clear rhap_repeat-button','none');
                     toggle('rhap_button-clear rhap_volume-button','none');
                     //toggle('rhap_time rhap_current-time','none');
@@ -213,8 +220,22 @@ export default function VoiceBlastMain(props) {
           }
     }
     
-    function fetchVoiceBlasts(){
+    function fetchMoreVoiceBlasts(){
+          setPrevRange(prevRange + 9);
+          if(endRange < fullAudioList.length){
+            setEndRange(endRange + 9);
+          }else{
+            setEndRange(fullAudioList.length);
+          }
+          
+          let nextAudioList = previewAudioList.concat(fullAudioList.slice(prevRange,endRange));
+          setPreviewAudioList(null);
+          setPreviewAudioList(nextAudioList);
 
+          toggle('rhap_button-clear rhap_repeat-button','none');
+          toggle('rhap_button-clear rhap_volume-button','none');
+                    //toggle('rhap_time rhap_current-time','none');
+          toggle('rhap_time rhap_total-time','none');
     }
 
       function toggle(className, displayState){
@@ -243,9 +264,9 @@ export default function VoiceBlastMain(props) {
  
              <InfiniteScroll
                 style={{width:'100%', top:'20px',  padding:'20%'}}
-                dataLength = {audioList.length}
-                next={getAllVoiceBlasts}
-                hasMore={nextToken === null ? false : true}
+                dataLength = {0}
+                next={fetchMoreVoiceBlasts} 
+                hasMore={endRange < fullAudioList.length ? true:false}
                 loader={<h4>Loading...</h4>}
                 height={200}
                 endMessage={
@@ -253,7 +274,7 @@ export default function VoiceBlastMain(props) {
                     <b>End Of Voice Blasts</b>
                   </p>
                 }>
-                {audioList}
+                {previewAudioList}
               </InfiniteScroll> 
 
          <RecorderFooter newVoiceBlast={updtAudioList} />
