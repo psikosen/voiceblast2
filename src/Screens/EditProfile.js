@@ -169,19 +169,9 @@ export default function EditProfile(props) {
     }
   }
 
-   async function signOut() {
-        try {
-             await Auth.signOut();
-             history.push("/");
-        } catch (error) {
-            console.log('error signing out: ', error);
-        }
-    }
-
   return (
 
   <div>
-   <AmplifySignOut style = {{width: '10%'}} onClick={signOut} />
 
     <div className="Login">
      <h3 style = {{textAlign:'center'}}>Your Profile</h3>

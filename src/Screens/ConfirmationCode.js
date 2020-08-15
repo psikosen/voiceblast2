@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
 import Amplify, { Auth, API, graphqlOperation } from 'aws-amplify';
@@ -10,7 +9,7 @@ export default function ConfirmationCode(props){
    const [userID, setUserID] = useState(props.location.state.usrid);
    const [error, setError] = useState("");
    const history = useHistory();
-   
+
    function handleSubmit(){
    		 confirmSignUp();
    }
@@ -32,7 +31,9 @@ export default function ConfirmationCode(props){
    	  handleSubmit();
    	  return true
    }
+
    return (
+   	 <div>
      <form onSubmit={handleSubmit}>
         <div style={{color:'red'}}>{error}</div>
         <FormGroup controlId="confirmationCode" >
@@ -44,9 +45,10 @@ export default function ConfirmationCode(props){
             onChange={e => setConfirmationCode(e.target.value)}
           />
         </FormGroup>
-       <Button block  disabled={!validateForm()} type="submit">
+        <Button block disabled={!validateForm()} type="submit">
           Submit
         </Button>
       </form>
+      </div>
    );
 }

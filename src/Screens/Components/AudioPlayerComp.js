@@ -101,6 +101,14 @@ export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusri
 	   	 var vbdate = new Date(time);
              if(isToday(vbdate)){
              	var timeVBPosted = new Date().getHours() - vbdate.getHours();
+             	if(timeVBPosted === 0){
+             	    timeVBPosted = new Date().getMinutes() - vbdate.getMinutes();
+             	    if(timeVBPosted === 0){
+             	       timeVBPosted = new Date().getSeconds() - vbdate.getSeconds();
+             	       return timeVBPosted > 1 ? `${timeVBPosted} Seconds Ago`: `${timeVBPosted} Second Ago`;
+             	    }
+             	   return timeVBPosted > 1 ? `${timeVBPosted} Minutes Ago`: `${timeVBPosted} Minute Ago`;
+             	}
 
              	return timeVBPosted > 1 ? `${timeVBPosted} Hours Ago`: `${timeVBPosted} hour Ago`;
              }else{

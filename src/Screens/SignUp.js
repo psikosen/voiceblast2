@@ -28,7 +28,7 @@ export default function SignUp() {
     return false;
   }
  
-  async function createUser(usrid){
+  async function createUser(usrid,username){
    	var awsDate = new Date().toISOString();
 
         const profileCreated = {
@@ -39,6 +39,7 @@ export default function SignUp() {
        };
         await API.graphql(graphqlOperation(mutations.createVbuser, {input: profileCreated})).then((a)=>{
             console.log(a);
+            history.push("/confimationCode", {usrid: usrid, username:username})
         });
    }
 
@@ -62,14 +63,12 @@ export default function SignUp() {
             password,
             attributes: {
                 email         
-            },
-            autoVerifyEmail:true
+            } 
         });
 
         console.log(user);
         if(user.user !== null){
-        	await createUser(user.userSub);
-          await history.push("confimationCode",{usrid: user.userSub, username:username})
+        	await createUser(user.userSub,username); 
         }
     } catch (error) {
         console.log('error signing up:', error);
