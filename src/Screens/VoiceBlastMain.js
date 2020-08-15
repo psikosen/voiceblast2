@@ -137,16 +137,23 @@ export default function VoiceBlastMain(props) {
   async function getAllVoiceBlasts(){
        
        setAudioList([]);
-
+       //const allVb = await API.graphql(graphqlOperation(queries.getVoiceblasts,{ vbuserid: userid}));
+     
        const allVb = await API.graphql(graphqlOperation(queries.listVoiceblasts ,
-                 { vbuserid: userid,
+                 { 
+                   filter:{vbuserid: {eq:userid}},
                    nextToken: nextToken,
                    limit:4
                  }));
 
-        console.log(allVb);
+           if(allVb.data.listVoiceblasts === null)
+             return false;
+
+            console.log(allVb);
 
             let allVab = allVb.data.listVoiceblasts.items;
+            
+            if(allVab.length > 0){
             setNextToken(allVb.data.listVoiceblasts.nextToken);
 
             console.log(allVab);
@@ -197,8 +204,9 @@ export default function VoiceBlastMain(props) {
                     //toggle('rhap_time rhap_current-time','none');
                     toggle('rhap_time rhap_total-time','none');
                   }  
+                
             })
-          
+          }
     }
     
     function fetchVoiceBlasts(){
