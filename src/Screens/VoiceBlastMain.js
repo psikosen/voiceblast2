@@ -142,8 +142,7 @@ export default function VoiceBlastMain(props) {
        const allVb = await API.graphql(graphqlOperation(queries.listVoiceblasts ,
                  { 
                    filter:{vbuserid: {eq:userid}},
-                   nextToken: nextToken,
-                   limit:4
+                   nextToken: nextToken
                  }));
 
            if(allVb.data.listVoiceblasts === null)
@@ -159,7 +158,12 @@ export default function VoiceBlastMain(props) {
             console.log(allVab);
 
             let tempAudioList = audioListData;
-            let finishedAudioList = tempAudioList.concat(allVab);
+            let finishedAudioList =[];
+            if(audioListData.length > 0){
+                finishedAudioList = tempAudioList.concat(allVab);
+             }else{
+                finishedAudioList = allVab;
+             }
 
             let sortedAudioList = finishedAudioList.sort(function(a,b){
                       console.log(b);
