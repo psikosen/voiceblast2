@@ -15,13 +15,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ShareSocialListButton from "./ShareSocialListButton";
 import * as ReactBootstrap from 'react-bootstrap';
 
-export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusrid, vbviews, getAllVoiceBlasts}) {
+export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusrid, vbviews, vbdatecreated, getAllVoiceBlasts}) {
 	   const [vbid, setVbid] = useState(vbidd);
 	   const [vbvw, setVbvw] = useState(vbviews);
        const [show, setShow] = useState(false);
        const [currentPlayTitle,setCurrentPlayTitle] = useState(playTitle);
-       const [originalPlayTitle,] = useState(playTitle);
-       
+       const [originalPlayTitle,] = useState(playTitle); 
        const [editingTitle, isEditingTitle] = useState(false);
        const [displayAdditionOptions, setDisplayAdditionOptions] = useState(null);
        const [displaying, IsDisplaying] = useState(false);
@@ -98,7 +97,25 @@ export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusri
                 });
 	   }
 
-       return (
+	   function timeOfPost(time){
+	   	 var vbdate = new Date(time);
+             if(isToday(vbdate)){
+             	var timeVBPosted = new Date().getHours() - vbdate.getHours();
+
+             	return timeVBPosted > 1 ? `${timeVBPosted} Hours Ago`: `${timeVBPosted} hour Ago`;
+             }else{
+             	return new Date(time).toLocaleDateString();
+             }
+	   }
+
+    const isToday = (someDate) => {
+	  const today = new Date()
+	  return someDate.getDate() == today.getDate() &&
+	    someDate.getMonth() == today.getMonth() &&
+	    someDate.getFullYear() == today.getFullYear()
+	}
+
+    return (
       <>
         <Modal show={show} onHide={handleCancel}>
 	        <Modal.Header closeButton>
@@ -130,8 +147,12 @@ export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusri
 	          </div>
 	         )
 	        :
-	       <p>{currentPlayTitle}</p>
+	       <div>
+	        <p>{currentPlayTitle}</p>
+	        <p>{timeOfPost(vbdatecreated)}</p>
+	       </div>
           }
+
         <p>{vbvw}</p>
         <AudioPlayer
               showSkipControls = {false}
