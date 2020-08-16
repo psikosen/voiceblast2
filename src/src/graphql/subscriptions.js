@@ -118,19 +118,29 @@ export const onDeleteVbuser = /* GraphQL */ `
 export const onCreateVoiceblasts = /* GraphQL */ `
   subscription OnCreateVoiceblasts(
     $vbid: String
-    $vbaudpath: String
     $vbtitle: String
+    $vbaudpath: String
     $vbuserid: String
     $vbviews: Int
     $vbdatecreated: AWSDateTime
+    $vbuimg: String
+    $vbuusername: String
+    $vbufullname: String
+    $vbuurl: String
+    $vbubio: String
   ) {
     onCreateVoiceblasts(
       vbid: $vbid
-      vbaudpath: $vbaudpath
       vbtitle: $vbtitle
+      vbaudpath: $vbaudpath
       vbuserid: $vbuserid
       vbviews: $vbviews
       vbdatecreated: $vbdatecreated
+      vbuimg: $vbuimg
+      vbuusername: $vbuusername
+      vbufullname: $vbufullname
+      vbuurl: $vbuurl
+      vbubio: $vbubio
     ) {
       vbid
       vbtitle
@@ -138,6 +148,11 @@ export const onCreateVoiceblasts = /* GraphQL */ `
       vbuserid
       vbviews
       vbdatecreated
+      vbuimg
+      vbuusername
+      vbufullname
+      vbuurl
+      vbubio
     }
   }
 `;
@@ -149,6 +164,11 @@ export const onDeleteVoiceblasts = /* GraphQL */ `
     $vbuserid: String
     $vbviews: Int
     $vbdatecreated: AWSDateTime
+    $vbuimg: String
+    $vbuusername: String
+    $vbufullname: String
+    $vbuurl: String
+    $vbubio: String
   ) {
     onDeleteVoiceblasts(
       vbid: $vbid
@@ -157,6 +177,11 @@ export const onDeleteVoiceblasts = /* GraphQL */ `
       vbuserid: $vbuserid
       vbviews: $vbviews
       vbdatecreated: $vbdatecreated
+      vbuimg: $vbuimg
+      vbuusername: $vbuusername
+      vbufullname: $vbufullname
+      vbuurl: $vbuurl
+      vbubio: $vbubio
     ) {
       vbid
       vbtitle
@@ -164,6 +189,11 @@ export const onDeleteVoiceblasts = /* GraphQL */ `
       vbuserid
       vbviews
       vbdatecreated
+      vbuimg
+      vbuusername
+      vbufullname
+      vbuurl
+      vbubio
     }
   }
 `;

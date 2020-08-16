@@ -48,8 +48,7 @@ ReactDOM.render(
        {window.location.pathname === '/'        ||
         window.location.pathname === '/login'   ||
         window.location.pathname === '/signup'  ||
-        window.location.pathname === '/explore' ||
-        window.location.pathname === '/settings'||
+        window.location.pathname === '/explore' || 
         window.location.pathname === '/confimationCode'||
         window.location.pathname === '/forgottenPass' ||
         window.location.pathname === '/crp'
@@ -58,6 +57,7 @@ ReactDOM.render(
          <a href={"/"} title={"Log Out"}> <GrLogout style={{float:'right' }} onClick={signOut} /> </a>
          <a href={"/settings"}> <FiSettings style={{float:'right'}}/> </a>
          <a href={"/editProfile"}> <BsFillPersonFill style={{float:'right', marginLeft:5 }}/> </a>
+         
         </div>
         }  
 

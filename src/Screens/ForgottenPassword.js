@@ -3,8 +3,7 @@ import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
 import {AiOutlineEye} from "react-icons/ai";
 import {AiFillEyeInvisible} from "react-icons/ai";
 import "./Css/styles.scss";
-import Modal from "react-bootstrap/Modal"; 
-import {  useHistory  } from "react-router-dom";
+import Modal from "react-bootstrap/Modal";  
 import Amplify, { Auth,  } from 'aws-amplify';
 
 export default function ForgottenPassword() {
@@ -15,8 +14,7 @@ export default function ForgottenPassword() {
   const [passwordType, setPasswordType] = useState("password");
  
   const [confirmationCode, setConfirmationCode] = useState("");
-  const [new_password, setNew_password] = useState("");
-  const [codeBeingSubmited, setCodeBeingSubmited] = useState(true);
+  const [new_password, setNew_password] = useState(""); 
   
 
   const handleCancel = () => setShow(false);

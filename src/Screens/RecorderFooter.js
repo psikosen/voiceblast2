@@ -27,7 +27,7 @@ export default function RecorderFooter({ newVoiceBlast }) {
     }
   };
 
-  useEffect(() => {
+  useEffect(() => { 
     const header = document.getElementById("myHeader");
     const sticky = header.offsetTop;
     const scrollCallBack = window.addEventListener("scroll", () => {

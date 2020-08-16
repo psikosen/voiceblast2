@@ -101,7 +101,7 @@ export default function VoiceBlastMain(props) {
           let usrfn = usrObj.vbufirstname;
           let usrln = usrObj.vbulastname;
           let usrimg = usrObj.vbuimg;
-          let usrbio = usrObj.vbbio;
+          let usrbio = usrObj.vbubio;
           
           setUserid(usrObj.vbuid);
           
@@ -127,7 +127,7 @@ export default function VoiceBlastMain(props) {
           }
 
           if(usrbio){
-            setVbbio(vbbio);
+            setVbbio(usrbio);
           }
 
           if(usrimg){
@@ -319,11 +319,18 @@ export default function VoiceBlastMain(props) {
                              height:70,  
                              marginLeft:-100 
                          }}
-                    onClick={()=>history.push("/videoRecorder",{userName:userName, usrid:userid})} />
+                    onClick={()=>history.push("/videoRecorder",
+                                              {userName:userName,
+                                               usrid:userid,
+                                               usrurl:vburl,
+                                               usrimg:profilePhoto,
+                                               fullName:`${firstName} ${lastName[0]}`,
+                                               usrbio:vbbio
+
+                                             })} />
               </li>
             </ul>
           </div>  
-              
             {/*<RecorderFooter newVoiceBlast={updtAudioList} />*/}
         </div>
        </Media>

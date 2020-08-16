@@ -74,6 +74,11 @@ export const createVoiceblasts = /* GraphQL */ `
       vbuserid
       vbviews
       vbdatecreated
+      vbuimg
+      vbuusername
+      vbufullname
+      vbuurl
+      vbubio
     }
   }
 `;
@@ -86,6 +91,11 @@ export const updateVoiceblasts = /* GraphQL */ `
       vbuserid
       vbviews
       vbdatecreated
+      vbuimg
+      vbuusername
+      vbufullname
+      vbuurl
+      vbubio
     }
   }
 `;
@@ -98,6 +108,11 @@ export const updateVoiceblastsTitle = /* GraphQL */ `
       vbuserid
       vbviews
       vbdatecreated
+      vbuimg
+      vbuusername
+      vbufullname
+      vbuurl
+      vbubio
     }
   }
 `;
@@ -110,6 +125,11 @@ export const deleteVoiceblasts = /* GraphQL */ `
       vbuserid
       vbviews
       vbdatecreated
+      vbuimg
+      vbuusername
+      vbufullname
+      vbuurl
+      vbubio
     }
   }
 `;
@@ -122,6 +142,27 @@ export const updateView = /* GraphQL */ `
       vbuserid
       vbviews
       vbdatecreated
+      vbuimg
+      vbuusername
+      vbufullname
+      vbuurl
+      vbubio
+    }
+  }
+`;
+export const updateLastLogin = /* GraphQL */ `
+  mutation UpdateLastLogin($input: updateVbuserLastLoginInput!) {
+    updateLastLogin(input: $input) {
+      vbuid
+      vbuusername
+      vbufirstname
+      vbulastname
+      vbuemail
+      vbuurl
+      vbubio
+      vbuimg
+      vbulastlogin
+      vbusignupdate
     }
   }
 `;

@@ -49,6 +49,11 @@ export const getVoiceblasts = /* GraphQL */ `
       vbuserid
       vbviews
       vbdatecreated
+      vbuimg
+      vbuusername
+      vbufullname
+      vbuurl
+      vbubio
     }
   }
 `;
@@ -66,6 +71,11 @@ export const listVoiceblasts = /* GraphQL */ `
         vbuserid
         vbviews
         vbdatecreated
+        vbuimg
+        vbuusername
+        vbufullname
+        vbuurl
+        vbubio
       }
       nextToken
     }

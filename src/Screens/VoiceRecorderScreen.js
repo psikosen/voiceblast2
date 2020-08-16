@@ -14,6 +14,15 @@ export default function VoiceRecorderScreen(props) {
   const [newAudioComponent, setNewAudioComponent] = useState();
   const [newAudioFile, setNewAudioFile] = useState(null);
   const [playUrl, setPlayUrl] = useState(null);
+  const [usrUrl, setUsrUrl] = useState(props.location.state === undefined ? "": 
+                                       props.location.state.usrurl);
+  const [fullName, setFullName] = useState(props.location.state === undefined ? "": 
+                                       props.location.state.fullName);
+  const [usrbio, setusrbio] = useState(props.location.state === undefined ? "": 
+                                       props.location.state.usrbio);
+  const [usrimg, setusrimg] = useState(props.location.state === undefined ? "": 
+                                       props.location.state.usrimg);
+  
    
     async function handleSubmit(event) {
     
@@ -23,7 +32,6 @@ export default function VoiceRecorderScreen(props) {
     function updtAudioList(plyUr,mp3b) {
       //setNewAudioFile(mp3b);
       setPlayUrl(plyUr);
-
       //setHideNewAudio(true);
       let newComp = (
                  <AudioListComponent  
@@ -32,9 +40,18 @@ export default function VoiceRecorderScreen(props) {
                    userid = {userid}
                    setNewAudioComponent = {setNewAudioComponent}
                    navigateBackToMain = {navigateBackToMain}
+                   usrObj = {
+                            {
+                            vbuurl:usrUrl,
+                            vbuusername:userName,
+                            vbubio:usrbio,
+                            vbufullName:fullName,
+                            vbuimg:usrimg  
+                            }
+                          }
                   />
                );
-
+        setNewAudioComponent(null);
         setNewAudioComponent(newComp);
         toggle('rhap_time rhap_current-time','none');
     }
@@ -61,7 +78,8 @@ export default function VoiceRecorderScreen(props) {
            {newAudioComponent}
        </div>
  
-        <RecorderFooter newVoiceBlast={updtAudioList} topPost = {'45%'} />
+        <RecorderFooter newVoiceBlast={updtAudioList} topPost = {'45%'} 
+            />
       </div>
   );
 }

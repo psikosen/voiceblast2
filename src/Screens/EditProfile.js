@@ -148,9 +148,8 @@ export default function EditProfile(props) {
         e.preventDefault();
     }
    
-   function goToProfile(){
-       if(validateForm())
-         history.push('/vbm/${userName}',{userid:userid});
+   function goToProfile(){ 
+         history.push(`/vbm/${userName}`,{userid:userid});
    }
   
    async function handlePhotos(event) {
@@ -174,7 +173,10 @@ export default function EditProfile(props) {
   <div>
 
     <div className="Login">
-     <h3 style = {{textAlign:'center'}}>Your Profile</h3>
+     <div  >
+        <Button onClick ={goToProfile}>Back To Profile</Button>
+        <h3 style = {{textAlign:'center'}}>Your Profile</h3>
+     </div>
      <p style={{textAlign:'center',color:'red'}}>{error}</p>
     <form onSubmit={handleSubmit}>
      {profileImg === ''? 

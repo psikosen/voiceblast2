@@ -29,20 +29,35 @@ export default function Login(props) {
      }
         
    } 
-   async function getUser(usrid){
+
+  async function getUser(usrid){
      const oneUser = await API.graphql(graphqlOperation(queries.getVbuser , { vbuid: usrid}));
      
      if(oneUser.data.getVbuser !== null){
        let usrnm = oneUser.data.getVbuser.vbuusername;
+
+       await updateLogin(usrid);
        await handleNavigation(usrid , usrnm);
      }  
-   }
+  }
+
+  async function updateLogin(usrid){
+     var awsDate = new Date().toISOString();
+     console.log('===============');
+
+     API.graphql(graphqlOperation(mutations.updateLastLogin, {input: {vbuid: usrid, vbulastlogin: awsDate}})).then((a)=>{
+                     console.log(a);
+     console.log('===============');
+                });
+     
+      
+  }  
 
   async function signIn() {
     try {
       const user = await Auth.signIn(email, password);
       //console.log(user.username);
-      getUser(user.username);
+      await getUser(user.username);
       
     } catch (error) {
         //console.log('error signing in', error);
