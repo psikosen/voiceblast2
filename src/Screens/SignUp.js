@@ -1,6 +1,7 @@
-
 import React, { useState } from "react";
 import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
+import {AiOutlineEye} from "react-icons/ai";
+import {AiFillEyeInvisible} from "react-icons/ai";
 import Amplify, { Auth, API, graphqlOperation } from 'aws-amplify';
 //import * as queries from './src/graphql/queries';
 import * as mutations from './../src/graphql/mutations';
@@ -13,12 +14,25 @@ export default function SignUp() {
   const [password, setPassword] = useState("");
   const [passwordRty, setPasswordRty] = useState("");
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordType, setPasswordType] = useState("password");
+ 
   const history = useHistory();
 /*  useEffect(()=>{
       document.getElementById('mainMenu').style.display="none";
 
   },[]);*/
- 
+   function showOrHidePasswordText(){
+     if(!showPassword){
+        setPasswordType("text");
+        setShowPassword(true);
+     }else{
+        setPasswordType("password");
+        setShowPassword(false);
+     }
+        
+   } 
+
   function validateForm() {
     if(validateEmail){
   	 if(email.length > 0 && password.length > 0 && password === passwordRty){
@@ -91,11 +105,16 @@ export default function SignUp() {
         </FormGroup>
 
         <FormGroup controlId="password" >
-          <FormLabel>Password</FormLabel>
+          <FormLabel>
+             Password
+           <span onClick={showOrHidePasswordText}>  
+             {showPassword ?<AiFillEyeInvisible/> :<AiOutlineEye />}
+           </span>
+          </FormLabel>
           <FormControl
             value={password}
             onChange={e => setPassword(e.target.value)}
-            type="password"
+            type={passwordType}
           />
         </FormGroup>
 
@@ -104,7 +123,7 @@ export default function SignUp() {
           <FormControl
             value={passwordRty}
             onChange={e => setPasswordRty(e.target.value)}
-            type="password"
+            type= {passwordType}
           />
         </FormGroup>
 

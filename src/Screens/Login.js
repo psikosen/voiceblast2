@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Button, FormGroup, FormCheck, FormControl, FormLabel  } from "react-bootstrap";
 import "./Css/Login.css";
+import {AiOutlineEye} from "react-icons/ai";
+import {AiFillEyeInvisible} from "react-icons/ai";
 import Amplify, { API, Auth, graphqlOperation } from 'aws-amplify';
 import * as queries from './../src/graphql/queries';
 import * as mutations from './../src/graphql/mutations';
@@ -13,7 +15,20 @@ export default function Login(props) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const history = useHistory();
-  
+  const [showPassword, setShowPassword] = useState(false);
+  const [passwordType, setPasswordType] = useState("password");
+    
+
+  function showOrHidePasswordText(){
+     if(!showPassword){
+        setPasswordType("text");
+        setShowPassword(true);
+     }else{
+        setPasswordType("password");
+        setShowPassword(false);
+     }
+        
+   } 
    async function getUser(usrid){
      const oneUser = await API.graphql(graphqlOperation(queries.getVbuser , { vbuid: usrid}));
      
@@ -82,11 +97,16 @@ export default function Login(props) {
           />
         </FormGroup>
         <FormGroup controlId="password" >
-          <FormLabel>Password</FormLabel>
+          <FormLabel>
+             Password
+           <span onClick={showOrHidePasswordText}>  
+              {showPassword ?<AiFillEyeInvisible/> :<AiOutlineEye />}
+           </span>
+          </FormLabel>
           <FormControl
             value={password}
             onChange={e => setPassword(e.target.value)}
-            type="password"
+            type={passwordType}
           />
         </FormGroup>
 

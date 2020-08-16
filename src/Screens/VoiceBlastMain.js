@@ -236,6 +236,10 @@ export default function VoiceBlastMain(props) {
           toggle('rhap_button-clear rhap_volume-button','none');
                     //toggle('rhap_time rhap_current-time','none');
           toggle('rhap_time rhap_total-time','none');
+
+          if(previewAudioList.length >= fullAudioList.length ){
+               setEndRange(fullAudioList.length);
+          } 
     }
 
       function toggle(className, displayState){
@@ -266,7 +270,7 @@ export default function VoiceBlastMain(props) {
                 style={{width:'100%', top:'20px',  padding:'20%'}}
                 dataLength = {0}
                 next={fetchMoreVoiceBlasts} 
-                hasMore={endRange < fullAudioList.length ? true:false}
+                hasMore={endRange >= fullAudioList.length ?true: false}
                 loader={<h4>Loading...</h4>}
                 height={200}
                 endMessage={
