@@ -290,14 +290,17 @@ export default function VoiceBlastMain(props) {
      {/*    <div style = {{marginTop:'10%', height: '100%', overflowY: 'scroll' }}>
            {newAudioComponent}
          </div>*/}
- 
+       <div 
+             style={{padding:20, margin:30, marginLeft:'20%', 
+                     width:'60%',border: '2px solid black', 
+                     height:'90%'}} > 
              <InfiniteScroll
-                style={{width:'100%', top:'20px',  padding:'20%'}}
+                style={{width:'100%', top:'40px',  padding:'20%'}}
                 dataLength = {0}
                 next={fetchMoreVoiceBlasts} 
                 hasMore={endRange <= fullAudioList.length ? true : false}
                 loader={<h4>Loading...</h4>}
-                height={200}
+                height={600}
                 endMessage={
                   <p style={{ textAlign: "center" }}>
                     <b>End Of Voice Blasts</b>
@@ -305,6 +308,7 @@ export default function VoiceBlastMain(props) {
                 }>
                   {previewAudioList}
               </InfiniteScroll>
+            </div>
 
           <div id="myHeader" style={styles.sticky}>
             <ul>
