@@ -17,6 +17,7 @@ import ProfileSettings from './Screens/ProfileSettings';
 import VoiceBlastMain from './Screens/VoiceBlastMain';
 import ConfirmationCode from './Screens/ConfirmationCode';
 import individualVoiceBlast from './Screens/Components/individualVoiceBlast';
+import VoiceRecorderScreen from './Screens/VoiceRecorderScreen';
 import VoiceDisplayIndividualUser from './Screens/VoiceDisplayIndividualUser';
 
 import { BrowserRouter as Router, Route, withRouter   } from "react-router-dom";
@@ -70,6 +71,7 @@ ReactDOM.render(
      <Route path = "/settings" component = {ProfileSettings} />
      <Route path = "/crp" component = {CreateProfile} />
      <Route path = "/editProfile" component = {EditProfile} />
+     <Route path = "/videoRecorder" component = {VoiceRecorderScreen} />
      <Route path = "/vbm/:id" component = {VoiceBlastMain} />
      <Route path = "/vbm/view/:id" component = {VoiceDisplayIndividualUser} />
      <Route path = "/vbm/view/:vbid" component = {individualVoiceBlast} />

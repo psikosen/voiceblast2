@@ -6,7 +6,7 @@ import * as queries from './../../src/graphql/queries';
 import * as mutations from './../../src/graphql/mutations';
 
 
-export default function AudioListComponent({playUrl, audioData, userid, setNewAudioComponent, getAllVoiceBlasts}) {
+export default function AudioListComponent({playUrl, audioData, userid, setNewAudioComponent}) {
   const [voiceBlastTitle, setVoiceBlastTitle] = useState("");
    
     useEffect(()=>{
@@ -38,7 +38,6 @@ export default function AudioListComponent({playUrl, audioData, userid, setNewAu
                  API.graphql(graphqlOperation(mutations.createVoiceblasts, {input: vbUpdate})).then((a)=>{
                      console.log(a);
                      setNewAudioComponent(null);
-                     getAllVoiceBlasts();  
                 });
 
                        

@@ -17,7 +17,7 @@ export default function ForgottenPassword() {
   const [confirmationCode, setConfirmationCode] = useState("");
   const [new_password, setNew_password] = useState("");
   const [codeBeingSubmited, setCodeBeingSubmited] = useState(true);
-  const history = useHistory();
+  
 
   const handleCancel = () => setShow(false);
   const handleShow = () => setShow(true);

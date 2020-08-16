@@ -1,9 +1,11 @@
 import React, {useEffect, useState } from "react";
+import { FaMicrophoneAlt } from "react-icons/fa";
 import RecorderFooter from "./RecorderFooter";
 import FixedHeader from "./FixedHeader";
 import AudioPlayerComp from "./Components/AudioPlayerComp";
 import AudioListComponent from "./Components/AudioListComponent";
 import "./Css/styles.scss";
+import {  useHistory  } from "react-router-dom";
 import AudioPlayer from 'react-h5-audio-player';
 import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
 import { API, graphqlOperation, Storage  } from "aws-amplify";
@@ -14,12 +16,31 @@ import Media from "react-media";
 import logo from './Images/vlogo.png'; 
 import InfiniteScroll from "react-infinite-scroll-component";
 
+  let styles = {
+    header: {
+      display: "flex",
+      justifyContent: "center"
+    },
+    sticky: {
+      position: "fixed",
+      top: "85%",
+      width: "100%",
+      marginLeft: "50%"
+    },
+    list: {
+      listStyle: "none",
+      width: "100%",
+      borderRadius: 60,
+      borderColor: "white",
+      borderWidth: 5
+    }
+  };
 
 export default function VoiceBlastMain(props) {
   const [fullAudioList, setFullAudioList] = useState([]);
   const [previewAudioList, setPreviewAudioList] = useState([]);
-  const [prevRange, setPrevRange] = useState(0);
-  const [endRange, setEndRange] = useState(9);
+  const [prevRange, setPrevRange] = useState(9);
+  const [endRange, setEndRange] = useState(18);
   
   const [audioListData, setAudioListData] = useState([]);
   const [newAudioFile, setNewAudioFile] = useState(null);
@@ -36,6 +57,7 @@ export default function VoiceBlastMain(props) {
   const [lastName, setlastName] = useState(""); 
   const [vbbio, setVbbio] = useState("");
   const [error, setError] = useState("");   
+  const history = useHistory();
 
   useEffect(() => {
     // reload not working properly the page returns no data
@@ -120,7 +142,7 @@ export default function VoiceBlastMain(props) {
     }
    }
 
-  function updtAudioList(plyUr,mp3b) {
+/*  function updtAudioList(plyUr,mp3b) {
     setNewAudioFile(mp3b);
     setPlayUrl(plyUr);
 
@@ -136,7 +158,7 @@ export default function VoiceBlastMain(props) {
                 />
              );
         setNewAudioComponent(newComp);
-  }
+  }*/
 
   async function getAllVoiceBlasts(){
        
@@ -221,6 +243,10 @@ export default function VoiceBlastMain(props) {
     }
     
     function fetchMoreVoiceBlasts(){
+          if(previewAudioList.length >= fullAudioList.length ){
+               setEndRange(nextAudioList.length + 1);
+          }
+
           setPrevRange(prevRange + 9);
           if(endRange < fullAudioList.length){
             setEndRange(endRange + 9);
@@ -229,17 +255,15 @@ export default function VoiceBlastMain(props) {
           }
           
           let nextAudioList = previewAudioList.concat(fullAudioList.slice(prevRange,endRange));
-          setPreviewAudioList(null);
+          //setPreviewAudioList(null);
           setPreviewAudioList(nextAudioList);
 
           toggle('rhap_button-clear rhap_repeat-button','none');
           toggle('rhap_button-clear rhap_volume-button','none');
-                    //toggle('rhap_time rhap_current-time','none');
+          //toggle('rhap_time rhap_current-time','none');
           toggle('rhap_time rhap_total-time','none');
 
-          if(previewAudioList.length >= fullAudioList.length ){
-               setEndRange(fullAudioList.length);
-          } 
+           
     }
 
       function toggle(className, displayState){
@@ -262,15 +286,15 @@ export default function VoiceBlastMain(props) {
                            vbbio={vbbio}
                        />
 
-         <div style = {{marginTop:'10%', height: '100%', overflowY: 'scroll' }}>
+     {/*    <div style = {{marginTop:'10%', height: '100%', overflowY: 'scroll' }}>
            {newAudioComponent}
-         </div>
+         </div>*/}
  
              <InfiniteScroll
                 style={{width:'100%', top:'20px',  padding:'20%'}}
                 dataLength = {0}
                 next={fetchMoreVoiceBlasts} 
-                hasMore={endRange >= fullAudioList.length ?true: false}
+                hasMore={endRange <= fullAudioList.length ? true : false}
                 loader={<h4>Loading...</h4>}
                 height={200}
                 endMessage={
@@ -278,15 +302,31 @@ export default function VoiceBlastMain(props) {
                     <b>End Of Voice Blasts</b>
                   </p>
                 }>
-                {previewAudioList}
-              </InfiniteScroll> 
+                  {previewAudioList}
+              </InfiniteScroll>
 
-         <RecorderFooter newVoiceBlast={updtAudioList} />
+          <div id="myHeader" style={styles.sticky}>
+            <ul>
+              <li style={styles.list}>
+             <FaMicrophoneAlt  
+                    style={{ width:70,
+                             height:70,  
+                             marginLeft:-100 
+                         }}
+                    onClick={()=>history.push("/videoRecorder",{userName:userName, usrid:userName})} />
+              </li>
+            </ul>
+          </div>  
+              
+            {/*<RecorderFooter newVoiceBlast={updtAudioList} />*/}
         </div>
        </Media>
     </>
   );
 }
+
+
+
 // {//<Media query= {mediaQuery}>}
      //  {</Media>}
      // if no voice blasts
