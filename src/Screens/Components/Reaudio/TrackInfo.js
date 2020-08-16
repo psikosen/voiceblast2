@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 
-const TrackInfo = ({ trackName, trackArtist, trackImage }) => {
+const TrackInfo = ({ trackName, trackArtist, trackImage, trackDate }) => {
     return (
         <div className="track-info">
             {trackImage && (
@@ -13,7 +13,9 @@ const TrackInfo = ({ trackName, trackArtist, trackImage }) => {
                 {trackArtist && (
                     <Fragment>
                         <span className="track-divider">&nbsp; - &nbsp;</span>
-                        <span className="track-artist">{trackArtist}</span>
+                        <span className="track-artist">{trackArtist} </span>
+                        <span className="track-date">{trackDate}</span>
+                        
                     </Fragment>
                 )}
             </div>

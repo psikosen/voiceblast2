@@ -10,6 +10,7 @@ const Player = ({
     trackName,
     trackArtist,
     trackImage,
+    trackDate,
     loop,
     preload,
     showTrackInfo,
@@ -86,6 +87,7 @@ const Player = ({
                     <TrackInfo
                         trackName={trackName}
                         trackArtist={trackArtist}
+                        trackDate = {trackDate}
                         trackImage={trackImage ? trackImage : null}
                     />
                 )}

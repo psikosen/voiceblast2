@@ -30,7 +30,7 @@ const Bar = ({ duration, curTime, onTimeUpdate }) => {
 
     return (
         <div className="bar">
-            <span className="bar__time">
+            {/*<span className="bar__time">
                 {!isNaN(curTime) ? secondsToTime(+curTime) : 0}
             </span>
             <div
@@ -44,8 +44,8 @@ const Bar = ({ duration, curTime, onTimeUpdate }) => {
                     className="bar__progress__knob"
                     style={{ left: `${curPercentage - 1}%` }}
                 />
-            </div>
-            <span className="bar__time">
+            </div>*/}
+            <span className="bar__time" >
                 {!isNaN(duration) ? secondsToTime(+duration) : 0}
             </span>
         </div>

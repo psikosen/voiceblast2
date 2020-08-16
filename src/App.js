@@ -68,6 +68,11 @@ function App() {
           Explore
          </a> 
       </p>
+       <p>  
+         <a href = "/audioPlayList" style={{textDecoration: 'underline'}}>
+          Explore 2
+         </a> 
+      </p>
       {AddCuratedUsers()}
      </div>
   );

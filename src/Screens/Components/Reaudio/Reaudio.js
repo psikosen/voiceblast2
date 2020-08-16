@@ -51,7 +51,7 @@ const Reaudio = ({ playlist }) => {
         <div className="reaudio">
             {playlist.map((track, index) => {
                 const slug = slugify(
-                    track.trackName + '-' + track.trackArtist + '-' + track.id
+                    track.trackName + '-' + track.trackArtist + '-' + track.id + '_ ' +track.trackDate
                 )
                 return (
                     <Player
@@ -63,6 +63,7 @@ const Reaudio = ({ playlist }) => {
                         trackName={track.trackName}
                         trackArtist={track.trackArtist}
                         trackImage={track.trackImage}
+                        trackDate = {track.trackDate}
                         loop={track.loop}
                         isCurrent={
                             currentPlayer && currentPlayer.id === slug
