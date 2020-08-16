@@ -16,6 +16,7 @@ export default function VoiceRecorderScreen(props) {
   const [playUrl, setPlayUrl] = useState(null);
    
     async function handleSubmit(event) {
+    
      return false;
     }
 
@@ -30,8 +31,10 @@ export default function VoiceRecorderScreen(props) {
                    playUrl = {plyUr}
                    userid = {userid}
                    setNewAudioComponent = {setNewAudioComponent}
+                   navigateBackToMain = {navigateBackToMain}
                   />
                );
+
         setNewAudioComponent(newComp);
         toggle('rhap_time rhap_current-time','none');
     }
@@ -44,7 +47,7 @@ export default function VoiceRecorderScreen(props) {
     }
 
    function navigateBackToMain(){
-         history.push(`/vbm/${userName}`)
+         history.push(`/vbm/${userName}`, {userid:userid})
    }
 
    function validateForm() {
@@ -58,7 +61,7 @@ export default function VoiceRecorderScreen(props) {
            {newAudioComponent}
        </div>
  
-        <RecorderFooter newVoiceBlast={updtAudioList} />
+        <RecorderFooter newVoiceBlast={updtAudioList} topPost = {'45%'} />
       </div>
   );
 }

@@ -3,7 +3,7 @@ import RecordRTC from 'recordrtc';
 import { FaMicrophoneAlt } from "react-icons/fa";
 import Timer from "./AccurateTimer";
 
-class CameraRecorder extends React.Component {
+class VoiceBlastRecorder extends React.Component {
   constructor(props) {
     super(props);
     this.state = { 
@@ -76,4 +76,4 @@ class CameraRecorder extends React.Component {
   }
 }
 
-export default CameraRecorder;
+export default VoiceBlastRecorder;

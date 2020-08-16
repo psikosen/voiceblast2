@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { FaMicrophoneAlt } from "react-icons/fa";
-import CameraRecorder from './CameraRecorder';
+import VoiceBlastRecorder from './VoiceBlastRecorder';
 import RecordRTC from 'recordrtc';
 import 'react-voice-recorder/dist/index.css';
 import Timer from "./AccurateTimer";
 
-export default function RecorderFooter({ newVoiceBlast }) {
+export default function RecorderFooter({ newVoiceBlast, topPost }) {
 
   let styles = {
     header: {
@@ -14,7 +14,7 @@ export default function RecorderFooter({ newVoiceBlast }) {
     },
     sticky: {
       position: "fixed",
-      top: "45%",
+      top: {topPost},
       width: "100%",
       marginLeft: "50%"
     },
@@ -47,7 +47,7 @@ export default function RecorderFooter({ newVoiceBlast }) {
       <header id="myHeader" style={styles.sticky}>
         <ul>
           <li style={styles.list}>
-          <CameraRecorder newVoiceBlast = {newVoiceBlast}/>
+          <VoiceBlastRecorder newVoiceBlast = {newVoiceBlast}/>
           </li>
         </ul>
       </header>

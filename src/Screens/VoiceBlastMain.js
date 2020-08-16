@@ -51,7 +51,8 @@ export default function VoiceBlastMain(props) {
   const [nextToken, setNextToken] = useState(null);
   const [profilePhoto,setprofilePhoto] = useState("");
   const [userName, setUserName] = useState("");
-  const [userid, setUserid] = useState(props.location.state === undefined ? "" : props.location.state.userid);
+  const [userid, setUserid] = useState(props.location.state === undefined ? "" : 
+                                       props.location.state.userid);
   const [vburl, setVburl] = useState("");
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName] = useState(""); 
@@ -234,8 +235,8 @@ export default function VoiceBlastMain(props) {
                     
                     toggle('rhap_button-clear rhap_repeat-button','none');
                     toggle('rhap_button-clear rhap_volume-button','none');
-                    //toggle('rhap_time rhap_current-time','none');
-                    toggle('rhap_time rhap_total-time','none');
+                    toggle('rhap_time rhap_current-time','none');
+                    //toggle('rhap_time rhap_total-time','none');
                   }  
                 
             })
@@ -313,7 +314,7 @@ export default function VoiceBlastMain(props) {
                              height:70,  
                              marginLeft:-100 
                          }}
-                    onClick={()=>history.push("/videoRecorder",{userName:userName, usrid:userName})} />
+                    onClick={()=>history.push("/videoRecorder",{userName:userName, usrid:userid})} />
               </li>
             </ul>
           </div>  
