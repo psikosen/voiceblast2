@@ -295,6 +295,7 @@ export default function VoiceBlastMain(props) {
                      width:'60%',border: '2px solid black', 
                      height:'90%'}} > 
              <InfiniteScroll
+                className="hide-native-scrollbar"
                 style={{width:'100%', top:'40px',  padding:'20%'}}
                 dataLength = {0}
                 next={fetchMoreVoiceBlasts} 

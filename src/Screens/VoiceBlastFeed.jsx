@@ -5,7 +5,7 @@ import * as mutations from './../src/graphql/mutations';
 import * as subscriptions from './../src/graphql/subscriptions';
 import InfiniteScroll from "react-infinite-scroll-component";
 import AudioPlayerComp from "./Components/AudioPlayerComp";
-
+import "./Css/styles.scss";
 
 export default function VoiceBlastFeed() {
   const [audioList, setAudioList] = useState([]);
@@ -95,8 +95,9 @@ export default function VoiceBlastFeed() {
 
 
   return (
-     <div>
+     <div  >
      <InfiniteScroll
+
                 style={{width:'100%', top:'20px',  padding:'20%'}}
                 dataLength = {audioList.length}
                 next={getAllVoiceBlasts}

@@ -134,12 +134,13 @@ export default function Explore() {
     }
 
   return (
-    <div  style={{padding:20, margin:30, marginLeft:'20%', 
+    <div  className ={"hide-native-scrollbar"}
+                    style={{padding:20, margin:30, marginLeft:'20%', 
                      width:'60%',border: '2px solid black', 
                       height:'400px'}}>
-
+      <div >
        <InfiniteScroll
-                style={{width:'100%', top:'20px',  padding:'20%'}}
+                style={{width:'100%', top:'20px', height:'370px', padding:'1%'}}
                 dataLength = {fullAudioList.length}
                 next={fetchMoreVoiceBlasts} 
                 hasMore={endRange <= fullAudioList.length ? true : false}
@@ -152,6 +153,7 @@ export default function Explore() {
                 }>
                   {previewAudioList}
         </InfiniteScroll>
+        </div>
     </div>
   );
 }
