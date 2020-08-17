@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   EmailShareButton,
   FacebookShareButton,
@@ -8,12 +8,16 @@ import {
   WhatsappShareButton,
 } from "react-share";
 
-export default function individualVoiceBlast(){
+export default function IndividualVoiceBlast(props){
+    const [userid, setUserid] = useState(props.location.state === undefined ? "" : 
+                                       props.location.state.userid);
+    const [vbidd, setVbidd] = useState(props.location.state === undefined ? "" : 
+                                       props.location.state.vbidd);
 	return(
         <div>
-        	// audio player
-        	// audio tract title
-        	// duration
+        	/*audio player
+        	audio tract title
+        	duration*/
         </div>
 		);
 }

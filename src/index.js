@@ -16,7 +16,7 @@ import Explore from './Screens/Explore';
 import ProfileSettings from './Screens/ProfileSettings';
 import VoiceBlastMain from './Screens/VoiceBlastMain';
 import ConfirmationCode from './Screens/ConfirmationCode';
-import individualVoiceBlast from './Screens/Components/individualVoiceBlast';
+import IndividualVoiceBlast from './Screens/Components/IndividualVoiceBlast';
 import AudioPlayList from './Screens/AudioPlayList';
 import VoiceRecorderScreen from './Screens/VoiceRecorderScreen';
 import ProfileDisplayIndividualUser from './Screens/ProfileDisplayIndividualUser';
@@ -91,8 +91,8 @@ ReactDOM.render(
      <Route path = "/editProfile" component = {EditProfile} />
      <Route path = "/videoRecorder" component = {VoiceRecorderScreen} />
      <Route path = "/vbm/:id" component = {VoiceBlastMain} />
-     <Route path = "/vb/view/:username" component = {ProfileDisplayIndividualUser} />
-     <Route path = "/vb/view/:vbid" component = {individualVoiceBlast} />
+     <Route path = "/vb/view:username" component = {ProfileDisplayIndividualUser} />
+     <Route path = "/vb/view/ivb:username" component = {IndividualVoiceBlast} />
     </Router>
 
   </React.StrictMode>,

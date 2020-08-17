@@ -42,7 +42,11 @@ export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusri
        const history = useHistory();
       
       function checkOutUsersProfile(){
-      	   history.push(`/vb/view/${vbUsrObj.vbuusername}`, {userid:vbUsrObj.vbusrid, viewOnly:true} );
+      	   history.push(`/vb/view:${vbUsrObj.vbuusername}`, {userid:vbUsrObj.vbusrid, viewOnly:true} );
+      }
+      
+      function goToIndividualVoiceBlast(){
+      	   history.push(`/vb/view/ivb:${vbUsrObj.vbuusername}`, {userid:vbUsrObj.vbusrid, vbidd:vbidd } );
       }
 
 	  function editTitle(){
@@ -180,7 +184,7 @@ export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusri
 		        src={vbUsrObj.vbuimg ===""?"":vbUsrObj.vbuimg} 
 		        width={20} height={30}/>
 		    <p onClick={checkOutUsersProfile}>{vbUsrObj.vbufullname} </p> 
-	        <p style={{color:'skyblue'}} onDoubleClick ={()=>alert('Im Gay')}>{currentPlayTitle}</p>
+	        <p style={{color:'skyblue'}} onClick ={goToIndividualVoiceBlast}>{currentPlayTitle}</p>
 	        <p>{timeOfPost(vbdatecreated)}</p>
 	       </div>
           }
