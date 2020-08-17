@@ -159,23 +159,6 @@ export default function VoiceBlastMain(props) {
     }
    }
 
-/*  function updtAudioList(plyUr,mp3b) {
-    setNewAudioFile(mp3b);
-    setPlayUrl(plyUr);
-
-    //setHideNewAudio(true);
-    let newComp = (
-               <AudioListComponent  
-                 audioData = {mp3b} 
-                 playUrl = {plyUr}
-                 audioList = {fullAudioList}
-                 userid = {userid}
-                 setNewAudioComponent = {setNewAudioComponent}
-                 getAllVoiceBlasts = {getAllVoiceBlasts}
-                />
-             );
-        setNewAudioComponent(newComp);
-  }*/
 
   async function getAllVoiceBlasts(){
        
