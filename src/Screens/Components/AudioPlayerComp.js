@@ -182,8 +182,8 @@ export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusri
 	            alt={""}
 		        style={styles.image} 
 		        src={vbUsrObj.vbuimg ===""?"":vbUsrObj.vbuimg} 
-		        width={20} height={30}/>
-		    <p onClick={checkOutUsersProfile}>{vbUsrObj.vbufullname} </p> 
+		        width={30} height={30}/>
+		    <p style={{color:'green'}}  onClick={checkOutUsersProfile}>{vbUsrObj.vbufullname} </p> 
 	        <p style={{color:'skyblue'}} onClick ={goToIndividualVoiceBlast}>{currentPlayTitle}</p>
 	        <p>{timeOfPost(vbdatecreated)}</p>
 	       </div>

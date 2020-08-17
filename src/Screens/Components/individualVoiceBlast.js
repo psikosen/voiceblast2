@@ -141,7 +141,9 @@ export default function IndividualVoiceBlast(props){
                                                      > 
                                     </AudioPlayerComp>
                                 </li>;
-                         
+                          if(i === 1){
+                             newAudioList.push( <div>More from this user</div>); 
+                          }
                           newAudioList.push(aud); 
                     } 
                     

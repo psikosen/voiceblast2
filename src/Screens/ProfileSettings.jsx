@@ -10,18 +10,31 @@ import * as subscriptions from './../src/graphql/subscriptions';
 // delete account
 export default function ProfileSettings() {
        const [show, setShow] = useState(false);
+       const [oldPassword,setOldpassword] = useState("");
+       const [newPassword,setNewPassword] = useState("");
+       const [newPasswordRty,setNewPasswordRty] = useState(""); 
+
 	   const handleCancel = () => setShow(false);
        const handleShow = () => setShow(true);
 
 	   useEffect(() => {
-	   
+	    
 
 	       return () => {
 	    };
 	  }, []);
+  function changePassword(){
+  	 if(oldPassword !== '' && newPassword !== '' && newPasswordRty !== '' && (newPassword === newPasswordRty)){
+  	  let usrid = sessionStorage.getItem('userid');
+  	  // or user id ?
+  	  // email
+  	  Auth.currentAuthenticatedUser() .then(user => {
+        return Auth.changePassword(usrid, oldPassword, newPassword);
+      }).then(data => console.log(data)).catch(err => console.log(err));}
+  }
 
-	   function deleteUserAccount(){
-	      setShow(false);
+  function deleteUserAccount(){
+ 	      setShow(false);
 
 	      let vbid = sessionStorage.getItem('userId');
 
@@ -32,7 +45,7 @@ export default function ProfileSettings() {
                  API.graphql(graphqlOperation(mutations.deleteVbuser, {input: deleteVB})).then((a)=>{
                      console.log(a);
                 });
-	   }
+  }
 
   return (
     <div>
@@ -50,9 +63,45 @@ export default function ProfileSettings() {
 	          </Button>
 	        </Modal.Footer>
 	    </Modal>
-	  
-       <Button onclick={handleShow}> Delete Your Account </Button>
 
+	    <div style={{padding:20, margin:30, marginLeft:'20%', 
+                     width:'55%',border: '2px solid black', 
+                      height:'500px'}}>
+        <FormGroup controlId="changePass" >
+          <FormLabel style={{width:'30%', margin:'2%', marginLeft:'20%'}}> Old Password</FormLabel >
+          <FormControl
+            autoFocus
+            type="text"
+            style={{width:'50%',margin:'2%', marginLeft:'20%'}}
+            value={oldPassword}
+            onChange={e => setOldpassword(e.target.value)}
+          />
+        </FormGroup>
+	    <FormGroup controlId="changePass" >
+          <FormLabel style={{width:'30%', margin:'2%', marginLeft:'20%'}}>  Password</FormLabel >
+          <FormControl
+            autoFocus
+            type="text"
+            style={{width:'50%',margin:'2%', marginLeft:'20%'}}
+            value={newPassword}
+            onChange={e => setNewPassword(e.target.value)}
+          />
+        </FormGroup>
+        <FormGroup controlId="changePass" >
+          <FormLabel style={{width:'30%', margin:'2%', marginLeft:'20%'}}>Reenter Password </FormLabel >
+          <FormControl
+            autoFocus
+            type="text"
+            style={{width:'50%', marginLeft:'20%'}}
+            value={newPasswordRty}
+            onChange={e => setNewPasswordRty(e.target.value)}
+          />
+        </FormGroup>
+        <ul className={"vertical-menu"} style={{width:'20%', margin:'2%', marginLeft:'18%'}} >
+         <Button style={{width:'300%'}} onClick={changePassword}>Change Password </Button>
+         <Button style={{width:'300%', backgroundColor:'red', marginTop:'18%'}} onClick={handleShow}> Delete Your Account </Button>
+       </ul>
+     </div>
     </div>
   );
 }
