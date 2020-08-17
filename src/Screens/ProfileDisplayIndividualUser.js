@@ -15,6 +15,8 @@ import * as subscriptions from './../src/graphql/subscriptions';
 import Media from "react-media";
 import logo from './Images/vlogo.png'; 
 import InfiniteScroll from "react-infinite-scroll-component";
+import Amplify, { Auth } from 'aws-amplify';
+
 
   let styles = {
     header: {
@@ -36,6 +38,20 @@ import InfiniteScroll from "react-infinite-scroll-component";
     }
   };
 
+async function ionViewCanEnter(){
+    return await Auth.currentAuthenticatedUser()
+      .then(() => {
+       return true; 
+     })
+      .catch(() => {
+       document.getElementById('logout').remove();
+       document.getElementById('setting').remove();
+       document.getElementById('editProfile').remove();
+       return false; 
+     });
+
+}
+
 export default function VoiceBlastMain(props) {
   const [fullAudioList, setFullAudioList] = useState([]);
   const [previewAudioList, setPreviewAudioList] = useState([]);
@@ -50,7 +66,7 @@ export default function VoiceBlastMain(props) {
   const [mediaQuery, setMediaQuery] = useState("(min-width: 600px) and (max-width: 900px)");
   const [nextToken, setNextToken] = useState(null);
   const [profilePhoto,setprofilePhoto] = useState("");
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState(""); 
   const [userid, setUserid] = useState(props.location.state === undefined ? "" : 
                                        props.location.state.userid);
   const [vburl, setVburl] = useState("");
@@ -64,7 +80,7 @@ export default function VoiceBlastMain(props) {
     // reload not working properly the page returns no data
     getUser();
     getAllVoiceBlasts();
-
+    ionViewCanEnter();
     return ()=>{
 
        if(!window.orientation || !window.screen.orientation) {
@@ -164,7 +180,6 @@ export default function VoiceBlastMain(props) {
   async function getAllVoiceBlasts(){
        
        setFullAudioList([]); 
-       //const allVb = await API.graphql(graphqlOperation(queries.getVoiceblasts,{ vbuserid: userid}));
      
        const allVb = await API.graphql(graphqlOperation(queries.listVoiceblasts ,
                  { 
@@ -220,8 +235,8 @@ export default function VoiceBlastMain(props) {
                                                      vbidd = {sortedAudioList[i].vbid} 
                                                      vbviews = {sortedAudioList[i].vbviews}
                                                      getAllVoiceBlasts = {getAllVoiceBlasts}
+                                                     viewOnly={true}
                                                      vbusrid ={sortedAudioList[i].vbusrid}
-                                                     viewOnly ={false}
                                                      vbdatecreated = {sortedAudioList[i].vbdatecreated}
                                                      vbUsrObj = {{
                                                         vbuimg:sortedAudioList[i].vbuimg === null?"":sortedAudioList[i].vbuimg ,
@@ -318,28 +333,7 @@ export default function VoiceBlastMain(props) {
                 }>
                   {previewAudioList}
               </InfiniteScroll>
-            </div> 
-          <div id="myHeader" style={styles.sticky}>
-            <ul>
-              <li style={styles.list}>
-             <FaMicrophoneAlt  
-                    style={{ width:70,
-                             height:70,  
-                             marginLeft:-100 
-                         }}
-                    onClick={()=>history.push("/videoRecorder",
-                                              {userName:userName,
-                                               usrid:userid,
-                                               usrurl:vburl,
-                                               usrimg:profilePhoto,
-                                               fullName:`${firstName} ${lastName[0]}`,
-                                               usrbio:vbbio
-
-                                             })} />
-              </li>
-            </ul>
-          </div>  
-            {/*<RecorderFooter newVoiceBlast={updtAudioList} />*/}
+            </div>
         </div>
        </Media>
     </>

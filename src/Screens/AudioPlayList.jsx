@@ -24,7 +24,7 @@ export default function AudioPlayList( ) {
      const [prevRange, setPrevRange] = useState(9);
      const [endRange, setEndRange] = useState(18);
      const [audioListData, setAudioListData] = useState([]);
-  	 const[playList,setPlayList] = useState([]);
+  	 const [playList,setPlayList] = useState([]);
 
 	  useEffect(() => {
 	   	getAllVoiceBlasts();

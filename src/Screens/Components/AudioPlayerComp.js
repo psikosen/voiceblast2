@@ -14,11 +14,23 @@ import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ShareSocialListButton from "./ShareSocialListButton";
 import * as ReactBootstrap from 'react-bootstrap';
+import {useHistory} from "react-router-dom";
 
-export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusrid, vbviews, vbdatecreated, getAllVoiceBlasts}) {
+  let styles = {
+    
+      image: {
+        float: "left",
+        margin: 1
+      },
+    };
+
+
+export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusrid, vbviews,
+                                         vbdatecreated, getAllVoiceBlasts,viewOnly, vbUsrObj}) {
 	   const [vbid, setVbid] = useState(vbidd);
 	   const [vbvw, setVbvw] = useState(vbviews);
        const [show, setShow] = useState(false);
+       const [tusername, setTusrname] = useState(vbUsrObj.userName); 
        const [currentPlayTitle,setCurrentPlayTitle] = useState(playTitle);
        const [originalPlayTitle,] = useState(playTitle); 
        const [editingTitle, isEditingTitle] = useState(false);
@@ -27,6 +39,12 @@ export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusri
 	   const handleCancel = () => setShow(false);
        const handleShow = () => {setDisplayAdditionOptions(null);setShow(true);}
 	   
+       const history = useHistory();
+      
+      function checkOutUsersProfile(){
+      	   history.push(`/vb/view/${vbUsrObj.vbuusername}`, {userid:vbUsrObj.vbusrid, viewOnly:true} );
+      }
+
 	  function editTitle(){
 	  	  setDisplayAdditionOptions(null);
 	  	  isEditingTitle(true);
@@ -156,7 +174,13 @@ export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusri
 	         )
 	        :
 	       <div>
-	        <p>{currentPlayTitle}</p>
+	        <img 
+	            alt={""}
+		        style={styles.image} 
+		        src={vbUsrObj.vbuimg ===""?"":vbUsrObj.vbuimg} 
+		        width={20} height={30}/>
+		    <p onClick={checkOutUsersProfile}>{vbUsrObj.vbufullname} </p> 
+	        <p style={{color:'skyblue'}} onDoubleClick ={()=>alert('Im Gay')}>{currentPlayTitle}</p>
 	        <p>{timeOfPost(vbdatecreated)}</p>
 	       </div>
           }
@@ -170,6 +194,7 @@ export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusri
               src={playUrl}
               onPlay={() => newView()}
           />
+         {viewOnly === true?null:
          <div>
          <BsThreeDots onClick={showAdditionalItems} />
           {displayAdditionOptions}
@@ -179,13 +204,11 @@ export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusri
                   placement="bottom"
                   path ={"google.com"}
                   overlay={<ShareSocialListButton/>} containerPadding={2}>
-            <FiShare2 />
-
+            <FiShare2 />  
           </ReactBootstrap.OverlayTrigger>
          </div>
-        </div>
-      
-	  
+         }
+        </div> 
         </>
        	)
 }

@@ -17,7 +17,7 @@ export default function Explore() {
   
   useEffect(() => {
    	getAllVoiceBlasts();
-
+    sessionStorage.setItem('userId','');
     return () => {
     };
   }, []);
@@ -71,7 +71,8 @@ export default function Explore() {
 
                     for(var i = 0 ; i < results.length;i++){
                       let aud = <li key = {`${i}o`}   >
-                                    <AudioPlayerComp key = {`${i}a`}
+                                    <AudioPlayerComp 
+                                                     key = {`${i}a`}
                                                      playTitle = {sortedAudioList[i].vbtitle !== null? sortedAudioList[i].vbtitle : ''} 
                                                      playUrl = {`${results[i]}`} 
                                                      playPath = {sortedAudioList[i].vbaudpath}
@@ -79,7 +80,17 @@ export default function Explore() {
                                                      vbviews = {sortedAudioList[i].vbviews}
                                                      getAllVoiceBlasts = {getAllVoiceBlasts}
                                                      vbusrid ={sortedAudioList[i].vbusrid}
+                                                     viewOnly = {true}
                                                      vbdatecreated = {sortedAudioList[i].vbdatecreated}
+                                                     vbUsrObj = {{
+                                                        vbuimg:sortedAudioList[i].vbuimg === null?"":sortedAudioList[i].vbuimg.split('?')[0] ,
+                                                        vbuusername:sortedAudioList[i].vbuusername,
+                                                        vbuurl:sortedAudioList[i].vbuurl,
+                                                        vbubio:sortedAudioList[i].vbubio,
+                                                        vbufullname:sortedAudioList[i].vbufullname,
+                                                        vbusrid:sortedAudioList[i].vbuserid
+                                                          }
+                                                      } 
                                                      > 
                                     </AudioPlayerComp>
                                 </li>;

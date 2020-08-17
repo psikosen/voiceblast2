@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { API, graphqlOperation, Storage  } from "aws-amplify";
+import {useHistory} from "react-router-dom";
 import * as queries from './../src/graphql/queries';
 import * as mutations from './../src/graphql/mutations';
 import * as subscriptions from './../src/graphql/subscriptions';
@@ -12,6 +13,7 @@ export default function VoiceBlastFeed() {
   const [audioListData, setAudioListData] = useState([]);
   const [nextToken, setNextToken] = useState(null);
   const [error, setError] = useState("");   
+  const history = useHistory();
 
   useEffect(() => {
     getAllVoiceBlasts();
