@@ -1,19 +1,12 @@
 import React, {useEffect, useState } from "react";
-import { FaMicrophoneAlt } from "react-icons/fa";
-import RecorderFooter from "./RecorderFooter";
+import { FaMicrophoneAlt } from "react-icons/fa"; 
 import FixedHeader from "./FixedHeader";
 import AudioPlayerComp from "./Components/AudioPlayerComp";
-import AudioListComponent from "./Components/AudioListComponent";
 import "./Css/styles.scss";
 import {  useHistory  } from "react-router-dom";
-import AudioPlayer from 'react-h5-audio-player';
-import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
-import { API, graphqlOperation, Storage  } from "aws-amplify";
+import { API, graphqlOperation, Storage,Auth  } from "aws-amplify";
 import * as queries from './../src/graphql/queries';
-import * as mutations from './../src/graphql/mutations';
-import * as subscriptions from './../src/graphql/subscriptions';
 import Media from "react-media";
-import logo from './Images/vlogo.png'; 
 import InfiniteScroll from "react-infinite-scroll-component";
 
   let styles = {
@@ -43,9 +36,6 @@ export default function VoiceBlastMain(props) {
   const [endRange, setEndRange] = useState(18);
   
   const [audioListData, setAudioListData] = useState([]);
-  const [newAudioFile, setNewAudioFile] = useState(null);
-  const [playUrl, setPlayUrl] = useState(null);
-  const [newAudioComponent, setNewAudioComponent] = useState();
   const [isMobile, setMobile] = useState(false);
   const [mediaQuery, setMediaQuery] = useState("(min-width: 600px) and (max-width: 900px)");
   const [nextToken, setNextToken] = useState(null);
@@ -57,14 +47,32 @@ export default function VoiceBlastMain(props) {
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName] = useState(""); 
   const [vbbio, setVbbio] = useState("");
-  const [error, setError] = useState("");   
+  const [userAuthenticated, setUserAuthenticated] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
     // reload not working properly the page returns no data
-    getUser();
-    getAllVoiceBlasts();
+    async function ionViewCanEnter(){
+    return await Auth.currentAuthenticatedUser()
+      .then(() => { 
+        getUser(); 
+        document.getElementById('vbfeed').onclick =()=> history.push('/vbf/',{userid:userid});
+        setUserAuthenticated(true);
+       return true; 
+     })
+      .catch(() => {
+       setUserAuthenticated(false);
+       
+       sessionStorage.setItem('username','');
+       sessionStorage.setItem('userId',''); 
+     
+       history.push('/');
 
+       return false; 
+     });
+    }
+    ionViewCanEnter();
+    
     return ()=>{
 
        if(!window.orientation || !window.screen.orientation) {
@@ -103,17 +111,17 @@ export default function VoiceBlastMain(props) {
           let usrimg = usrObj.vbuimg;
           let usrbio = usrObj.vbubio;
           
-          setUserid(usrObj.vbuid);
-          
-          // fix later 
-          //window.history.pushState('vbm/', ' ', `/vbm/${usrObj.vbuusername}`);
+          setUserid(usrObj.vbuid); 
 
           sessionStorage.setItem('userId', usrObj.vbuid);
 
           if(usrnm){
              setUserName(usrnm);  
+             sessionStorage.setItem('username',usrnm);
           }
-          
+
+          document.getElementById('vbmain').onclick =()=> history.push(`/vbm/:${usrnm}`,{userid:userid});
+    
           if(usrurl){ 
              setVburl(usrurl);
           }
@@ -135,32 +143,14 @@ export default function VoiceBlastMain(props) {
               .then(result =>{
                 console.log(result);
                 setprofilePhoto(result);
-                
+                getAllVoiceBlasts();
               }).catch(err => console.log(err));
           }
         } 
       }
     }
    }
-
-/*  function updtAudioList(plyUr,mp3b) {
-    setNewAudioFile(mp3b);
-    setPlayUrl(plyUr);
-
-    //setHideNewAudio(true);
-    let newComp = (
-               <AudioListComponent  
-                 audioData = {mp3b} 
-                 playUrl = {plyUr}
-                 audioList = {fullAudioList}
-                 userid = {userid}
-                 setNewAudioComponent = {setNewAudioComponent}
-                 getAllVoiceBlasts = {getAllVoiceBlasts}
-                />
-             );
-        setNewAudioComponent(newComp);
-  }*/
-
+ 
   async function getAllVoiceBlasts(){
        
        setFullAudioList([]); 
@@ -168,8 +158,7 @@ export default function VoiceBlastMain(props) {
      
        const allVb = await API.graphql(graphqlOperation(queries.listVoiceblasts ,
                  { 
-                   filter: { vbuserid: {eq:userid} },
-                   nextToken: nextToken 
+                   filter: { vbuserid: {eq:userid} }
                  }));
 
            if(allVb.data.listVoiceblasts === null)
@@ -213,7 +202,8 @@ export default function VoiceBlastMain(props) {
 
                     for(var i = 0 ; i < results.length;i++){
                       let aud = <li key = {`${i}o`}>
-                                    <AudioPlayerComp key = {`${i}a`}
+                                    <AudioPlayerComp  
+                                                     key = {`${i}a`}
                                                      playTitle = {sortedAudioList[i].vbtitle !== null? sortedAudioList[i].vbtitle : ''} 
                                                      playUrl = {`${results[i]}`} 
                                                      playPath = {sortedAudioList[i].vbaudpath}
@@ -221,15 +211,16 @@ export default function VoiceBlastMain(props) {
                                                      vbviews = {sortedAudioList[i].vbviews}
                                                      getAllVoiceBlasts = {getAllVoiceBlasts}
                                                      vbusrid ={sortedAudioList[i].vbusrid}
-                                                     viewOnly ={false}
+                                                     viewOnly = {false}
                                                      vbdatecreated = {sortedAudioList[i].vbdatecreated}
                                                      vbUsrObj = {{
-                                                        vbuimg:sortedAudioList[i].vbuimg === null?"":sortedAudioList[i].vbuimg ,
+                                                        vbuimg:sortedAudioList[i].vbuimg === null?"":sortedAudioList[i].vbuimg.split('?')[0] ,
                                                         vbuusername:sortedAudioList[i].vbuusername,
                                                         vbuurl:sortedAudioList[i].vbuurl,
                                                         vbubio:sortedAudioList[i].vbubio,
-                                                        vbufullname:sortedAudioList[i].vbufullname ,
-                                                        vbusrid:sortedAudioList[i].vbuserid  }
+                                                        vbufullname:sortedAudioList[i].vbufullname,
+                                                        vbusrid:sortedAudioList[i].vbuserid
+                                                          }
                                                       } 
                                                      > 
                                     </AudioPlayerComp>
@@ -253,9 +244,9 @@ export default function VoiceBlastMain(props) {
     }
     
     function fetchMoreVoiceBlasts(){
-          if(previewAudioList.length >= fullAudioList.length ){
+       /*   if(previewAudioList.length >= fullAudioList.length ){
                setEndRange(nextAudioList.length + 1);
-          }
+          }*/
 
           setPrevRange(prevRange + 9);
           if(endRange < fullAudioList.length){
@@ -281,31 +272,28 @@ export default function VoiceBlastMain(props) {
              for (var i = 0; i < elements.length; i++){
                   elements[i].style.display = displayState;
                   }
+                  //<Media query={{}}> 
       }
-
-
+ 
   return (
-     <>
-      <Media query={{}}> 
+     <> 
         <div style={{padding:5, borderColor:'gray'}}>
 
          <FixedHeader
                            profilePhoto ={profilePhoto}
-                           userName={`${firstName} ${lastName}.`}
+                           fullName={`${firstName} ${lastName}.`}
+                           usrnmurl = {userName}
                            vburl={vburl}
                            vbbio={vbbio}
-                       />
-
-     {/*    <div style = {{marginTop:'10%', height: '100%', overflowY: 'scroll' }}>
-           {newAudioComponent}
-         </div>*/}
+           />
+ 
        <div 
              style={{padding:20, margin:30, marginLeft:'20%', 
                      width:'60%',border: '2px solid black', 
-                     height:'90%'}} > 
+                     height:'80%'}} > 
              <InfiniteScroll
                 className="hide-native-scrollbar"
-                style={{width:'100%', top:'40px',  padding:'20%'}}
+                style={{width:'200%', top:'50px',  padding:'28%'}}
                 dataLength = {0}
                 next={fetchMoreVoiceBlasts} 
                 hasMore={endRange <= fullAudioList.length ? true : false}
@@ -338,10 +326,8 @@ export default function VoiceBlastMain(props) {
                                              })} />
               </li>
             </ul>
-          </div>  
-            {/*<RecorderFooter newVoiceBlast={updtAudioList} />*/}
-        </div>
-       </Media>
+          </div>   
+        </div> 
     </>
   );
 }

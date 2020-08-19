@@ -1,23 +1,13 @@
-import React, {useEffect, useState } from "react";
-import { FaMicrophoneAlt } from "react-icons/fa";
-import RecorderFooter from "./RecorderFooter";
+import React, {useEffect, useState } from "react";  
 import FixedHeader from "./FixedHeader";
-import AudioPlayerComp from "./Components/AudioPlayerComp";
-import AudioListComponent from "./Components/AudioListComponent";
-import "./Css/styles.scss";
-import {  useHistory  } from "react-router-dom";
-import AudioPlayer from 'react-h5-audio-player';
-import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
-import { API, graphqlOperation, Storage  } from "aws-amplify";
-import * as queries from './../src/graphql/queries';
-import * as mutations from './../src/graphql/mutations';
-import * as subscriptions from './../src/graphql/subscriptions';
-import Media from "react-media";
-import logo from './Images/vlogo.png'; 
-import InfiniteScroll from "react-infinite-scroll-component";
-import Amplify, { Auth } from 'aws-amplify';
+import AudioPlayerComp from "./Components/AudioPlayerComp"; 
+import "./Css/styles.scss"; 
+ import { API, graphqlOperation, Storage, Auth  } from "aws-amplify";
+import * as queries from './../src/graphql/queries'; 
+import Media from "react-media"; 
+import InfiniteScroll from "react-infinite-scroll-component"; 
 
-
+/*
   let styles = {
     header: {
       display: "flex",
@@ -36,7 +26,7 @@ import Amplify, { Auth } from 'aws-amplify';
       borderColor: "white",
       borderWidth: 5
     }
-  };
+  };*/
 
 async function ionViewCanEnter(){
     return await Auth.currentAuthenticatedUser()
@@ -58,29 +48,27 @@ export default function VoiceBlastMain(props) {
   const [prevRange, setPrevRange] = useState(9);
   const [endRange, setEndRange] = useState(18);
   
-  const [audioListData, setAudioListData] = useState([]);
-  const [newAudioFile, setNewAudioFile] = useState(null);
-  const [playUrl, setPlayUrl] = useState(null);
-  const [newAudioComponent, setNewAudioComponent] = useState();
+  const [audioListData, setAudioListData] = useState([]); 
   const [isMobile, setMobile] = useState(false);
   const [mediaQuery, setMediaQuery] = useState("(min-width: 600px) and (max-width: 900px)");
   const [nextToken, setNextToken] = useState(null);
   const [profilePhoto,setprofilePhoto] = useState("");
-  const [userName, setUserName] = useState(""); 
+  const [ , setUserName] = useState(""); 
   const [userid, setUserid] = useState(props.location.state === undefined ? "" : 
                                        props.location.state.userid);
   const [vburl, setVburl] = useState("");
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName] = useState(""); 
-  const [vbbio, setVbbio] = useState("");
-  const [error, setError] = useState("");   
-  const history = useHistory();
+  const [vbbio, setVbbio] = useState("");  
+  
 
   useEffect(() => {
     // reload not working properly the page returns no data
+
     getUser();
     getAllVoiceBlasts();
     ionViewCanEnter();
+
     return ()=>{
 
        if(!window.orientation || !window.screen.orientation) {
@@ -98,8 +86,8 @@ export default function VoiceBlastMain(props) {
   
      async function getUser(){ 
       if(userid  === ""){
-          var currentUsrId = sessionStorage.getItem('userId');
-          loadUserData(currentUsrId);
+          //var currentUsrId = sessionStorage.getItem('userId');
+          loadUserData(userid);
       }else{
           loadUserData(userid);
       }
@@ -120,12 +108,7 @@ export default function VoiceBlastMain(props) {
           let usrbio = usrObj.vbubio;
           
           setUserid(usrObj.vbuid);
-          
-          // fix later 
-          //window.history.pushState('vbm/', ' ', `/vbm/${usrObj.vbuusername}`);
-
-          sessionStorage.setItem('userId', usrObj.vbuid);
-
+           
           if(usrnm){
              setUserName(usrnm);  
           }
@@ -294,7 +277,7 @@ export default function VoiceBlastMain(props) {
                            vbbio={vbbio}
                        />
 
-     {/*    <div style = {{marginTop:'10%', height: '100%', overflowY: 'scroll' }}>
+       {/*    <div style = {{marginTop:'10%', height: '100%', overflowY: 'scroll' }}>
            {newAudioComponent}
          </div>*/}
        <div 

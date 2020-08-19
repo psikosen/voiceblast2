@@ -91,11 +91,11 @@ const Player = ({
                         trackImage={trackImage ? trackImage : null}
                     />
                 )}
-                <Bar
+             {/*   <Bar
                     curTime={curTime}
                     duration={duration}
                     onTimeUpdate={time => setClickedTime(time)}
-                />
+                />*/}
             </div>
         </div>
     )

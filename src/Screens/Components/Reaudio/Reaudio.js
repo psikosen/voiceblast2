@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Player from './Player'
 import { slugify } from './helpers/helpers'
-import './assets/styles.css'
+import './assets/styles.scss'
 
 const Reaudio = ({ playlist }) => {
     const [currentPlayer, setCurrentPlayer] = useState()
@@ -51,7 +51,7 @@ const Reaudio = ({ playlist }) => {
         <div className="reaudio">
             {playlist.map((track, index) => {
                 const slug = slugify(
-                    track.trackName + '-' + track.trackArtist + '-' + track.id + '_ ' +track.trackDate
+                    track.trackName + '-' + track.trackArtist + '-' + track.id + '_ ' + track.trackDate
                 )
                 return (
                     <Player

@@ -6,10 +6,10 @@
   -webkit-box-align: center;
           align-items: center;
   padding: 10px 0;
-  margin: 20px;
+  margin: 10px;
   background-color: #dedede;
   border-radius: 6px;
-  min-height: 56px; }
+  min-height: 26px; }
   .player .controls {
     -webkit-box-flex: 1;
             flex-grow: 1;

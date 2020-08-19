@@ -1,10 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {useHistory} from "react-router-dom";
 import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap"; 
-import { API, graphqlOperation, Storage, Auth  } from "aws-amplify";
+import { API, graphqlOperation, Storage  } from "aws-amplify";
 import * as queries from './../src/graphql/queries';
 import * as mutations from './../src/graphql/mutations';
-import { AmplifySignOut } from '@aws-amplify/ui-react';
 
 export default function EditProfile(props) {
    const [userName, setUserName] = useState("");
@@ -12,17 +11,20 @@ export default function EditProfile(props) {
    const [lastName, setlastName] = useState("");
    const [vburl, setVburl] = useState("");
    const [userid, setUserid] = useState("");
-   const [profileImg, setprofileImg] = useState('');
+   const [profileImg, setprofileImg] = useState("");
    const [vbubio, setvbubio] = useState('');
    const [tempprofileImg, settempprofileImg] = useState('');
    const [previewImage, setPreviewImage] = useState(''); 
    const [error, setError] = useState("");
+   const [status, setStatus] = useState("");
+   
   
    const history = useHistory();
 
    useEffect(()=>{
          getUser();
-
+         document.getElementById('vbfeed').onclick =()=> history.push('/vbf/',{userid:userid});
+         
         return ()=>{console.log(userid)}
    },[userid]);
     
@@ -51,7 +53,8 @@ export default function EditProfile(props) {
           if(usrnm){
              setUserName(usrnm);  
           }
-          
+          document.getElementById('vbmain').onclick =()=> history.push(`/vbm/${usrnm}`,{userid:userid});
+    
           if(usrurl){ 
              setVburl(usrurl);
           }
@@ -74,7 +77,6 @@ export default function EditProfile(props) {
               .then(result =>{
                 console.log(result);
                 setPreviewImage(result);
-                setprofileImg(result);
               }).catch(err => console.log(err));
           }
          
@@ -86,10 +88,37 @@ export default function EditProfile(props) {
 
     async function editProfile(){
       if(validateForm());
+      var storeProfileData = (img)=>{
+         const profileUpdate = {
+                  vbuid:userid,  
+                  vbuusername: userName,
+                  vbufirstname: firstName,
+                  vbulastname: lastName,
+                  vbuurl: vburl,
+                  vbubio:vbubio,
+                  vbuimg: img
+                };
+                 API.graphql(graphqlOperation(mutations.updateVbuser, {input: profileUpdate})).then((a)=>{
+                     console.log(a);
+                     setStatus('Profile Updated');
+                }); 
+      };
 
-      Storage.put(`${userid}.png`,tempprofileImg)
+
+      if(profileImg === ""){
+        storeProfileData(`${userid}.png`);
+      }else{
+        Storage.put(`${userid}.png`,tempprofileImg)
           .then ((result) =>{
             console.log(result);
+            storeProfileData(result.key)
+            }).catch(err => console.log(err)); 
+      }
+
+   /*   Storage.put(`${userid}.png`,tempprofileImg)
+          .then ((result) =>{
+            console.log(result);
+
             const profileUpdate = {
                   vbuid:userid,  
                   vbuusername: userName,
@@ -101,16 +130,16 @@ export default function EditProfile(props) {
                 };
                  API.graphql(graphqlOperation(mutations.updateVbuser, {input: profileUpdate})).then((a)=>{
                      console.log(a);
+                     setStatus('Profile Updated');
                 });
-
-             Storage.get(result.key)
+              Storage.get(result.key)
               .then(result =>{
                 console.log(result);
                 setprofileImg(result); 
                 
-              }).catch(err => console.log(err));
+              }).catch(err => console.log(err)); 
            }
-          ) .catch(err => console.log(err));
+          ) .catch(err => console.log(err));*/
 
      
    }
@@ -160,6 +189,7 @@ export default function EditProfile(props) {
     if(files && files.length > 0)
     {  
        settempprofileImg(files[0]);
+       setprofileImg("dataexists");
        setPreviewImage(window.URL.createObjectURL(files[0]));
     }
 
@@ -178,21 +208,12 @@ export default function EditProfile(props) {
         <h3 style = {{textAlign:'center'}}>Your Profile</h3>
      </div>
      <p style={{textAlign:'center',color:'red'}}>{error}</p>
+     <p style={{textAlign:'center',color:'blue'}}>{status}</p>
+     
     <form onSubmit={handleSubmit}>
-     {profileImg === ''? 
+      
         <div>
-        <img src={previewImage} width={'100%'} height={150}/> 
-        <FormGroup>
-         <FormControl 
-           name="image" 
-           type="file"  
-           onChange={(e)=> handlePhotos(e)} 
-         />
-        </FormGroup>
-        </div>
-        :
-        <div>
-          <img src={previewImage} width={'100%'} height={150}/>
+          <img alt={""} src={previewImage} width={'100%'} height={150}/>
            <FormGroup>
            <FormControl 
              name="image" 
@@ -200,8 +221,7 @@ export default function EditProfile(props) {
              onChange={(e)=>handlePhotos(e)} 
            />
           </FormGroup>
-         </div> 
-      }
+         </div>  
         <FormGroup controlId="firstName" >
           <FormLabel >First Name:</FormLabel >
           <FormControl

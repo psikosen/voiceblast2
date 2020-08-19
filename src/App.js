@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React  from 'react';
 //import logo from './logo.svg';
 import './App.css';
 import cui from './curatedUserImages/testuser.jpg';
@@ -42,8 +42,9 @@ function App() {
 
   function AddCuratedUsers(){
        return curatedUsersList.map((a)=>
-           <a href={`/vbm:${a.usrnm}`}>
-           <img width = {80}
+           <a href={`/vb/view:${a.usrnm}`}>
+           <img alt = {""}
+                width = {80}
                 height = {80} 
                 src={a.imgLnk}
                 style={{borderRadius:80
@@ -52,7 +53,6 @@ function App() {
 
           </a>);
   } 
-
 
   return (
   	 <div>

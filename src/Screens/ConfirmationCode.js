@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
-import Amplify, { Auth, API, graphqlOperation } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
 import {  useHistory  } from "react-router-dom";
 
 export default function ConfirmationCode(props){
    const [confirmationCode, setConfirmationCode] = useState("");
-   const [userName,setUserName] = useState(props.location.state.username);
-   const [userID, setUserID] = useState(props.location.state.usrid);
+   const [userName,] = useState(props.location.state.username);
+   const [userID,] = useState(props.location.state.usrid);
    const [error, setError] = useState("");
    const history = useHistory();
 

@@ -1,20 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import AudioPlayer from 'react-h5-audio-player';
 import { BsTrash }  from "react-icons/bs";
 import {FiShare2} from "react-icons/fi";
 import {TiEdit} from "react-icons/ti";
 import {BsThreeDots} from "react-icons/bs";
 import { API, graphqlOperation, Storage  } from "aws-amplify";
-import {FormGroup, FormControl, FormLabel  } from "react-bootstrap"; 
-import * as queries from './../../src/graphql/queries';
-import * as mutations from './../../src/graphql/mutations';
-import * as subscriptions from './../../src/graphql/subscriptions';
+import {FormGroup, FormControl} from "react-bootstrap";  
 import Modal from "react-bootstrap/Modal";
 import Button from 'react-bootstrap/Button';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ShareSocialListButton from "./ShareSocialListButton";
 import * as ReactBootstrap from 'react-bootstrap';
 import {useHistory} from "react-router-dom";
+import * as mutations from './../../src/graphql/mutations'; 
 
   let styles = {
     
@@ -27,12 +25,11 @@ import {useHistory} from "react-router-dom";
 
 export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusrid, vbviews,
                                          vbdatecreated, getAllVoiceBlasts,viewOnly, vbUsrObj}) {
-	   const [vbid, setVbid] = useState(vbidd);
+	   const [vbid,  ] = useState(vbidd);
 	   const [vbvw, setVbvw] = useState(vbviews);
-       const [show, setShow] = useState(false);
-       const [tusername, setTusrname] = useState(vbUsrObj.userName); 
+       const [show, setShow] = useState(false); 
        const [currentPlayTitle,setCurrentPlayTitle] = useState(playTitle);
-       const [originalPlayTitle,] = useState(playTitle); 
+       //const [originalPlayTitle,] = useState(playTitle); 
        const [editingTitle, isEditingTitle] = useState(false);
        const [displayAdditionOptions, setDisplayAdditionOptions] = useState(null);
        const [displaying, IsDisplaying] = useState(false);
@@ -42,7 +39,7 @@ export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusri
        const history = useHistory();
       
       function checkOutUsersProfile(){
-      	   history.push(`/vb/view:${vbUsrObj.vbuusername}`, {userid:vbUsrObj.vbusrid, viewOnly:true} );
+      	   history.push(`/vb/view:${vbUsrObj.vbuusername}`, {userid:vbUsrObj.vbusrid} );
       }
       
       function goToIndividualVoiceBlast(){
@@ -52,9 +49,11 @@ export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusri
 	  function editTitle(){
 	  	  setDisplayAdditionOptions(null);
 	  	  isEditingTitle(true);
-	   
 	  }
-
+	  function cancelUpdate(){
+	  	  setDisplayAdditionOptions(null);
+	  	  isEditingTitle(false);
+	  }
 	  function updateVoiceBlastTitle(){ 
 	  		const editVBTitle = {
                  vbid: vbid,
@@ -112,11 +111,14 @@ export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusri
 	   async function newView(){
 	   	  var newViews = vbviews;
 	   	      console.log(newViews);
-	   	        var updatedView =  await API.graphql(graphqlOperation(mutations.updateView, {vbid: vbid, vbviews:newViews } )).then((a)=>{
+
+	   	      await API.graphql(graphqlOperation(mutations.updateView,
+	   	         {vbid: vbid, vbviews:newViews } )).then((a)=>{
                      console.log(a);
                      console.log('======');
-                     setVbvw(a.data.updateView.vbviews) 
+                     setVbvw(a.data.updateView.vbviews); 
                 });
+               
 	   }
 
 	   function timeOfPost(time){
@@ -140,11 +142,10 @@ export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusri
 
     const isToday = (someDate) => {
 	  const today = new Date()
-	  return someDate.getDate() == today.getDate() &&
-	    someDate.getMonth() == today.getMonth() &&
-	    someDate.getFullYear() == today.getFullYear()
-	}
-
+	  return someDate.getDate() === today.getDate() &&
+	    someDate.getMonth() === today.getMonth() &&
+	    someDate.getFullYear() === today.getFullYear()
+	} 
     return (
       <>
         <Modal show={show} onHide={handleCancel}>
@@ -173,7 +174,8 @@ export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusri
 	            onChange={e => setCurrentPlayTitle(e.target.value)}
 	          />
 	          </FormGroup>
-	          <Button onClick={updateVoiceBlastTitle}> Edit</Button>
+	           <Button variant="secondary" style={{margin:'4%'}} onClick={cancelUpdate}> Cancel</Button>
+	           <Button variant="success"   onClick={updateVoiceBlastTitle}> Edit Title</Button>
 	          </div>
 	         )
 	        :
@@ -183,8 +185,14 @@ export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusri
 		        style={styles.image} 
 		        src={vbUsrObj.vbuimg ===""?"":vbUsrObj.vbuimg} 
 		        width={30} height={30}/>
-		    <p style={{color:'green'}}  onClick={checkOutUsersProfile}>{vbUsrObj.vbufullname} </p> 
-	        <p style={{color:'skyblue'}} onClick ={goToIndividualVoiceBlast}>{currentPlayTitle}</p>
+		      {viewOnly === true?
+		    	<p style={{color:'green'}}  onClick={checkOutUsersProfile}>{vbUsrObj.vbufullname} </p>:
+		    	<p>{vbUsrObj.vbufullname} </p>
+		       } 
+		      {viewOnly === true? 
+	           <p style={{color:'skyblue'}} onClick ={goToIndividualVoiceBlast}>{currentPlayTitle}</p>:
+	           <p>{currentPlayTitle}</p>
+	          }
 	        <p>{timeOfPost(vbdatecreated)}</p>
 	       </div>
           }
@@ -206,8 +214,7 @@ export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusri
             <ReactBootstrap.OverlayTrigger 
                   trigger="click" 
                   placement="bottom"
-                  path ={"google.com"}
-                  overlay={<ShareSocialListButton/>} containerPadding={2}>
+                  overlay={<ShareSocialListButton path= { `${window.location.origin}/vb/view/ivb/${vbUsrObj.vbuusername}` } />} containerPadding={2}>
             <FiShare2 />  
           </ReactBootstrap.OverlayTrigger>
          </div>

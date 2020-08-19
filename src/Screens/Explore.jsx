@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import AudioPlayerComp from "./Components/AudioPlayerComp";
 import { API, graphqlOperation, Storage  } from "aws-amplify";
 import * as queries from './../src/graphql/queries';
-import * as mutations from './../src/graphql/mutations';
-import * as subscriptions from './../src/graphql/subscriptions';
-import AudioPlayer from 'react-h5-audio-player';
 import InfiniteScroll from "react-infinite-scroll-component";
 import "./Css/styles.scss";
 
@@ -121,9 +118,9 @@ export default function Explore() {
      }
 
     function fetchMoreVoiceBlasts(){
-          if(previewAudioList.length >= fullAudioList.length ){
+        /*  if(previewAudioList.length >= fullAudioList.length ){
                setEndRange(nextAudioList.length + 1);
-          }
+          }*/
 
           setPrevRange(prevRange + 9);
           if(endRange < fullAudioList.length){

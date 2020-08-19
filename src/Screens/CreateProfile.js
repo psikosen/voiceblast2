@@ -186,10 +186,9 @@ export default function CreateProfile(props) {
     <div className="Login">
      <h3 style = {{textAlign:'center'}}>Your Profile</h3>
      <p style={{textAlign:'center',color:'red'}}>{error}</p>
-    <form onSubmit={handleSubmit}>
-     {profileImg === ''? 
-        <div>
-        <img src={previewImage} width={'100%'} height={150}/> 
+    <form onSubmit={handleSubmit}> 
+       <div>
+        <img alt={""} src={previewImage} width={'100%'} height={150}/> 
         <FormGroup>
          <FormControl 
            name="image" 
@@ -197,19 +196,8 @@ export default function CreateProfile(props) {
            onChange={(e)=> handlePhotos(e)} 
          />
         </FormGroup>
-        </div>
-        :
-        <div>
-          <img src={previewImage} width={'100%'} height={150}/>
-           <FormGroup>
-           <FormControl 
-             name="image" 
-             type="file"  
-             onChange={(e)=>handlePhotos(e)} 
-           />
-          </FormGroup>
-         </div> 
-      }
+       </div> 
+
         <FormGroup controlId="firstName" >
           <FormLabel >First Name:</FormLabel >
           <FormControl

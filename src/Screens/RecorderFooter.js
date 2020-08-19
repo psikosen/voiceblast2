@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { FaMicrophoneAlt } from "react-icons/fa";
-import VoiceBlastRecorder from './Components/VoiceBlastRecorder';
-import RecordRTC from 'recordrtc';
-import 'react-voice-recorder/dist/index.css';
-import Timer from "./Components/AccurateTimer";
+import React, { useEffect } from "react"; 
+import VoiceBlastRecorder from './Components/VoiceBlastRecorder'; 
+import 'react-voice-recorder/dist/index.css'; 
 
 export default function RecorderFooter({ newVoiceBlast }) {
 

@@ -4,7 +4,7 @@ import {AiOutlineEye} from "react-icons/ai";
 import {AiFillEyeInvisible} from "react-icons/ai";
 import "./Css/styles.scss";
 import Modal from "react-bootstrap/Modal";  
-import Amplify, { Auth,  } from 'aws-amplify';
+import  { Auth,  } from 'aws-amplify';
 
 export default function ForgottenPassword() {
   const [email, setEmail] = useState("");

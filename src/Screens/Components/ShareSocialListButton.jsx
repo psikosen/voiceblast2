@@ -11,37 +11,44 @@ import {
   TwitterShareButton,
   TwitterIcon,
   WhatsappShareButton,
-  WhatsappIcon
+  WhatsappIcon,
+  FacebookMessengerShareButton,
+  FacebookMessengerIcon  
 } from "react-share";
 import Popover from 'react-bootstrap/Popover';
-import * as ReactBootstrap from 'react-bootstrap';
+//import * as ReactBootstrap from 'react-bootstrap';
 
 export default function ShareSocialListButton({path}) {
-	const dataFromNextJS = {
-	  request: {
-	    path: `http://${path}` // change to our website /vbm:id
-	  }
-	};
+    const dataFromNextJS = {
+    request: {
+      path: `${path}` // change to our website /vbm:id
+    }
+  };
+  const[ hre] = useState(dataFromNextJS);
+
 
    function setShareButtons(){
 
       var componets = [
-                 <EmailShareButton url={dataFromNextJS.request.path}> 
+                 <EmailShareButton quote={"Blast Someone!"} url={hre.request.path}> 
                   <EmailIcon size={32} round={true}/>
                  </EmailShareButton>,
-                 <FacebookShareButton url={dataFromNextJS.request.path}>
-                  <FacebookIcon size={32} round={true}/>
+                  <FacebookMessengerShareButton redirectUri={hre.request.path} url={hre.request.path}>
+                 <FacebookMessengerIcon  size={32} round={true}/>
+                 </FacebookMessengerShareButton>,
+                 <FacebookShareButton quote={"Blast Someone!"} url={hre.request.path}>
+                  <FacebookIcon quote={"Blast Someone!"} size={32} round={true}/>
                  </FacebookShareButton>,
-                 <LinkedinShareButton url={dataFromNextJS.request.path}>
+                 <LinkedinShareButton source  ={"Voice Blast!"} quote={"Blast Someone!"} url={hre.request.path}>
                   <LinkedinIcon size={32} round={true}/>
                  </LinkedinShareButton>,
-                 <TwitterShareButton url={dataFromNextJS.request.path}>
+                 <TwitterShareButton quote={"Blast Someone!"} url={hre.request.path}>
                   <TwitterIcon size={32} round={true}/>
                  </TwitterShareButton>,
-                 <WhatsappShareButton url={dataFromNextJS.request.path}>
+                 <WhatsappShareButton quote={"Blast Someone!"} url={hre.request.path}>
                   <WhatsappIcon size={32} round={true}  />
                  </WhatsappShareButton>,
-                 <RedditShareButton url={dataFromNextJS.request.path} >
+                 <RedditShareButton quote={"Blast Someone!"} url={hre.request.path} >
                   <RedditIcon  size={32} round={true}/>
                  </RedditShareButton>
                   ];
@@ -53,7 +60,7 @@ export default function ShareSocialListButton({path}) {
    	  <Popover id="popover-contained" style={{width:'10%', height:'40', display:'block', marginTop:85,marginLeft:910 }}>
 	    <Popover.Title as="h3">Share Voice Blast Profile</Popover.Title>
 	    <Popover.Content>
-		 <ul className="vertical-menu"  >
+	  	 <ul className="vertical-menu"  >
 	         {setShareButtons()}
 	     </ul>
 	    </Popover.Content>

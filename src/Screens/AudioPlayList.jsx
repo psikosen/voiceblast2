@@ -9,7 +9,7 @@ import * as subscriptions from './../src/graphql/subscriptions';
 import AudioPlayer from 'react-h5-audio-player';
 import InfiniteScroll from "react-infinite-scroll-component";
 
-/*const playlist = [
+const playlist = [
     {
         id: '1',
         source: 'https://studio.bio/reaudio/iiwii.mp3',
@@ -17,7 +17,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
         trackArtist: 'Joshua Iz',
         trackImage: 'https://studio.bio/reaudio/images/VIZLP1.jpg',
         loop: true
-    },*/
+    }]
+
 export default function AudioPlayList( ) {
 	 const [fullAudioList, setFullAudioList] = useState([]);
 	 const [previewAudioList, setPreviewAudioList] = useState([]);
@@ -27,7 +28,7 @@ export default function AudioPlayList( ) {
   	 const [playList,setPlayList] = useState([]);
 
 	  useEffect(() => {
-	   	getAllVoiceBlasts();
+	   	 getAllVoiceBlasts();
 
 	    return () => {
 	    };
@@ -86,9 +87,9 @@ export default function AudioPlayList( ) {
 		                       	    id: sortedAudioList[i].vbid,
 							        source: `${results[i]}`,
 							        trackName: sortedAudioList[i].vbtitle !== null? sortedAudioList[i].vbtitle : '',
-							        trackArtist: 'Joshua Iz',
-							        trackDate:sortedAudioList[i].vbdatecreated,
-							        trackImage: 'https://studio.bio/reaudio/images/VIZLP1.jpg',
+							        trackArtist: sortedAudioList[i].vbuusername,
+							        trackDate:new Date(sortedAudioList[i].vbdatecreated).toLocaleDateString(),
+							        trackImage:sortedAudioList[i].vbuimg === null?"":sortedAudioList[i].vbuimg.split('?')[0] ,
 							        loop: false
 							    }
           /*            let aud = <li key = {`${i}o`}   >

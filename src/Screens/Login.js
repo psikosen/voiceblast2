@@ -3,10 +3,9 @@ import { Button, FormGroup, FormCheck, FormControl, FormLabel  } from "react-boo
 import "./Css/Login.css";
 import {AiOutlineEye} from "react-icons/ai";
 import {AiFillEyeInvisible} from "react-icons/ai";
-import Amplify, { API, Auth, graphqlOperation } from 'aws-amplify';
+import { API, Auth, graphqlOperation } from 'aws-amplify';
 import * as queries from './../src/graphql/queries';
-import * as mutations from './../src/graphql/mutations';
-import * as subscriptions from './../src/graphql/subscriptions';
+import * as mutations from './../src/graphql/mutations'; 
 import {useHistory} from "react-router-dom";
 
 
@@ -100,7 +99,6 @@ export default function Login(props) {
   return (
     <div className="Login">
       <form onSubmit={handleSubmit}>
-
         <div style={{color:'red', fontSize:'11px'}}>{error}</div>
         <FormGroup controlId="email" >
           <FormLabel >Email</FormLabel >
@@ -124,11 +122,9 @@ export default function Login(props) {
             type={passwordType}
           />
         </FormGroup>
-
          <FormGroup controlId="rememberPassword">
           <FormCheck type="checkbox" label="Remember Password" />
         </FormGroup>
-
         <p><a href="/forgottenPass">Forgotten Password ?</a></p>
         <Button onClick={()=>validateForm()} type="submit">
           Login

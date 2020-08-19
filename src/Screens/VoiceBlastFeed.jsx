@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { API, graphqlOperation, Storage  } from "aws-amplify";
-import {useHistory} from "react-router-dom";
+import { API, graphqlOperation, Storage  } from "aws-amplify"; 
 import * as queries from './../src/graphql/queries';
-import * as mutations from './../src/graphql/mutations';
-import * as subscriptions from './../src/graphql/subscriptions';
 import InfiniteScroll from "react-infinite-scroll-component";
 import AudioPlayerComp from "./Components/AudioPlayerComp";
 import "./Css/styles.scss";
+import {  useHistory  } from "react-router-dom";
 
-export default function VoiceBlastFeed() {
+export default function VoiceBlastFeed(props) {
   const [audioList, setAudioList] = useState([]);
   const [audioListData, setAudioListData] = useState([]);
-  const [nextToken, setNextToken] = useState(null);
-  const [error, setError] = useState("");   
+  const [nextToken, setNextToken] = useState(null); 
+  const [userid,] = useState(props.location.state === undefined ? "" : 
+                                       props.location.state.userid);
   const history = useHistory();
 
   useEffect(() => {
@@ -23,14 +22,18 @@ export default function VoiceBlastFeed() {
   }, []);
 
  async function getAllVoiceBlasts(){
-       
+     let usrnm = sessionStorage.getItem('username');
+     let tmpuserid = sessionStorage.getItem('userId'); 
+   
+      if(tmpuserid !== "" || tmpuserid !== null){
+        document.getElementById('vbmain').onclick = ()=> history.push(`/vbm/${usrnm}`,{userid:tmpuserid});
+      }
+        document.getElementById('vbfeed').onclick =()=> history.push('/vbf/',{userid:tmpuserid});
+  
        setAudioList([]);
 
-       const allVb = await API.graphql(graphqlOperation(queries.listVoiceblasts ,
-                 { vbuserid: userid,
-                   nextToken: nextToken,
-                   limit:4
-                 }));
+         const allVb = await API.graphql(graphqlOperation(queries.listVoiceblasts ,
+                 { vbuserid: userid }));
 
         console.log(allVb);
 
@@ -62,7 +65,8 @@ export default function VoiceBlastFeed() {
                 	// vb img url
                     for(var i = 0 ; i < results.length;i++){
                       let aud = <li key = {`${i}o`}>
-                                    <AudioPlayerComp key = {`${i}a`}
+                                    <AudioPlayerComp 
+                                                     key = {`${i}a`}
                                                      playTitle = {sortedAudioList[i].vbtitle !== null? sortedAudioList[i].vbtitle : ''} 
                                                      playUrl = {`${results[i]}`} 
                                                      playPath = {sortedAudioList[i].vbaudpath}
@@ -70,8 +74,17 @@ export default function VoiceBlastFeed() {
                                                      vbviews = {sortedAudioList[i].vbviews}
                                                      getAllVoiceBlasts = {getAllVoiceBlasts}
                                                      vbusrid ={sortedAudioList[i].vbusrid}
+                                                     viewOnly = {true}
                                                      vbdatecreated = {sortedAudioList[i].vbdatecreated}
-                                                     > 
+                                                     vbUsrObj = {{
+                                                        vbuimg:sortedAudioList[i].vbuimg === null?"":sortedAudioList[i].vbuimg.split('?')[0] ,
+                                                        vbuusername:sortedAudioList[i].vbuusername,
+                                                        vbuurl:sortedAudioList[i].vbuurl,
+                                                        vbubio:sortedAudioList[i].vbubio,
+                                                        vbufullname:sortedAudioList[i].vbufullname,
+                                                        vbusrid:sortedAudioList[i].vbuserid
+                                                          }
+                                                      }> 
                                     </AudioPlayerComp>
                                 </li>;
                          

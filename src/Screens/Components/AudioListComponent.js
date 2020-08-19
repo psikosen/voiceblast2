@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AudioPlayer from 'react-h5-audio-player';
-import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
+import { Button, FormGroup, FormControl  } from "react-bootstrap";
 import { API, graphqlOperation, Storage  } from "aws-amplify";
-import * as queries from './../../src/graphql/queries';
 import * as mutations from './../../src/graphql/mutations';
 
 

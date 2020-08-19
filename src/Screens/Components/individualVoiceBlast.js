@@ -1,55 +1,22 @@
 import React, { useState, useEffect } from "react";
-import {
-  EmailShareButton,
-  FacebookShareButton,
-  LinkedinShareButton,
-  RedditShareButton,
-  TwitterShareButton,
-  WhatsappShareButton,
-} from "react-share";
-import { FaMicrophoneAlt } from "react-icons/fa";
-import RecorderFooter from "./../RecorderFooter";
-import FixedHeader from "./../FixedHeader";
-import AudioPlayerComp from "./../Components/AudioPlayerComp";
-import AudioListComponent from "./../Components/AudioListComponent";
-import "./../Css/styles.scss";
-import {  useHistory  } from "react-router-dom";
-import AudioPlayer from 'react-h5-audio-player';
-import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
+import AudioPlayerComp from "./../Components/AudioPlayerComp"; 
+import "./../Css/styles.scss";  
 import { API, graphqlOperation, Storage  } from "aws-amplify";
-import * as queries from './../../src/graphql/queries';
-import * as mutations from './../../src/graphql/mutations';
-import * as subscriptions from './../../src/graphql/subscriptions';
-import Media from "react-media";
-import logo from './../Images/vlogo.png'; 
-import InfiniteScroll from "react-infinite-scroll-component";
+import * as queries from './../../src/graphql/queries'; 
+import Media from "react-media"; 
+import {  useHistory  } from "react-router-dom";
 
 export default function IndividualVoiceBlast(props){
-    const [userid, setUserid] = useState(props.location.state === undefined ? "" : 
+    const [userid] = useState(props.location.state === undefined ? "" : 
                                        props.location.state.userid);
-    const [vbidd, setVbidd] = useState(props.location.state === undefined ? "" : 
+    const [vbidd,] = useState(props.location.state === undefined ? "" : 
                                        props.location.state.vbidd);
-    const [fullAudioList, setFullAudioList] = useState([]);
-    const [previewAudioList, setPreviewAudioList] = useState([]);
-    const [prevRange, setPrevRange] = useState(9);
-    const [endRange, setEndRange] = useState(18);
-    
+    const [previewAudioList, setPreviewAudioList] = useState([]);  
     const [audioListData, setAudioListData] = useState([]);
-    const [newAudioFile, setNewAudioFile] = useState(null);
-    const [playUrl, setPlayUrl] = useState(null);
-    const [newAudioComponent, setNewAudioComponent] = useState();
     const [isMobile, setMobile] = useState(false);
     const [mediaQuery, setMediaQuery] = useState("(min-width: 600px) and (max-width: 900px)");
-    const [nextToken, setNextToken] = useState(null);
-    const [profilePhoto,setprofilePhoto] = useState("");
-    const [userName, setUserName] = useState(""); 
-    const [vburl, setVburl] = useState("");
-    const [firstName, setfirstName] = useState("");
-    const [lastName, setlastName] = useState(""); 
-    const [vbbio, setVbbio] = useState("");
-    const [error, setError] = useState("");   
     const history = useHistory();
-
+   
  useEffect(() => {
       // reload not working properly the page returns no data
       getAllVoiceBlasts(); 
@@ -66,18 +33,24 @@ export default function IndividualVoiceBlast(props){
          }
 
       }
-    },[]);
+    },[ ]);
 
 
   async function getAllVoiceBlasts(){
        
-       setFullAudioList([]); 
+
      
        const allVb = await API.graphql(graphqlOperation(queries.listVoiceblasts ,
                  { 
-                   filter: { vbuserid: {eq:userid} },
-                   nextToken: nextToken 
+                   filter: { vbuserid: {eq:userid} }
                  }));
+
+           let usrnm = sessionStorage.getItem('username');
+           let tmpuserid = sessionStorage.getItem('userId');
+
+           if(tmpuserid !== "" || tmpuserid !== null){
+             document.getElementById('vbmain').onclick = ()=> history.push(`/vbm/${usrnm}`,{userid:tmpuserid});
+           }
 
            if(allVb.data.listVoiceblasts === null)
              return false;
@@ -86,9 +59,7 @@ export default function IndividualVoiceBlast(props){
 
             let allVab = allVb.data.listVoiceblasts.items;
             
-            if(allVab.length > 0){
-            setNextToken(allVb.data.listVoiceblasts.nextToken);
-
+            if(allVab.length > 0){ 
             console.log(allVab);
 
             let tempAudioList = audioListData;
@@ -100,18 +71,35 @@ export default function IndividualVoiceBlast(props){
                 finishedAudioList = allVab;
              }
 
-            let sortedAudioList = finishedAudioList.sort(function(a,b){
-                      console.log(b);
-                      return b.vbdatecreated.localeCompare(a.vbdatecreated);
-                });
+             let individualB;
+             let modifiedList;
 
-            setAudioListData(sortedAudioList);
+                  modifiedList = finishedAudioList.map(function(a,b){  
+                    if(vbidd === a.vbid){
+                       individualB = a;
+                    }else{
+                       return a;
+                    }
+                 });
 
-            let finishedMap = sortedAudioList.map((a)=>{
+             let newList = [];
+
+             modifiedList.forEach((a)=>{
+               if(a !== undefined){
+                  newList.push(a);
+               }
+             });
+
+             newList.unshift(individualB);  
+
+             setAudioListData(newList);
+
+            let finishedMap = newList.map((a)=>{
                 return Storage.get(a.vbaudpath).then(
                   result => result.split('?')[0]).catch(err => console.log(err));
 
              });
+
  
             Promise.all(finishedMap).then(function(results) {
                 console.log(results);
@@ -121,22 +109,22 @@ export default function IndividualVoiceBlast(props){
                     for(var i = 0 ; i < results.length;i++){
                       let aud = <li key = {`${i}o`}>
                                     <AudioPlayerComp key = {`${i}a`}
-                                                     playTitle = {sortedAudioList[i].vbtitle !== null? sortedAudioList[i].vbtitle : ''} 
+                                                     playTitle = {newList[i].vbtitle !== null? newList[i].vbtitle : ''} 
                                                      playUrl = {`${results[i]}`} 
-                                                     playPath = {sortedAudioList[i].vbaudpath}
-                                                     vbidd = {sortedAudioList[i].vbid} 
-                                                     vbviews = {sortedAudioList[i].vbviews}
+                                                     playPath = {newList[i].vbaudpath}
+                                                     vbidd = {newList[i].vbid} 
+                                                     vbviews = {newList[i].vbviews}
                                                      getAllVoiceBlasts = {getAllVoiceBlasts}
                                                      viewOnly={true}
-                                                     vbusrid ={sortedAudioList[i].vbusrid}
-                                                     vbdatecreated = {sortedAudioList[i].vbdatecreated}
+                                                     vbusrid ={newList[i].vbusrid}
+                                                     vbdatecreated = {newList[i].vbdatecreated}
                                                      vbUsrObj = {{
-                                                        vbuimg:sortedAudioList[i].vbuimg === null?"":sortedAudioList[i].vbuimg ,
-                                                        vbuusername:sortedAudioList[i].vbuusername,
-                                                        vbuurl:sortedAudioList[i].vbuurl,
-                                                        vbubio:sortedAudioList[i].vbubio,
-                                                        vbufullname:sortedAudioList[i].vbufullname ,
-                                                        vbusrid:sortedAudioList[i].vbuserid  }
+                                                        vbuimg:newList[i].vbuimg === null?"":newList[i].vbuimg.split('?')[0] ,
+                                                        vbuusername:newList[i].vbuusername,
+                                                        vbuurl:newList[i].vbuurl,
+                                                        vbubio:newList[i].vbubio,
+                                                        vbufullname:newList[i].vbufullname ,
+                                                        vbusrid:newList[i].vbuserid  }
                                                       } 
                                                      > 
                                     </AudioPlayerComp>
@@ -144,6 +132,7 @@ export default function IndividualVoiceBlast(props){
                           if(i === 1){
                              newAudioList.push( <div>More from this user</div>); 
                           }
+
                           newAudioList.push(aud); 
                     } 
                     

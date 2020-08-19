@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { API, graphqlOperation, Storage, Auth  } from "aws-amplify";
+import { API, graphqlOperation, Auth  } from "aws-amplify";
 import { Button, FormGroup, FormControl, FormLabel  } from "react-bootstrap";
 import Modal from "react-bootstrap/Modal";
-import * as queries from './../src/graphql/queries';
 import * as mutations from './../src/graphql/mutations';
-import * as subscriptions from './../src/graphql/subscriptions';
+import {  useHistory  } from "react-router-dom";
 
 // changing password
 // delete account
@@ -13,16 +12,24 @@ export default function ProfileSettings() {
        const [oldPassword,setOldpassword] = useState("");
        const [newPassword,setNewPassword] = useState("");
        const [newPasswordRty,setNewPasswordRty] = useState(""); 
-
-	   const handleCancel = () => setShow(false);
+       const handleCancel = () => setShow(false);
        const handleShow = () => setShow(true);
+       const history = useHistory();
 
 	   useEffect(() => {
 	    
+     let usrnm = sessionStorage.getItem('username');
+     let tmpuserid = sessionStorage.getItem('userId'); 
+   
+      if(tmpuserid !== "" || tmpuserid !== null){
+          document.getElementById('vbmain').onclick = ()=> history.push(`/vbm/${usrnm}`,{userid:tmpuserid});
+      }
+          document.getElementById('vbfeed').onclick =()=> history.push('/vbf/',{userid:tmpuserid});
 
 	       return () => {
 	    };
 	  }, []);
+     
   function changePassword(){
   	 if(oldPassword !== '' && newPassword !== '' && newPasswordRty !== '' && (newPassword === newPasswordRty)){
   	  let usrid = sessionStorage.getItem('userid');
@@ -30,7 +37,7 @@ export default function ProfileSettings() {
   	  // email
   	  Auth.currentAuthenticatedUser() .then(user => {
         return Auth.changePassword(usrid, oldPassword, newPassword);
-      }).then(data => console.log(data)).catch(err => console.log(err));}
+      }).then(data=> console.log(data)).catch(err => console.log(err));}
   }
 
   function deleteUserAccount(){
