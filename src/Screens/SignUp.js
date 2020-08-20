@@ -128,7 +128,7 @@ export default function SignUp() {
         </FormGroup>
 
         <Button block  disabled={!validateForm()} type="submit">
-          Login
+          Sign Up
         </Button>
       </form>
     </div>

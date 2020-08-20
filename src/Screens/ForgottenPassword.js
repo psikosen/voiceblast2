@@ -19,7 +19,7 @@ export default function ForgottenPassword() {
 
   const handleCancel = () => setShow(false);
   const handleShow = () => setShow(true);
-
+  const setErrorMsg = (err) => setError(err);
   function showOrHidePasswordText(){
      if(!showPassword){
         setPasswordType("text");
@@ -33,8 +33,8 @@ export default function ForgottenPassword() {
 
   async function submitCode(event) { 
       Auth.forgotPassword(email)
-      .then(data => console.log(data))
-      .catch(err => setError(err));
+      .then(data => handleShow())
+      .catch(err => setErrorMsg(err.message));
   }
 
   function changePassword(){ 
@@ -46,7 +46,7 @@ export default function ForgottenPassword() {
      Auth.forgotPasswordSubmit(email, confirmationCode, new_password).then(data => {
           console.log(data);
           handleCancel();
-      }).catch(err => {setError(err);}); 
+      }).catch(err => {setError(err.message);}); 
 
       
       return true;
@@ -55,8 +55,7 @@ export default function ForgottenPassword() {
   function validateForm() {
   	 if(email.length > 0 && email.length <= 35){
        submitCode();
-       handleShow();
-  	 	 return true;
+  	   return true;
   	}
     return false;
   }
@@ -105,7 +104,8 @@ export default function ForgottenPassword() {
           </Modal.Footer>
       </Modal>
 
-        <div style={{color:'red'}}>{error}</div>
+       <span style={{color:'red'}}>{error}</span>
+
         <h2 style={{textAlign:'center', padding:20}}> Forgot Password ?</h2>
         <div 
              style={{padding:20, margin:30, marginLeft:'20%', 
@@ -121,7 +121,7 @@ export default function ForgottenPassword() {
           />
         </FormGroup>
 
-        <Button onClick={()=>validateForm()} type="submit">
+        <Button onClick={()=>validateForm()} >
           Submit Email
         </Button>
       </div>
