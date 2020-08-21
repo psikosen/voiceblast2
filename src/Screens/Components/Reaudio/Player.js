@@ -276,8 +276,8 @@ const Player = ({
                       </div>
                      )
                 :<TrackInfo
-                        trackName={trackName}
-                        trackArtist={currentPlayTitle}
+                        trackName={currentPlayTitle}
+                        trackArtist={trackArtist}
                         trackDate = {timeOfPost(trackDate)}
                         trackImage={trackImage ? trackImage : null}
                         viewOnly = {viewOnly}

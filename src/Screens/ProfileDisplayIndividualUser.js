@@ -28,19 +28,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
     }
   };*/
 
-async function ionViewCanEnter(){
-    return await Auth.currentAuthenticatedUser()
-      .then(() => {
-       return true; 
-     })
-      .catch(() => {
-       document.getElementById('logout').remove();
-       document.getElementById('setting').remove();
-       document.getElementById('editProfile').remove();
-       return false; 
-     });
-
-}
 
 export default function VoiceBlastMain(props) {
   const [fullAudioList, setFullAudioList] = useState([]);
@@ -62,11 +49,26 @@ export default function VoiceBlastMain(props) {
   const [vbbio, setVbbio] = useState("");  
   
 
-  useEffect(() => {
-    // reload not working properly the page returns no data
+async function ionViewCanEnter(){
+    return await Auth.currentAuthenticatedUser()
+      .then(() => {
+        console.log('Is Logged in');
+        getUser();
+        getAllVoiceBlasts();
+       return true; 
+     }).catch(() => {
+       getUser();
+       getAllVoiceBlasts();
+       document.getElementById('logout').remove();
+       document.getElementById('setting').remove();
+       document.getElementById('editProfile').remove();
+       return false; 
+     });
 
-    getUser();
-    getAllVoiceBlasts();
+}
+  useEffect(() => {
+    // reload not working properly the page returns no data 
+
     ionViewCanEnter();
 
     return ()=>{

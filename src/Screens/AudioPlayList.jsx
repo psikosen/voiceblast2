@@ -2,22 +2,13 @@ import React, { useState, useEffect } from "react";
 import Reaudio from './Components/Reaudio/Reaudio'
 import './Components/Reaudio/assets/styles.css'
 import AudioPlayerComp from "./Components/AudioPlayerComp";
-import { API, graphqlOperation, Storage  } from "aws-amplify";
+import { API, graphqlOperation, Storage, Auth  } from "aws-amplify";
 import * as queries from './../src/graphql/queries';
 import * as mutations from './../src/graphql/mutations';
 import * as subscriptions from './../src/graphql/subscriptions';
 import AudioPlayer from 'react-h5-audio-player';
 import InfiniteScroll from "react-infinite-scroll-component";
-
-const playlist = [
-    {
-        id: '1',
-        source: 'https://studio.bio/reaudio/iiwii.mp3',
-        trackName: 'IIWII',
-        trackArtist: 'Joshua Iz',
-        trackImage: 'https://studio.bio/reaudio/images/VIZLP1.jpg',
-        loop: true
-    }]
+import {  useHistory  } from "react-router-dom";
 
 export default function AudioPlayList( ) {
   	 const [fullAudioList, setFullAudioList] = useState([]);
@@ -26,13 +17,35 @@ export default function AudioPlayList( ) {
      const [endRange, setEndRange] = useState(18);
      const [audioListData, setAudioListData] = useState([]);
   	 const [playList,setPlayList] = useState([]);
+     const [userAuthenicated,setUserAuthenticated ] = useState(false);
+     const history = useHistory();
 
 	  useEffect(() => {
 	   	 getAllVoiceBlasts();
+       ionViewCanEnter();
 
 	    return () => {
 	    };
 	  }, []);
+     async function ionViewCanEnter(){
+      return await Auth.currentAuthenticatedUser()
+        .then(() => { 
+          document.getElementById('vbfeed').onclick =()=> history.push('/vbf/' );
+          setUserAuthenticated(true);
+         return true; 
+       })
+        .catch(() => {
+         setUserAuthenticated(false); 
+         sessionStorage.setItem('username','');
+         sessionStorage.setItem('userId','');  
+         document.getElementById('logout').remove();
+         document.getElementById('setting').remove();
+         document.getElementById('editProfile').remove(); 
+         
+
+         return false; 
+       });
+   }
 
    async function getAllVoiceBlasts(){
        

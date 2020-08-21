@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AudioPlayerComp from "./../Components/AudioPlayerComp"; 
 import "./../Css/styles.scss";  
-import { API, graphqlOperation, Storage  } from "aws-amplify";
+import { API, graphqlOperation, Storage, Auth  } from "aws-amplify";
 import * as queries from './../../src/graphql/queries'; 
 import Media from "react-media"; 
 import {  useHistory  } from "react-router-dom";
@@ -12,14 +12,49 @@ export default function IndividualVoiceBlast(props){
     const [vbidd,] = useState(props.location.state === undefined ? "" : 
                                        props.location.state.vbidd);
     const [previewAudioList, setPreviewAudioList] = useState([]);  
-    const [audioListData, setAudioListData] = useState([]);
-    const [isMobile, setMobile] = useState(false);
+    const [audioListData, setAudioListData] = useState([]); 
+    const [userAuthenicated,setUserAuthenticated ] = useState(false);
+    const [isMobile,setMobile ] = useState(false); 
     const [mediaQuery, setMediaQuery] = useState("(min-width: 600px) and (max-width: 900px)");
     const history = useHistory();
+
+    function hideNav(){
+       document.getElementById('logout').remove();
+       document.getElementById('setting').remove();
+       document.getElementById('editProfile').remove(); 
+       document.getElementById('vbfeed').remove(); 
+       document.getElementById('vbmain').remove();  
+    }
+
+    async function ionViewCanEnter(){
+    return await Auth.currentAuthenticatedUser()
+      .then(() => { 
+        document.getElementById('vbfeed').onclick =()=> history.push('/vbf/' );
+        setUserAuthenticated(true);
+       return true; 
+     })
+      .catch(() => {
+       setUserAuthenticated(false); 
+       sessionStorage.setItem('username','');
+       sessionStorage.setItem('userId','');
+       hideNav();
+       return false; 
+     });
+    }
    
  useEffect(() => {
+
+     if(ionViewCanEnter()){
+    
+     }else{
+
+  		document.getElementById('editProfile').hide();
+  		document.getElementById('settings').hide();
+  		document.getElementById('logout').hide();
+     }
       // reload not working properly the page returns no data
       getAllVoiceBlasts(); 
+
       return ()=>{
 
          if(!window.orientation || !window.screen.orientation) {
@@ -38,7 +73,7 @@ export default function IndividualVoiceBlast(props){
 
   async function getAllVoiceBlasts(){
        
-
+        if(userid !== null){ 
      
        const allVb = await API.graphql(graphqlOperation(queries.listVoiceblasts ,
                  { 
@@ -48,7 +83,7 @@ export default function IndividualVoiceBlast(props){
            let usrnm = sessionStorage.getItem('username');
            let tmpuserid = sessionStorage.getItem('userId');
 
-           if(tmpuserid !== "" || tmpuserid !== null){
+           if(tmpuserid !== "" || tmpuserid !== null && userAuthenicated){
              document.getElementById('vbmain').onclick = ()=> history.push(`/vbm/${usrnm}`,{userid:tmpuserid});
            }
 
@@ -147,6 +182,7 @@ export default function IndividualVoiceBlast(props){
                 
             })
           }
+      }
     }
     function toggle(className, displayState){
          var elements = document.getElementsByClassName(className)
