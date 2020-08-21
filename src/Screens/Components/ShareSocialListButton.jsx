@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   EmailShareButton,
   EmailIcon,
@@ -15,15 +15,17 @@ import {
   FacebookMessengerShareButton,
   FacebookMessengerIcon  
 } from "react-share";
-import Popover from 'react-bootstrap/Popover';
-//import * as ReactBootstrap from 'react-bootstrap';
+import {FiShare2} from "react-icons/fi";
+//import Popover from 'react-bootstrap/Popover';
+import * as ReactBootstrap from 'react-bootstrap';
 
 export default function ShareSocialListButton({path}) {
     const dataFromNextJS = {
     request: {
       path: `${path}` // change to our website /vbm:id
     }
-  };
+  }; 
+  const ref = useRef()
   const[ hre] = useState(dataFromNextJS);
 
 
@@ -54,16 +56,39 @@ export default function ShareSocialListButton({path}) {
                   ];
 
        return componets.map((a)=><li>{a}</li>);            
-   }
+    }
+
+    function OpenPopOver () 
+    {
+       return (
+           <ReactBootstrap.Popover id="popover-contained" ref = {ref}    
+               data-trigger="focus"  style={{width:'10%', height:'40', display:'block', marginTop:85,marginLeft:910 }}>
+            <span onClick={hidePopover } >X</span>
+            <ReactBootstrap.Popover.Title as="h3">Share Voice Blast Profile</ReactBootstrap.Popover.Title>
+            <ReactBootstrap.Popover.Content>
+             <ul className="vertical-menu"  >
+                 {setShareButtons()}
+             </ul>
+            </ReactBootstrap.Popover.Content>
+          </ReactBootstrap.Popover>
+        );
+    }
+    function hidePopover()  
+    { 
+        console.log(ref);
+        console.log(ref.current);
+        ref.current.hidden = true
+    }
 
    return(
-   	  <Popover id="popover-contained" style={{width:'10%', height:'40', display:'block', marginTop:85,marginLeft:910 }}>
-	    <Popover.Title as="h3">Share Voice Blast Profile</Popover.Title>
-	    <Popover.Content>
-	  	 <ul className="vertical-menu"  >
-	         {setShareButtons()}
-	     </ul>
-	    </Popover.Content>
-	  </Popover>
+         <ReactBootstrap.OverlayTrigger  
+                          trigger="click" 
+                          placement="bottom"
+                          rootClose = {true} 
+                          overlay={OpenPopOver}>
+          <FiShare2 />  
+         </ReactBootstrap.OverlayTrigger>
+
+   	  
    	)
 }

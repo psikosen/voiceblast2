@@ -15,7 +15,6 @@ import {useHistory} from "react-router-dom";
 import * as mutations from './../../src/graphql/mutations'; 
 
   let styles = {
-    
       image: {
         float: "left",
         margin: 1
@@ -209,16 +208,11 @@ export default function AudioPlayerComp({playUrl,playTitle,playPath,vbidd,vbusri
          {viewOnly === true?null:
          <div>
          <BsThreeDots onClick={showAdditionalItems} />
-          {displayAdditionOptions}
-
-            <ReactBootstrap.OverlayTrigger 
-                  trigger="click" 
-                  placement="bottom"
-                  overlay={<ShareSocialListButton path= { `${window.location.origin}/vb/view/ivb/${vbUsrObj.vbuusername}` } />} containerPadding={2}>
-            <FiShare2 />  
-          </ReactBootstrap.OverlayTrigger>
+          {displayAdditionOptions} 
          </div>
          }
+          <ShareSocialListButton path= { `${window.location.origin}/vb/view/ivb/${vbUsrObj.vbuusername}`}  containerPadding={2}/>
+          
         </div> 
         </>
        	)

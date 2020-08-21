@@ -1,7 +1,9 @@
 import React, {useEffect, useState } from "react";
 import { FaMicrophoneAlt } from "react-icons/fa"; 
 import FixedHeader from "./FixedHeader";
-import AudioPlayerComp from "./Components/AudioPlayerComp";
+//import AudioPlayerComp from "./Components/AudioPlayerComp";
+import Reaudio from './Components/Reaudio/Reaudio';
+import './Components/Reaudio/assets/styles.css';
 import "./Css/styles.scss";
 import {  useHistory  } from "react-router-dom";
 import { API, graphqlOperation, Storage,Auth  } from "aws-amplify";
@@ -199,8 +201,30 @@ export default function VoiceBlastMain(props) {
                     var newAudioList = [];
 
                     for(var i = 0 ; i < results.length;i++){
-                      let aud = <li key = {`${i}o`}>
-                                    <AudioPlayerComp  
+                      
+                       var aud = {
+    		                  id: sortedAudioList[i].vbid,
+    						  source: `${results[i]}`,
+    						  trackName: sortedAudioList[i].vbtitle !== null? sortedAudioList[i].vbtitle : '',
+    						  trackArtist: sortedAudioList[i].vbufullname,
+    						  trackDate:new Date(sortedAudioList[i].vbdatecreated).toLocaleDateString(),
+    						  trackImage:sortedAudioList[i].vbuimg === null?"":sortedAudioList[i].vbuimg.split('?')[0] ,
+    						  loop: false,
+                              playPath:sortedAudioList[i].vbaudpath,
+                              vbUsrObj:{
+                                      vbuimg:sortedAudioList[i].vbuimg === null?"":sortedAudioList[i].vbuimg.split('?')[0] ,
+                                      vbuusername:sortedAudioList[i].vbuusername,
+                                      vbuurl:sortedAudioList[i].vbuurl,
+                                      vbubio:sortedAudioList[i].vbubio,
+                                      vbufullname:sortedAudioList[i].vbufullname,
+                                      vbusrid:sortedAudioList[i].vbuserid,
+                                      vbidd:sortedAudioList[i].vbid
+                                    },
+                              vbviews:sortedAudioList[i].vbviews,
+                              getAllVoiceBlasts:()=> getAllVoiceBlasts(),
+                              viewOnly:false 
+    							    }
+                          {/*<AudioPlayerComp  
                                                      key = {`${i}a`}
                                                      playTitle = {sortedAudioList[i].vbtitle !== null? sortedAudioList[i].vbtitle : ''} 
                                                      playUrl = {`${results[i]}`} 
@@ -221,8 +245,7 @@ export default function VoiceBlastMain(props) {
                                                           }
                                                       } 
                                                      > 
-                                    </AudioPlayerComp>
-                                </li>;
+                                    </AudioPlayerComp>*/}
                          
                           newAudioList.push(aud); 
                     } 
@@ -231,9 +254,9 @@ export default function VoiceBlastMain(props) {
                     setFullAudioList(newAudioList);
                     setPreviewAudioList(limitedAudioList);
                     
-                    toggle('rhap_button-clear rhap_repeat-button','none');
-                    toggle('rhap_button-clear rhap_volume-button','none');
-                    toggle('rhap_time rhap_current-time','none');
+                    //toggle('rhap_button-clear rhap_repeat-button','none');
+                    //toggle('rhap_button-clear rhap_volume-button','none');
+                    //toggle('rhap_time rhap_current-time','none');
                     //toggle('rhap_time rhap_total-time','none');
                   }  
                 
@@ -242,9 +265,9 @@ export default function VoiceBlastMain(props) {
     }
     
     function fetchMoreVoiceBlasts(){
-       /*   if(previewAudioList.length >= fullAudioList.length ){
-               setEndRange(nextAudioList.length + 1);
-          }*/
+          if(previewAudioList.length >= fullAudioList.length ){
+               setEndRange(fullAudioList.length);
+          } 
 
           setPrevRange(prevRange + 9);
           if(endRange < fullAudioList.length){
@@ -257,10 +280,10 @@ export default function VoiceBlastMain(props) {
           //setPreviewAudioList(null);
           setPreviewAudioList(nextAudioList);
 
-          toggle('rhap_button-clear rhap_repeat-button','none');
-          toggle('rhap_button-clear rhap_volume-button','none');
+          //toggle('rhap_button-clear rhap_repeat-button','none');
+          //toggle('rhap_button-clear rhap_volume-button','none');
           //toggle('rhap_time rhap_current-time','none');
-          toggle('rhap_time rhap_total-time','none');
+          //toggle('rhap_time rhap_total-time','none');
 
            
     }
@@ -287,12 +310,12 @@ export default function VoiceBlastMain(props) {
  
        <div 
              style={{padding:20, margin:30, marginLeft:'20%', 
-                     width:'60%',border: '2px solid black', 
+                     width:'100%',border: '2px solid black', color:'black', 
                      height:'80%'}} > 
              <InfiniteScroll
                 className="hide-native-scrollbar"
-                style={{width:'200%', top:'50px',  padding:'28%'}}
-                dataLength = {0}
+                style={{width:'100%', top:'50px',  padding:'19%'}}
+                dataLength = {previewAudioList.length}
                 next={fetchMoreVoiceBlasts} 
                 hasMore={endRange <= fullAudioList.length ? true : false}
                 loader={<h4>Loading...</h4>}
@@ -302,7 +325,7 @@ export default function VoiceBlastMain(props) {
                     <b>End Of Voice Blasts</b>
                   </p>
                 }>
-                  {previewAudioList}
+                  <Reaudio playlist={previewAudioList} /> 
               </InfiniteScroll>
             </div> 
           <div id="myHeader" style={styles.sticky}>

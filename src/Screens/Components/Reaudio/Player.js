@@ -53,7 +53,7 @@ const Player = ({
     const history = useHistory();
     const handleCancel = () => setShow(false);
     const handleShow = () => {setDisplayAdditionOptions(null);setShow(true);}
-      
+
     // check if source is a single string, if so convert to array
     if (!Array.isArray(source) && String(source) === source) {
         source = source.split()
@@ -293,14 +293,9 @@ const Player = ({
                  <div>
                   <BsThreeDots onClick={showAdditionalItems} />
                    {displayAdditionOptions}
-                    <ReactBootstrap.OverlayTrigger 
-                          trigger="click" 
-                          placement="bottom"
-                          overlay={<ShareSocialListButton path= { `${window.location.origin}/vb/view/ivb/${vbUsrObj.vbuusername}`}/>} containerPadding={2}>
-                    <FiShare2 />  
-                   </ReactBootstrap.OverlayTrigger>
-                 </div>
+                  </div>
                  } 
+                 <ShareSocialListButton path= {`${window.location.origin}/vb/view/ivb:${vbUsrObj.vbidd}`}   containerPadding={2} />
             </div>
         </div>
     )
