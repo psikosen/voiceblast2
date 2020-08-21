@@ -84,14 +84,28 @@ export default function AudioPlayList( ) {
 
                     for(var i = 0 ; i < results.length;i++){
                     	var aud = {
-		                       	    id: sortedAudioList[i].vbid,
-							        source: `${results[i]}`,
-							        trackName: sortedAudioList[i].vbtitle !== null? sortedAudioList[i].vbtitle : '',
-							        trackArtist: sortedAudioList[i].vbuusername,
-							        trackDate:new Date(sortedAudioList[i].vbdatecreated).toLocaleDateString(),
-							        trackImage:sortedAudioList[i].vbuimg === null?"":sortedAudioList[i].vbuimg.split('?')[0] ,
-							        loop: false
-							    }
+    		                  id: sortedAudioList[i].vbid,
+    							        source: `${results[i]}`,
+    							        trackName: sortedAudioList[i].vbtitle !== null? sortedAudioList[i].vbtitle : '',
+    							        trackArtist: sortedAudioList[i].vbufullname,
+    							        trackDate:new Date(sortedAudioList[i].vbdatecreated).toLocaleDateString(),
+    							        trackImage:sortedAudioList[i].vbuimg === null?"":sortedAudioList[i].vbuimg.split('?')[0] ,
+    							        loop: false,
+                          playPath:sortedAudioList[i].vbaudpath,
+                          vbUsrObj:{
+                                      vbuimg:sortedAudioList[i].vbuimg === null?"":sortedAudioList[i].vbuimg.split('?')[0] ,
+                                      vbuusername:sortedAudioList[i].vbuusername,
+                                      vbuurl:sortedAudioList[i].vbuurl,
+                                      vbubio:sortedAudioList[i].vbubio,
+                                      vbufullname:sortedAudioList[i].vbufullname,
+                                      vbusrid:sortedAudioList[i].vbuserid,
+                                      vbidd:sortedAudioList[i].vbid
+                                    },
+                          vbviews:sortedAudioList[i].vbviews,
+                          getAllVoiceBlasts:()=> getAllVoiceBlasts(),
+                          viewOnly:true
+
+    							    }
           /*            let aud = <li key = {`${i}o`}   >
                                     <AudioPlayerComp key = {`${i}a`}
                                                      playTitle = {sortedAudioList[i].vbtitle !== null? sortedAudioList[i].vbtitle : ''} 
@@ -155,21 +169,21 @@ export default function AudioPlayList( ) {
                      width:'60%',border: '2px solid black', 
                       height:'400px'}}>
       <div >
-{/*       <InfiniteScroll
+       <InfiniteScroll
                 style={{width:'100%', top:'20px', height:'370px', padding:'1%'}}
-                dataLength = {fullAudioList.length}
+                dataLength = {previewAudioList.length}
                 next={fetchMoreVoiceBlasts} 
                 hasMore={endRange <= fullAudioList.length ? true : false}
                 loader={<h4>Loading...</h4>}
                 height={200}
                 endMessage={
                   <p style={{ textAlign: "center" }}>
-                    <b>End Of Voice Blasts</b>
+                    <b>End Of Voice Blasts Feed</b>
                   </p>
-                }>*/}
+                }> 
                  
             <Reaudio playlist={previewAudioList} /> 
-       {/* </InfiniteScroll>*/}
+        </InfiniteScroll>
         </div>
     </div>
   )

@@ -65,11 +65,6 @@ const Reaudio = ({ playlist }) => {
                         trackImage={track.trackImage}
                         trackDate = {track.trackDate}
                         loop={track.loop}
-                        playPath={track.playPath}
-                        vbUsrObj={track.vbUsrObj}
-                        vbviews={track.vbviews}
-                        getAllVoiceBlasts={track.getAllVoiceBlasts}
-                        viewOnly={track.viewOnly}
                         isCurrent={
                             currentPlayer && currentPlayer.id === slug
                                 ? true
