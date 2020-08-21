@@ -1,10 +1,10 @@
 import React from 'react'
 import PauseIcon from './assets/PauseIcon'
 
-const Pause = ({ handleClick,trackImage,trackName,trackArtist }) => {
+const Pause = ({ handleClick }) => {
     return (
         <button className="player__button" onClick={handleClick}>
-            <PauseIcon trackImage={trackImage} trackName={trackName} trackArtist={trackArtist}/>
+            <PauseIcon />
         </button>
     )
 }

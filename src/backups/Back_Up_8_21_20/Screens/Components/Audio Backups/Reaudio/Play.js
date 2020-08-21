@@ -1,10 +1,10 @@
 import React from 'react'
 import PlayIcon from './assets/PlayIcon'
 
-const Play = ({ handleClick, trackImage,trackName,trackArtist }) => {
+const Play = ({ handleClick }) => {
     return (
         <button className="player__button" onClick={handleClick}>
-            <PlayIcon trackImage={trackImage} trackName={trackName} trackArtist={trackArtist} />
+            <PlayIcon />
         </button>
     )
 }

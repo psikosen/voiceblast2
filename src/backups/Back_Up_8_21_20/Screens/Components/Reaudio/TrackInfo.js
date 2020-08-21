@@ -1,9 +1,14 @@
 import React, { Fragment } from 'react'
 
-const TrackInfo = ({ trackName, trackArtist, trackDate, viewOnly,views, 
+const TrackInfo = ({ trackName, trackArtist, trackImage, trackDate, viewOnly,views, 
                               checkOutUsersProfile, goToIndividualVoiceBlast }) => {
     return (
         <div className="track-info">
+            {trackImage && (
+                <div className="track-image">
+                    <img src={trackImage} alt={`${trackName}-${trackArtist}`} />
+                </div>
+            )}
             <div className="info-wrap">
                 {viewOnly ?
                  <span style={{color:'green'}}  className="track-name" onClick ={goToIndividualVoiceBlast} >{trackName}</span>:

@@ -1,11 +1,8 @@
 import React from 'react'
 
-const PlayIcon = ({trackImage,trackName,trackArtist}) => {
+const PlayIcon = () => {
     return (
-        <div className="playContainer">
-         <div className="playImage">
-          <img src={trackImage} alt={`${trackName}-${trackArtist}`} />
-           <svg
+        <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -15,12 +12,11 @@ const PlayIcon = ({trackImage,trackName,trackArtist}) => {
             strokeLinejoin="round"
             strokeWidth="2"
             className="play-icon play-circle"
-            viewBox="0 0 24 24">
+            viewBox="0 0 24 24"
+        >
             <circle cx="12" cy="12" r="10"></circle>
             <path d="M10 8L16 12 10 16 10 8z"></path>
-          </svg>
-         </div>
-        </div>
+        </svg>
     )
 }
 

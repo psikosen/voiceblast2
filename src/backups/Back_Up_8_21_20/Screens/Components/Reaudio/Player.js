@@ -242,13 +242,11 @@ const Player = ({
                     })}
                 Your browser does not support the <code>audio</code> element.
             </audio>
-            
+
+
             <div className="controls">
                 {playing && isCurrent ? (
                     <Pause
-                        trackImage={trackImage}
-                        trackName={trackName}
-                        trackArtist={trackArtist}
                         handleClick={() => {
                             setPlaying(false)
                             togglePlay(slug, index)
@@ -256,9 +254,6 @@ const Player = ({
                     />
                 ) : (
                     <Play
-                        trackImage={trackImage}
-                        trackName={trackName}
-                        trackArtist={trackArtist}
                         handleClick={() => {
                             setPlaying(true);
                             newView();
@@ -266,7 +261,6 @@ const Player = ({
                         }}
                     />
                 )}
-
                 {editingTitle ?
                   (<div>
                      <FormGroup controlId="playtitle" >
