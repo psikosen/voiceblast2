@@ -1,6 +1,7 @@
 import React from 'react'
 import { secondsToTime } from './helpers/helpers'
 
+
 const Bar = ({ duration, curTime, onTimeUpdate }) => {
     const curPercentage = (curTime / duration) * 100
 

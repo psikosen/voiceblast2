@@ -298,7 +298,7 @@ export default function VoiceBlastMain(props) {
  
   return (
      <> 
-        <div style={{padding:5, borderColor:'gray'}}>
+        <div style={{padding:5}}>
 
          <FixedHeader
                            profilePhoto ={profilePhoto}
@@ -308,13 +308,13 @@ export default function VoiceBlastMain(props) {
                            vbbio={vbbio}
            />
  
-       <div 
-             style={{padding:20, margin:30, marginLeft:'20%', 
-                     width:'100%',border: '2px solid black', color:'black', 
-                     height:'80%'}} > 
+       <div style={{ margin:30, width:'100%',
+                     color:'black', 
+                     height:'60%'}} >  
              <InfiniteScroll
                 className="hide-native-scrollbar"
-                style={{width:'100%', top:'50px',  padding:'19%'}}
+                style={{width:'100%', 
+                        top:'50px',  padding:'19%'}}
                 dataLength = {previewAudioList.length}
                 next={fetchMoreVoiceBlasts} 
                 hasMore={endRange <= fullAudioList.length ? true : false}
@@ -325,9 +325,12 @@ export default function VoiceBlastMain(props) {
                     <b>End Of Voice Blasts</b>
                   </p>
                 }>
-                  <Reaudio playlist={previewAudioList} /> 
-              </InfiniteScroll>
-            </div> 
+                
+                  <Reaudio style={{ border: "2px solid black" }}
+                           playlist={previewAudioList} /> 
+              </InfiniteScroll> 
+          </div>
+
           <div id="myHeader" style={styles.sticky}>
             <ul>
               <li style={styles.list}>

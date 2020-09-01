@@ -1,21 +1,20 @@
 .player {
     display: flex;
-    justify-content: space-between;
-    align-items: center;  
+    justify-content: space-between; 
     background-color: #dedede;
     border-radius: 6px;
     min-height: 66px;
+    -webkit-box-shadow: 0px 4px 12px 1px rgba(0,0,0,0.71);
+    -moz-box-shadow: 0px 4px 12px 1px rgba(0,0,0,0.71);
+    box-shadow: 0px 4px 12px 1px rgba(0,0,0,0.71);
     .controls {
-        flex-grow: 1;
-        margin: 0 12px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        flex-grow: 2; 
+        display: flex;  
     }
     .track-info {
         display: flex;
         position: relative;
-        min-width: 120px;
+        min-width: 220px;
         .info-wrap { 
             &:hover,
             &:focus {
@@ -24,17 +23,7 @@
                 text-overflow: clip;
             }
         }
-        .track-image {
-            height: auto; 
-            margin-right: 12px;
-            z-index: 10;
-            img {
-
-                top:5px;
-                max-width: 100%; 
-                height: auto; 
-            }
-        }
+        
     }
     .player__button {
         background-color: transparent;  
@@ -95,23 +84,7 @@
     }
 }
 
-.playContainer{
-    margin-top: -8px;
-    margin-left: -8px;
-    position: absolute;
-    float:left;
-    z-index: 1;
-    img {
-       left:5px;
-       max-width: 100%; 
-       height: auto; 
-     }
-}
-
-.playImage{  
-    z-index: 2;
-}
-
+ 
 @media screen and (min-width: 800px) {
     .player {
         .track-info {
@@ -124,7 +97,27 @@
 @media screen and (max-width: 800px) {
     .player {
         .track-info {
-            max-width: 150px;
+            max-width: 250px;
         }
     }
+}
+
+
+.img-overlay-wrap{
+     position:relative;
+     display:  inline-block;   
+}
+
+.img-overlay-wrap img{
+     display: block;
+     max-width: 10%;
+     height: auto;  
+     border-radius: 60%;
+}
+
+.img-overlay-wrap svg{
+     position:absolute;
+     top: 15%;
+     left: 0;
+     margin-left: 23px;
 }

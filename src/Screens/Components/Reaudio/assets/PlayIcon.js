@@ -1,9 +1,8 @@
 import React from 'react'
 
 const PlayIcon = ({trackImage,trackName,trackArtist}) => {
-    return (
-        <div className="playContainer">
-         <div className="playImage">
+    return ( 
+         <div className="img-overlay-wrap">
           <img src={trackImage} alt={`${trackName}-${trackArtist}`} />
            <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -19,8 +18,7 @@ const PlayIcon = ({trackImage,trackName,trackArtist}) => {
             <circle cx="12" cy="12" r="10"></circle>
             <path d="M10 8L16 12 10 16 10 8z"></path>
           </svg>
-         </div>
-        </div>
+         </div> 
     )
 }
 

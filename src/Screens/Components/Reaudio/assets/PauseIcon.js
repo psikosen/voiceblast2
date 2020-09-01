@@ -2,7 +2,7 @@ import React from 'react'
 
 const PauseIcon = ({trackImage,trackName,trackArtist}) => {
     return (
-      <div className="track-info">
+      <div className="img-overlay-wrap">
         <div className="track-image">
          <img src={trackImage} alt={`${trackName}-${trackArtist}`} />
          <svg

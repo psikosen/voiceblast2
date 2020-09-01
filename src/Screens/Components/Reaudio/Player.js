@@ -243,10 +243,10 @@ const Player = ({
                 Your browser does not support the <code>audio</code> element.
             </audio>
             
-            <div className="controls">
+            <div className="controls">  
                 {playing && isCurrent ? (
                     <Pause
-                        trackImage={trackImage}
+                    trackImage={trackImage}
                         trackName={trackName}
                         trackArtist={trackArtist}
                         handleClick={() => {
@@ -292,15 +292,19 @@ const Player = ({
                         views = {vbvw}
                     />
                  }
-                  <span>
-                    {duration }
-                 </span>   
+                  <span style={{textAlign:'center'}}>
+                    {duration}
+                  </span>
+
+                 <div style={{float:'right', margin:'10px'}}> 
                  {viewOnly ?null:
                  <div>
                   <BsThreeDots onClick={showAdditionalItems} />
                    {displayAdditionOptions}
                   </div>
                  } 
+                 </div>
+
                  <ShareSocialListButton path= {`${window.location.origin}/vb/view/ivb:${vbUsrObj.vbidd}`}   containerPadding={2} />
             </div>
         </div>

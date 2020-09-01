@@ -2,9 +2,7 @@
     display: -webkit-box;
     display: flex;
     -webkit-box-pack: justify;
-    justify-content: space-between;
-    -webkit-box-align: center;
-    align-items: center;
+    justify-content: space-between; 
     padding: 12px ;
     margin: 20px;
     height: 90px;
@@ -17,11 +15,8 @@
     flex-grow: 1;
     margin: 0 12px;
     display: -webkit-box;
-    display: flex;
-    -webkit-box-pack: center;
-    justify-content: center;
-    -webkit-box-align: center;
-    align-items: center;
+    display: flex;  
+    justify-content: flex-start
 }
 .player .track-info {
     display: -webkit-box;
@@ -35,9 +30,7 @@
 }
 .player .track-info .info-wrap {
     white-space: nowrap;
-    text-overflow: ellipsis;
-    display: inline-block;
-    text-align: left;
+    text-overflow: ellipsis; 
 }
 .player .track-info .info-wrap:hover,
 .player .track-info .info-wrap:focus {
@@ -78,7 +71,7 @@
     fill: #222;
 }
 .player .player__button svg {
-    color: #555;
+    color: #222;
     width: 28px;
     height: 28px;
 }

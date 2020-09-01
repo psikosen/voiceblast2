@@ -3,24 +3,25 @@ import React, { Fragment } from 'react'
 const TrackInfo = ({ trackName, trackArtist, trackDate, viewOnly,views, 
                               checkOutUsersProfile, goToIndividualVoiceBlast }) => {
     return (
-        <div className="track-info">
-            <div className="info-wrap">
+        <div  >
+            <div  >
                 {viewOnly ?
-                 <span style={{color:'green'}}  className="track-name" onClick ={goToIndividualVoiceBlast} >{trackName}</span>:
+                 <span style={{color:'green'}}   onClick ={goToIndividualVoiceBlast} >{trackName}</span>:
                  <span className="track-name">{trackName}</span>
                 }
+
                 {trackArtist && (
                     <Fragment>
-                        <span className="track-divider">&nbsp; - &nbsp;</span>
+                        <span>&nbsp; - &nbsp;</span>
 
                         {viewOnly?
                           <span onClick={checkOutUsersProfile} 
                                 style={{color:'skyblue'}}
-                                className="track-artist">{trackArtist} </span>:
-                          <span className="track-artist">{trackArtist} </span>
+                                >{trackArtist} </span>:
+                          <span  >{trackArtist} </span>
                         }
-                        <span className="track-date">{trackDate}</span> 
-                        <span className ="track-artist"> {views} </span>
+                        <span>{trackDate}</span> 
+                        <span> {views} </span>
                     </Fragment>
                 )}
             </div>
