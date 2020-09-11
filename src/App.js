@@ -55,7 +55,7 @@ function App() {
   } 
 
   return (
-  	 <div>
+   <div>
       <h1>Voice Blast</h1>
       <button>
          <a href = "/signup"> Sign Up</a>
@@ -74,7 +74,7 @@ function App() {
          </a> 
       </p>
       {AddCuratedUsers()}
-     </div>
+   </div>
   );
 }
 
