@@ -16,8 +16,7 @@ export default function ProfileSettings() {
        const handleShow = () => setShow(true);
        const history = useHistory();
 
-	   useEffect(() => {
-	    
+   useEffect(() => { 
      let usrnm = sessionStorage.getItem('username');
      let tmpuserid = sessionStorage.getItem('userId'); 
    
@@ -26,17 +25,14 @@ export default function ProfileSettings() {
       }
           document.getElementById('vbfeed').onclick =()=> history.push('/vbf/',{userid:tmpuserid});
 
-	       return () => {
-	    };
-	  }, []);
+      return () => {};
+   }, []);
      
   function changePassword(){
-  	 if(oldPassword !== '' && newPassword !== '' && newPasswordRty !== '' && (newPassword === newPasswordRty)){
-  	  let usrid = sessionStorage.getItem('userid');
-  	  // or user id ?
-  	  // email
-  	  Auth.currentAuthenticatedUser() .then(user => {
-        return Auth.changePassword(usrid, oldPassword, newPassword);
+      if(oldPassword !== '' && newPassword !== '' && newPasswordRty !== '' && (newPassword === newPasswordRty)){
+        let usrid = sessionStorage.getItem('userid'); 
+	    Auth.currentAuthenticatedUser() .then(user => {
+             return Auth.changePassword(usrid, oldPassword, newPassword);
       }).then(data=> console.log(data)).catch(err => console.log(err));}
   }
 
