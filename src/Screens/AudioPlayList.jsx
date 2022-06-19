@@ -11,22 +11,21 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import {  useHistory  } from "react-router-dom";
 
 export default function AudioPlayList( ) {
-  	 const [fullAudioList, setFullAudioList] = useState([]);
-  	 const [previewAudioList, setPreviewAudioList] = useState([]);
+     const [fullAudioList, setFullAudioList] = useState([]);
+     const [previewAudioList, setPreviewAudioList] = useState([]);
      const [prevRange, setPrevRange] = useState(9);
      const [endRange, setEndRange] = useState(18);
      const [audioListData, setAudioListData] = useState([]);
-  	 const [playList,setPlayList] = useState([]);
+     const [playList,setPlayList] = useState([]);
      const [userAuthenicated,setUserAuthenticated ] = useState(false);
      const history = useHistory();
 
-	  useEffect(() => {
-	   	 getAllVoiceBlasts();
-       ionViewCanEnter();
-
-	    return () => {
-	    };
-	  }, []);
+   useEffect(() => {
+       getAllVoiceBlasts();
+       ionViewCanEnter(); 
+       return () => { }; 
+   }, []);
+	
      async function ionViewCanEnter(){
       return await Auth.currentAuthenticatedUser()
         .then(() => { 
@@ -40,19 +39,16 @@ export default function AudioPlayList( ) {
          sessionStorage.setItem('userId','');  
          document.getElementById('logout').remove();
          document.getElementById('setting').remove();
-         document.getElementById('editProfile').remove(); 
-         
-
+         document.getElementById('editProfile').remove();  
+	      
          return false; 
        });
    }
 
-   async function getAllVoiceBlasts(){
-       
+   async function getAllVoiceBlasts(){ 
        setFullAudioList([]); 
        const allVb = await API.graphql(graphqlOperation(queries.listVoiceblasts ,
-                 { 
-                   filter: { vbuserid: {ne:""}},
+                 {filter: { vbuserid: {ne:""}},
                    //nextToken: nextToken 
                  }));
 
@@ -92,7 +88,8 @@ export default function AudioPlayList( ) {
  
             Promise.all(finishedMap).then(function(results) {
                 console.log(results);
-                 if(results.length > 0 ){ //{"http://voiceblastvbz93181216-dev.s3.amazonaws.com/public/" + a.vbaudpath}
+                 if(results.length > 0 ){ 
+	         //{"http://voiceblastvbz93181216-dev.s3.amazonaws.com/public/" + a.vbaudpath}
                     var newAudioList = [];
 
                     for(var i = 0 ; i < results.length;i++){
